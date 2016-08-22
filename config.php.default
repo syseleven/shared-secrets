@@ -1,0 +1,46 @@
+<?php
+
+  # prevent direct access
+  if (!defined("SYS11_SECRETS")) { die(""); }
+
+  # this is the GPG fingerprint to be used when encrypting
+  # secrets, the corresponding public key has to be contained
+  # in the GPG keyring
+  define("GPG_KEY_FINGERPRINT", "<SET THE GPG KEY FINGERPRINT!!!>");
+
+  # this is the file that contains the passphrase for the
+  # GPG private encryption key, the file should only contain
+  # a single line with the passphrase
+  define("GPG_PASSPHRASE_FILE", null);
+
+  # this is the full path to the secret sharing service,
+  # the encrypted secret will be appended to this string,
+  # do NOT forget the trailing slash
+  define("SECRET_SHARING_URL", "https://localhost.local/");
+
+  # this is the title of the service, it is shown in header
+  # of all pages
+  define("SERVICE_TITLE", "Shared-Secrets");
+
+  # this is the default timezone for the execution of the script
+  define("DEFAULT_TIMEZONE", "Europe/Berlin");
+
+  # this is the MySQL configuration, do not forget to create
+  # the corresponding database and the following table:
+  # > CREATE TABLE secrets ( fingerprint VARCHAR(64) PRIMARY KEY, ip VARCHAR(46), time TIMESTAMP );
+  define("MYSQL_HOST",   "localhost");
+  define("MYSQL_PORT",   3306);
+  define("MYSQL_USER",   "<SET THE MYSQL USER!!!>");
+  define("MYSQL_PASS",   "<SET THE MYSQL PASSWORD!!!>");
+  define("MYSQL_DB",     "<SET THE MYSQL DATABASE!!!>");
+
+  # this is the URL the imprint link shall forward to
+  define("IMPRINT_URL", "https://localhost.local/");
+
+  # this is the configuration to either enable or disable the
+  # logging of IP addresses for retrieved secrets, set this
+  # configuration value to false to disable the logging of
+  # IP addresses
+  define("LOG_IP_ADDRESS", true);
+
+?>
