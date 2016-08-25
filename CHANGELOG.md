@@ -1,3 +1,18 @@
+# 0.3b0 (2016-08-25)
+
+* version bump for password-protection feature publication on github
+
+# 0.2b2 (2016-08-25)
+
+* improve length and handling of server-defined PBKDF2 salt
+* fix escaping of password-protected secrets
+* harmonize variable names of encryption and decryption code
+* test implementation of password-protection feature within chroot environment
+
+# 0.2b1 (2016-08-24)
+
+* implemented the password-protection feature
+
 # 0.2b0 (2016-08-22)
 
 * version bump for initial publication on github

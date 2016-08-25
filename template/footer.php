@@ -7,11 +7,11 @@
       <!-- footer -->
     </div>
 
-    <script src="/vendors/jquery/jquery.min.js"></script>
-    <script src="/vendors/clipboard/clipboard.min.js"></script>
-    <script src="/vendors/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/vendors/jquery/jquery.min.js" type="text/javascript"></script>
+    <script src="/vendors/clipboard/clipboard.min.js" type="text/javascript"></script>
+    <script src="/vendors/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
 
-    <script>
+    <script type="text/javascript">
       // find copy-to-clipboard button
       var copy_to_clipboard = document.getElementById("copy-to-clipboard");
 

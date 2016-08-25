@@ -63,6 +63,17 @@ C29Ssb838IMmAKFmqkNY15m/y7zi
 
 <?php
 
+  if (ENABLE_PASSWORD_PROTECTION) {
+
+?>
+
+    <h2>Short description of the password-protection feature.</h2>
+    <p>When using the password-protection feature, the secret is encrypted locally using the AES algorithm in GCM mode. The encryption key is derived from the entered password and a server-provided salt using the PBKDF2 algorithm. The server-provided salt is prepended to the encrypted secret. The password-protection feature is implemented using client-side JavaScript. Please beware that a compromised server may serve you JavaScript code that defeats the purpose of the local encryption. If you do not trust the server that provides the secret sharing service, then encrypt your secret with a locally installed application before sharing it.
+
+<?php
+
+  }
+
   # include header
   require_once(ROOT_DIR."/template/footer.php");
 

@@ -6,15 +6,17 @@ Using the Shared-Secrets service allows you to transfer the actual secret in an 
 
 Secrets can only be retrieved once. Further retrievals are rejected by matching the secret against the fingerprints of secrets that have been retrieved before. By disallowing repeating retrievals of a secret, it is at least possible to detect when the confidentiality of a secret has been compromised.
 
+To protect your secret from getting known by the server or an attacker, you can additionally protect the secret with a password before sharing it. The secret will be encrypted and decrypted locally without an interaction with the server. You can provide the chosen password to the recipient through a second communication channel to prevent an attacker that is able to control one communication channel from compromising the confidentiallity of your secret.
+
 ## Usage
 
 ### Share a Secret
 
-Simply enter your secret on the default page of the Shared-Secrets service and press the "Share the Secret!" button. The secret will be GPG-encrypted and converted into a secret sharing link.
+Simply enter your secret on the default page of the Shared-Secrets service. You can decide to password-protect the entered secret before sending it to the server by checking the "Password-protected:" box, entering your password and pressing the "Protect!" button. After that, press the "Share the Secret!" button. The secret will be GPG-encrypted and converted into a secret sharing link.
 
 ### Read a Secret
 
-To retrieve the secret, simply open the secret sharing link and press the "Read the Secret!" button.
+To retrieve the secret, simply open the secret sharing link and press the "Read the Secret!" button. Should your secret be password-protected, check the "Password-protected:" box, enter your password and read your actual secret by pressing the "Unprotect!" button.
 
 ## Installation
 
@@ -68,7 +70,9 @@ It is strongly recommended to use TLS to protect the connection between the serv
 
 ## Attributions
 
+* asmCrypto (https://github.com/vibornoff/asmcrypto.js/): for providing PBKDF2 and AES functions 
 * Bootstrap (https://getbootstrap.com): for providing an easy-to-use framework to build nice-looking applications
+* buffer (https://github.com/feross/buffer): for providing Base64-encoding and array-conversion functions
 * clipboard.js (https://clipboardjs.com): for simplifying the copy-to-clipboard use-case a lot
 * html5shiv (https://github.com/aFarkas/html5shiv): for handling Internet Explorer compatibility stuff
 * jQuery (https://jquery.com): for just existing
@@ -79,6 +83,7 @@ It is strongly recommended to use TLS to protect the connection between the serv
 
 * switch to the GnuPG PECL (https://pecl.php.net/package/gnupg) once the PHP 7 support is stable
 * switch to a more personalized design (current design is taken from https://github.com/twbs/bootstrap/tree/master/docs/examples/starter-template)
+* implement an expiry date functionality
 
 ## License
 

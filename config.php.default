@@ -38,6 +38,12 @@
   define("IMPRINT_URL", "https://localhost.local/");
 
   # this is the configuration to either enable or disable the
+  # password-protection of secrets on top of the server-side
+  # encryption, set this configuration value to true to enable
+  # the optional password-protection
+  define("ENABLE_PASSWORD_PROTECTION", false);
+
+  # this is the configuration to either enable or disable the
   # logging of IP addresses for retrieved secrets, set this
   # configuration value to false to disable the logging of
   # IP addresses
