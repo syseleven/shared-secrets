@@ -7,26 +7,7 @@
       <!-- footer -->
     </div>
 
-    <script src="/vendors/jquery/jquery.min.js" type="text/javascript"></script>
-    <script src="/vendors/clipboard/clipboard.min.js" type="text/javascript"></script>
-    <script src="/vendors/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
-
-    <script type="text/javascript">
-      // find copy-to-clipboard button
-      var copy_to_clipboard = document.getElementById("copy-to-clipboard");
-
-      if (null != copy_to_clipboard) {
-        // check if we're confronted with a Safari browser
-        if ((-1 != navigator.userAgent.indexOf("Safari")) &&
-            (-1 == navigator.userAgent.indexOf("Android")) &&
-            (-1 == navigator.userAgent.indexOf("Chrome"))) {
-          // hide copy-to-clipboard button, because it is not supported
-          copy_to_clipboard.style.display = "none";
-        } else {
-          // initialize clipboard feature
-          var clipboard = new Clipboard('.btn');
-        }
-      }
-    </script>
+    <script src="/vendors/jquery/jquery.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" type="text/javascript"></script>
+    <script src="/vendors/bootstrap/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" type="text/javascript"></script>
   </body>
 </html>

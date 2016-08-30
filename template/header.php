@@ -13,11 +13,11 @@
 
     <title><?php print(htmlentities(SERVICE_TITLE)); ?></title>
 
-    <link href="/vendors/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="/vendors/bootstrap/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" rel="stylesheet" type="text/css" />
 
     <!--[if lt IE 9]>
-      <script src="/vendors/html5shiv/html5shiv.min.js" type="text/javascript"></script>
-      <script src="/vendors/respond/respond.min.js" type="text/javascript"></script>
+      <script src="/vendors/html5shiv/html5shiv.min.js" integrity="sha256-3Jy/GbSLrg0o9y5Z5n1uw0qxZECH7C6OQpVBgNFYa0g=" type="text/javascript"></script>
+      <script src="/vendors/respond/respond.min.js" integrity="sha256-g6iAfvZp+nDQ2TdTR/VVKJf3bGro4ub5fvWSWVRi2NE=" type="text/javascript"></script>
     <![endif]-->
   </head>
 

@@ -1,3 +1,15 @@
+# 0.4b0 (2016-09-30)
+
+* version bump for integrity-checking feature publication on github
+
+# 0.3b1 (2016-08-29)
+
+* moved inline JavaScript code to separate .js files
+* introduced subresource integrity for link and style elements
+* added asmCrypto.js.map for better debugging support
+* switched from server-defined PBKDF2 salt to JavaScript-generated salt
+* test implementation of new features within chroot environment
+
 # 0.3b0 (2016-08-25)
 
 * version bump for password-protection feature publication on github

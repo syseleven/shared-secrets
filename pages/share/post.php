@@ -29,6 +29,9 @@
   <p><pre id="share-secret"><?php print(share_secret(SECRET_PARAM)); ?></pre>
      <button type="btn" class="btn btn-default pull-right" data-clipboard-target="#share-secret" id="copy-to-clipboard">Copy to Clipboard!</button></p>
 
+  <script src="/vendors/clipboard/clipboard.min.js" integrity="sha256-YPxFEfHAzLj9n2T+2UXAKGNCRUINk0BexppujiVhRH0=" type="text/javascript"></script>
+  <script src="/resources/js/copy-to-clipboard.js" integrity="sha256-pdoft+huio0ejiVD+B0WLnFm9Wab+1Yj1nODdPNAZI4=" type="text/javascript"></script>
+
 <?php
 
   # include footer
