@@ -33,6 +33,39 @@ if (!-f $request_filename) {
 }
 ```
 
+Shared-Secrets is designed to yield an A+ rating at the [Mozilla Observatory](https://observatory.mozilla.org) website check. Releases are checked against the Mozilla Observatory to make sure that a good rating can be achieved.
+
+To achieve an A+ rating with your instance, you have to implement TLS and non-TLS calls have to be redirected to the TLS-protected website (Nginx example):
+```
+server {
+  listen 80 default_server;
+  listen [::]:80 default_server;
+
+  server_name _;
+
+  return 301 https://$host$request_uri;
+}
+
+server {
+  listen 443 ssl http2 default_server;
+  listen [::]:443 ssl http2 default_server;
+
+  # Your configuration comes here:
+  # ...
+}
+```
+
+Furthermore the following HTTP headers have to be set (Nginx example):
+```
+add_header Content-Security-Policy   "default-src 'self'; frame-ancestors 'self'";
+add_header Strict-Transport-Security "max-age=15768000; includeSubDomains; preload";
+add_header X-Content-Security-Policy "default-src 'self'; frame-ancestors 'self'";
+add_header X-Content-Type-Options    "nosniff";
+add_header X-Frame-Options           "SAMEORIGIN";
+add_header X-Webkit-CSP              "default-src 'self'; frame-ancestors 'self'";
+add_header X-XSS-Protection          "1; mode=block";
+```
+
 ### MariaDB Setup
 
 Shared-Secrets uses a single-table database to store who did retrieve which secret at what point in time. No actual secret content is stored. (The logging of IP addresses can be disabled through the configuration parameter LOG_IP_ADDRESS.):
@@ -70,21 +103,21 @@ It is strongly recommended to use TLS to protect the connection between the serv
 
 ## Attributions
 
-* asmCrypto (https://github.com/vibornoff/asmcrypto.js/): for providing PBKDF2 and AES functions 
-* Bootstrap (https://getbootstrap.com): for providing an easy-to-use framework to build nice-looking applications
-* buffer (https://github.com/feross/buffer): for providing Base64-encoding and array-conversion functions
-* clipboard.js (https://clipboardjs.com): for simplifying the copy-to-clipboard use-case a lot
-* html5shiv (https://github.com/aFarkas/html5shiv): for handling Internet Explorer compatibility stuff
-* jQuery (https://jquery.com): for just existing
-* Katharina Franz (https://www.katharinafranz.com): for suggesting Bootstrap as an easy-to-use framework to build nice-looking applications
-* Respond.js (https://github.com/scottjehl/Respond): for handling even more Internet Explorer compatibility stuff
+* [asmCrypto](https://github.com/vibornoff/asmcrypto.js): for providing PBKDF2 and AES functions 
+* [Bootstrap](https://getbootstrap.com): for providing an easy-to-use framework to build nice-looking applications
+* [buffer](https://github.com/feross/buffer): for providing Base64-encoding and array-conversion functions
+* [clipboard.js](https://clipboardjs.com): for simplifying the copy-to-clipboard use-case a lot
+* [html5shiv](https://github.com/aFarkas/html5shiv): for handling Internet Explorer compatibility stuff
+* [jQuery](https://jquery.com): for just existing
+* [Katharina Franz](https://www.katharinafranz.com): for suggesting Bootstrap as an easy-to-use framework to build nice-looking applications
+* [Respond.js](https://github.com/scottjehl/Respond): for handling even more Internet Explorer compatibility stuff
 
 ## ToDo
 
-* switch to the GnuPG PECL (https://pecl.php.net/package/gnupg) once the PHP 7 support is stable
-* switch to a more personalized design (current design is taken from https://github.com/twbs/bootstrap/tree/master/docs/examples/starter-template)
+* switch to the [GnuPG PECL](https://pecl.php.net/package/gnupg) once the PHP 7 support is stable
+* switch to a more personalized design (current design is taken from [here](https://github.com/twbs/bootstrap/tree/master/docs/examples/starter-template))
 * implement an expiry date functionality
 
 ## License
 
-This application is released under the BSD license. See the LICENSE file for further information.
+This application is released under the BSD license. See the [LICENSE](LICENSE) file for further information.

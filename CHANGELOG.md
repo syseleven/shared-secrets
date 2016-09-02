@@ -1,4 +1,16 @@
-# 0.4b0 (2016-09-30)
+# 0.5b0 (2016-09-02)
+
+* version bump for improved Mozilla Observatory rating publication on github
+
+# 0.4b1 (2016-09-01)
+
+* improved code so that A+ rating in Mozilla Observatory can be achieved
+* added HTTP header configuration to readme
+* modified the changelog so that it is more consistent
+* updated the readme to describe how an A+ rating can be achieved
+* tested improved code within chroot environment
+
+# 0.4b0 (2016-08-30)
 
 * version bump for integrity-checking feature publication on github
 
@@ -8,7 +20,7 @@
 * introduced subresource integrity for link and style elements
 * added asmCrypto.js.map for better debugging support
 * switched from server-defined PBKDF2 salt to JavaScript-generated salt
-* test implementation of new features within chroot environment
+* tested implementation of new features within chroot environment
 
 # 0.3b0 (2016-08-25)
 
@@ -16,10 +28,10 @@
 
 # 0.2b2 (2016-08-25)
 
-* improve length and handling of server-defined PBKDF2 salt
-* fix escaping of password-protected secrets
-* harmonize variable names of encryption and decryption code
-* test implementation of password-protection feature within chroot environment
+* improved length and handling of server-defined PBKDF2 salt
+* fixed escaping of password-protected secrets
+* harmonized variable names of encryption and decryption code
+* tested implementation of password-protection feature within chroot environment
 
 # 0.2b1 (2016-08-24)
 
@@ -34,41 +46,41 @@
 * introduce support for GPG passphrase via passphrase file
 * simplified index file structure
 * fixed message unstripping which produced undecryptable results for certain lengths
-* test implementation of shared-secrets service within chroot environment
+* tested implementation of shared-secrets service within chroot environment
 
 # 0.1b4 (2016-08-16)
 
-* optimize copy-to-clipboard JavaScript integration
-* fix error message handling
-* add changelog file
+* optimized copy-to-clipboard JavaScript integration
+* fixed error message handling
+* added changelog file
 
 # 0.1b3 (2016-08-15)
 
-* prepare publication on github
-* introduce config parameters for customization
-* update "how" page to be customizable
-* add license file
-* add readme file
+* prepared publication on github
+* introduced config parameters for customization
+* updated "how" page to be customizable
+* added license file
+* added readme file
 
 # 0.1b2 (2016-08-15)
 
-* introduce copy-to-clipboard feature
-* disable auto-form-fill of browsers
+* introduced copy-to-clipboard feature
+* disabled auto-form-fill of browsers
 
 # 0.1b1 (2016-08-15)
 
-* introduce cleaned-up code structure
-* introduce action handling code
-* introduce page handling code
-* introduce template handling code
-* introduce separate config.php file
+* introduced cleaned-up code structure
+* introduced action handling code
+* introduced page handling code
+* introduced template handling code
+* introduced separate config.php file
 
 # 0.1a2 (2016-08-11)
 
-* allow URL-encoded and URL-unencoded secret URIs (Apple Mail bug)
-* publish to internal git versioning
+* allowed URL-encoded and URL-unencoded secret URIs (Apple Mail bug)
+* published to internal git versioning
 
 # 0.1a1 (2016-08-11)
 
 * initial PoC release
-* testing with first customer
+* tested with first customer

@@ -1,0 +1,13 @@
+#decrypt-error {
+  display: none;
+}
+
+#password {
+  display:    inline;
+  visibility: hidden;
+  width:      25%;
+}
+
+#decrypt {
+  visibility: hidden;
+}

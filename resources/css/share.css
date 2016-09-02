@@ -1,0 +1,18 @@
+#encrypt-error {
+  display: none;
+}
+
+#share-secret-btn {
+  margin-top: 0.5em;
+}
+
+#password {
+  display:    inline;
+  margin-top: 0.5em;
+  visibility: hidden;
+  width:      25%;
+}
+
+#encrypt {
+  visibility: hidden;
+}
