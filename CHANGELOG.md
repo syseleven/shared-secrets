@@ -1,3 +1,12 @@
+# 0.6b0 (2016-09-02)
+
+* version bump for increased readability publication on github
+
+# 0.5b1 (2016-09-02)
+
+* fixed copy-to-clipboard feature when password-protection feature is disabled
+* increased readability of optional code that is added for password-protection feature
+
 # 0.5b0 (2016-09-02)
 
 * version bump for improved Mozilla Observatory rating publication on github
