@@ -18,7 +18,7 @@
 
           if (null !== $stripped_secret) {
             # return the secret sharing URL
-            $result = htmlentities(SECRET_SHARING_URL.urlencode($stripped_secret));
+            $result = htmlentities(SECRET_SHARING_URL.urlencode(url_base64_encode($stripped_secret)));
           }
         }
       } else {

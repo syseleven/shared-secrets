@@ -1,6 +1,6 @@
 <?php
 
-  # Shared-Secrets v0.6b0
+  # Shared-Secrets v0.7b0
   #
   # Copyright (c) 2016, SysEleven GmbH
   # All rights reserved.
@@ -61,8 +61,13 @@
     $uri = substr($uri, 1);
   }
   # handle URL-encoded URIs
-  if (false !== strpos($uri, BASE64_MARKER)) {
+  if (false !== strpos($uri, URL_ENCODE_MARKER)) {
     $uri = urldecode($uri);
+  }
+  # handle URL-Base64-encoded URIs
+  if ((false !== strpos($uri, URL_BASE64_MARKER_A)) ||
+      (false !== strpos($uri, URL_BASE64_MARKER_B))) {
+    $uri = url_base64_decode($uri);
   }
   define("SECRET_URI", $uri);
 

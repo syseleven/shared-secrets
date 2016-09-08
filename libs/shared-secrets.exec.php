@@ -3,6 +3,36 @@
   # prevent direct access
   if (!defined("SYS11_SECRETS")) { die(""); }
 
+  ########## URL-ENCODING FUNCTIONS ##########
+
+  function url_base64_decode($url_base64_content) {
+    $result = null;
+
+    if (is_string($url_base64_content)) {
+      $result = str_replace(URL_BASE64_MARKER_B,
+                            BASE64_MARKER_B,
+                            str_replace(URL_BASE64_MARKER_A, 
+                                        BASE64_MARKER_A,
+                                        $url_base64_content));
+    }
+
+    return $result;
+  }
+
+  function url_base64_encode($base64_content) {
+    $result = null;
+
+    if (is_string($base64_content)) {
+      $result = str_replace(BASE64_MARKER_B,
+                            URL_BASE64_MARKER_B,
+                            str_replace(BASE64_MARKER_A,
+                                        URL_BASE64_MARKER_A,
+                                        $base64_content));
+    }
+
+    return $result;
+  }
+
   ########## SYSTEM FUNCTIONS ##########
 
   # calls $command, prints $stdin to its standard input and reads
@@ -142,23 +172,23 @@
       $left  = null;
       $right = null;
 
-      # search for double equation to fix line breaks
-      $double_equation = strrpos($content, "==");
-      if (false !== $double_equation) {
-        $left  = substr($content, 0, $double_equation+1);
-        $right = substr($content, $double_equation+1, strlen($content)-$double_equation-1);
+      # search for equation sign from the end to fix line breaks
+      $equation_pos = strrpos($content, GPG_MESSAGE_PARTS_MARKER);
+      if (false !== $equation_pos) {
+        $left  = substr($content, 0, $equation_pos);
+        $right = substr($content, $equation_pos);
       } else {
         $left  = $content;
         $right = null;
       }
 
-      $result = GPG_MESSAGE_PREFIX."\n".
-                GPG_MESSAGE_COMMENT." Dummy\n".
-                "\n".
-                trim(chunk_split($left, GPG_MESSAGE_LINE_LENGTH, "\n"))."\n";
+      $result = GPG_MESSAGE_PREFIX.GPG_MESSAGE_LINE_SEPARATOR.
+                GPG_MESSAGE_COMMENT.GPG_MESSAGE_VALUE_SEPARATOR.GPG_MESSAGE_COMMENT_DUMMY.GPG_MESSAGE_LINE_SEPARATOR.
+                GPG_MESSAGE_LINE_SEPARATOR.
+                trim(chunk_split($left, GPG_MESSAGE_LINE_LENGTH, GPG_MESSAGE_LINE_SEPARATOR)).GPG_MESSAGE_LINE_SEPARATOR;
 
       if (null !== $right) {
-        $result .= $right."\n";
+        $result .= $right.GPG_MESSAGE_LINE_SEPARATOR;
       }
 
       $result .= GPG_MESSAGE_SUFFIX;

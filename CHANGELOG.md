@@ -1,3 +1,14 @@
+# 0.7b0 (2016-09-08)
+
+* version bump for url-safe Base64 encoding publication on github
+
+# 0.6b1 (2016-09-07)
+
+* implemented so-called url-safe Base64 encoding of secrets to reduce URL-encoding junk
+* checked backward-compatibility with previous standard URL-encoded URLs
+* improved line-break handling in GPG message unstripping
+* tested url-safe Base64 encoding feature within chroot environment
+
 # 0.6b0 (2016-09-02)
 
 * version bump for increased readability publication on github
