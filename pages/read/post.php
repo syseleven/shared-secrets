@@ -44,7 +44,7 @@
 
   <script src="/vendors/asmcrypto/asmcrypto.js" integrity="sha256-+3Ja+u+3rug2giERjvQSkhc1GZ1jG8ebXZ5TbQe2890=" type="text/javascript"></script>
   <script src="/vendors/buffer/index.js" integrity="sha256-+fItxTnTLDK8HaHyqiP4cD+RxwDK66DqoTE91HqUfnM=" type="text/javascript"></script>
-  <script src="/resources/js/read.js" integrity="sha256-c/Xg8fJJ0mVIZ7f/V5m0BWsgX3AQ/mgl1VOvXNBP4Ps=" type="text/javascript"></script>
+  <script src="/resources/js/read.js" integrity="sha256-BQqHaEJFlJhgMLM7401/LIdtAQ1VNLmhqePSQPS1foY=" type="text/javascript"></script>
 <?php
   }
 ?>

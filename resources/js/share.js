@@ -72,13 +72,13 @@ function encrypt_secret(secret, password) {
   }
 
   if (null != aesResult) {
-    // create Base64-encoded salt
+    // create Base64 encoded salt
     var base64Salt = (new buffer.SlowBuffer(salt)).toString("base64");
 
-    // create Base64-encoded encrypted secret
+    // create Base64 encoded encrypted secret
     var base64Secret = (new buffer.SlowBuffer(aesResult)).toString("base64");
 
-    // return concatenation of Base64-encoded salt and Base64-encoded encrypted secret
+    // return concatenation of Base64 encoded salt and Base64 encoded encrypted secret
     return (base64Salt + base64Secret);
   } else {
     return aesResult;

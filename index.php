@@ -1,6 +1,6 @@
 <?php
 
-  # Shared-Secrets v0.7b0
+  # Shared-Secrets v0.8b0
   #
   # Copyright (c) 2016, SysEleven GmbH
   # All rights reserved.
@@ -24,14 +24,14 @@
   # so that is does not change between script files
   define("ROOT_DIR", __DIR__);
 
+  # include required configuration
+  require_once(ROOT_DIR."/config.php");
+
   # include required defines
   require_once(ROOT_DIR."/libs/shared-secrets.def.php");
 
   # include required execution functions
   require_once(ROOT_DIR."/libs/shared-secrets.exec.php");
-
-  # include required configuration
-  require_once(ROOT_DIR."/config.php");
 
   # set default timezone because PHP dislikes to use system defaults
   date_default_timezone_set(DEFAULT_TIMEZONE);
@@ -55,19 +55,14 @@
   }
   define("SECRET_PARAM", $param);
 
-  # prepare uri
+  # prepare URI
   $uri = $_SERVER["REQUEST_URI"];
   if (0 === stripos($uri, "/")) {
     $uri = substr($uri, 1);
   }
-  # handle URL-encoded URIs
+  # handle URL encoded URIs
   if (false !== strpos($uri, URL_ENCODE_MARKER)) {
     $uri = urldecode($uri);
-  }
-  # handle URL-Base64-encoded URIs
-  if ((false !== strpos($uri, URL_BASE64_MARKER_A)) ||
-      (false !== strpos($uri, URL_BASE64_MARKER_B))) {
-    $uri = url_base64_decode($uri);
   }
   define("SECRET_URI", $uri);
 
@@ -83,6 +78,9 @@
     }
   }
   define("SECRET_ACTION", $action);
+
+  # check if the GnuPG PECL package is available
+  define("GNUPG_PECL", (extension_loaded("gnupg") && is_dir(GPG_HOME_DIR)));
 
   # only proceed when a GET or POST request is encountered
   if (in_array(REQUEST_METHOD, array("get", "post"))) {

@@ -52,14 +52,14 @@ function decrypt_secret(concatSecret, password) {
   var outputLength = 32;
   var workFactor   = 1024;
 
-  // split concatenation of Base64-encoded salt and Base64-encoded encrypted secret
+  // split concatenation of Base64 encoded salt and Base64 encoded encrypted secret
   var base64Salt   = concatSecret.substring(0, 44);
   var base64Secret = concatSecret.substring(44);
 
-  // retrieve plain salt from Base64-encoded salt
+  // retrieve plain salt from Base64 encoded salt
   var salt = (new buffer.SlowBuffer(base64Salt, "base64")).toArrayBuffer();
 
-  // retrieve plain secret from Base64-encoded encrypted secret
+  // retrieve plain secret from Base64 encoded encrypted secret
   var secret = (new buffer.SlowBuffer(base64Secret, "base64")).toArrayBuffer();
 
   // derive decryption key
@@ -73,7 +73,7 @@ function decrypt_secret(concatSecret, password) {
   }
 
   if (null != aesResult) {
-    // return UTF-8-encoded decrypted secret
+    // return UTF-8 encoded decrypted secret
     return (new buffer.SlowBuffer(aesResult)).toString("utf-8");
   } else {
     return aesResult;

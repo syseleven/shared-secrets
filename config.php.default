@@ -8,6 +8,10 @@
   # in the GPG keyring
   define("GPG_KEY_FINGERPRINT", "<SET THE GPG KEY FINGERPRINT!!!>");
 
+  # this is the GPG home dir that contains the GPG keyring,
+  # this has to be set in order for the GnuPG PECL to be used
+  define("GPG_HOME_DIR", null);
+
   # this is the file that contains the passphrase for the
   # GPG private encryption key, the file should only contain
   # a single line with the passphrase
@@ -48,5 +52,10 @@
   # configuration value to false to disable the logging of
   # IP addresses
   define("LOG_IP_ADDRESS", true);
+
+  # this is the configuration to either enable or disable the
+  # support for legacy links, set this configuration value to
+  # true to enable the support for legacy links
+  define("SUPPORT_LEGACY_LINKS", false);
 
 ?>

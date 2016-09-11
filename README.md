@@ -22,7 +22,7 @@ To retrieve the secret, simply open the secret sharing link and press the "Read 
 
 ### Requirements
 
-Shared-Secrets is based on MariaDB 10.0, Nginx 1.10 and PHP 7.0, but should also work with MySQL, Apache and earlier versions of PHP.
+Shared-Secrets is based on MariaDB 10.0, Nginx 1.10 and PHP 7.0, but should also work with MySQL, Apache and earlier versions of PHP. GPG encryption is supported through the [GnuPG PECL package](https://pecl.php.net/package/gnupg) as well as through directly calling the gpg binary. Using the GnuPG PECL package is the prefered mechanism due to its cleaner interface. If you want to use the GnuPG PECL package support of the Shared-Secrets service in a chroot environment you have to set up your chroot environment properly - this does not seem to be easy.
 
 ### Nginx Setup
 
@@ -93,9 +93,38 @@ sudo -u www-data -H gpg --import ./private.asc
 sudo -u www-data -H gpg --import ./public.asc
 ```
 
+### PHP Setup
+
+To use the [GnuPG PECL package](https://pecl.php.net/package/gnupg) it has to be installed and activated on the server. The following steps are based on Ubuntu 16.04 LTS and only serve as an example for the installation and activation of the GnuPG PECL package:
+```
+# install PHP PEAR/PECL
+sudo apt-get install php-pear
+
+# install the PHP development tools
+sudo apt-get install php7.0-dev
+
+# install the GPGME development package, see https://www.gnupg.org/related_software/gpgme/index.html
+sudo apt-get install libgpgme11-dev
+
+# install the GnuPG PECL package
+sudo pecl install gnupg
+
+# register tje GnuPG PECL package as an available module
+sudo sh -c 'echo "extension=gnupg.so" > /etc/php/7.0/mods-available/gnupg.ini'
+
+# activate the GnuPG PECL package in PHP CLI and PHP-FPM
+sudo ln -s /etc/php/7.0/mods-available/gnupg.ini /etc/php/7.0/cli/conf.d/20-gnupg.ini
+sudo ln -s /etc/php/7.0/mods-available/gnupg.ini /etc/php/7.0/fpm/conf.d/20-gnupg.ini
+
+# restart PHP-FPM to load the GnuPG PECL package
+sudo /etc/init.d/php7.0-fpm restart
+```
+
 ### Service Setup
 
 Rename the "config.php.default" to "config.php" and set the necessary configuration items.
+
+**Beware:** With version 0.8b0 the structure of the secret sharing links has slightly changed. You have to set the *SUPPORT_LEGACY_LINKS* configuration value to *true* if you want to support secret sharing links that have been generated for older versions of Shared-Secrets. Failure to do so will break these legacy links.
 
 ### TLS Recommendation
 
@@ -105,8 +134,10 @@ It is strongly recommended to use TLS to protect the connection between the serv
 
 * [asmCrypto](https://github.com/vibornoff/asmcrypto.js): for providing PBKDF2 and AES functions 
 * [Bootstrap](https://getbootstrap.com): for providing an easy-to-use framework to build nice-looking applications
-* [buffer](https://github.com/feross/buffer): for providing Base64-encoding and array-conversion functions
+* [buffer](https://github.com/feross/buffer): for providing Base64 encoding and array conversion functions
 * [clipboard.js](https://clipboardjs.com): for simplifying the copy-to-clipboard use-case a lot
+* [GnuPG](https://www.gnupg.org): for providing a reliable tool for secure communication
+* [GnuPG PECL package](https://pecl.php.net/package/gnupg): for providing a clean interface to GnuPG
 * [html5shiv](https://github.com/aFarkas/html5shiv): for handling Internet Explorer compatibility stuff
 * [jQuery](https://jquery.com): for just existing
 * [Katharina Franz](https://www.katharinafranz.com): for suggesting Bootstrap as an easy-to-use framework to build nice-looking applications
@@ -114,7 +145,7 @@ It is strongly recommended to use TLS to protect the connection between the serv
 
 ## ToDo
 
-* switch to the [GnuPG PECL](https://pecl.php.net/package/gnupg) once the PHP 7 support is stable
+* make PECL method work in a chroot environment to get rid of the direct call method
 * switch to a more personalized design (current design is taken from [here](https://github.com/twbs/bootstrap/tree/master/docs/examples/starter-template))
 * implement an expiry date functionality
 

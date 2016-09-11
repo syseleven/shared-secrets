@@ -43,7 +43,7 @@
 
   <script src="/vendors/asmcrypto/asmcrypto.js" integrity="sha256-+3Ja+u+3rug2giERjvQSkhc1GZ1jG8ebXZ5TbQe2890=" type="text/javascript"></script>
   <script src="/vendors/buffer/index.js" integrity="sha256-+fItxTnTLDK8HaHyqiP4cD+RxwDK66DqoTE91HqUfnM=" type="text/javascript"></script>
-  <script src="/resources/js/share.js" integrity="sha256-HJaUUzmSuv9fd99m8Fr1c/Mxh0J88JLL/R6xisdXTZ4=" type="text/javascript"></script>
+  <script src="/resources/js/share.js" integrity="sha256-tOjQ3Gc/ZSpJ7lVty0FOkP3NRPJkxir1UFXVF3JM4Mw=" type="text/javascript"></script>
 <?php
   }
 ?>

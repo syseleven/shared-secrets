@@ -1,3 +1,30 @@
+# 0.8b0 (2016-09-11)
+
+* version bump for GnuPG PECL package support publication on github
+* **Beware:** With version 0.8b0 the structure of the secret sharing links has slightly changed. You have to set the *SUPPORT_LEGACY_LINKS* configuration value to *true* if you want to support secret sharing links that have been generated for older versions of Shared-Secrets. Failure to do so will break these legacy links.
+
+# 0.7b2 (2016-09-10)
+
+* rewrote non-PECL encryption to not use ASCII-armoring anymore
+* enhanced non-PECL link generation so that PECL and non-PECL links look the same
+* cleaned up PECL and non-PECL encryption/decryption code
+* simplified and fixed code for PECL or non-PECL call selection
+* introduced new configuration variable SUPPORT_LEGACY_LINKS
+* introduced code that provides backward-compatibility for legacy links
+* tested PECL implementation in chroot environment and failed
+* updated readme to reflect observations made in chroot environment
+
+# 0.7b1 (2016-09-08)
+
+* implemented support for the newly released GnuPG PECL version 1.4.0
+* introduced homedir support for non-PECL encryption and decryption
+* introduced new configuration variable GPG_HOME_DIR
+* implemented handling of equation signs for the URL-safe Base64 encoding and decoding
+* tested backward-compatibility so that non-PECL URL don't break
+* updated howto website which automatically adjusts when PECL is active
+* updated readme to decribe how to install the GnuPG PECL
+* fixed some typos in the documentation and in comments
+
 # 0.7b0 (2016-09-08)
 
 * version bump for url-safe Base64 encoding publication on github
@@ -7,7 +34,7 @@
 * implemented so-called url-safe Base64 encoding of secrets to reduce URL-encoding junk
 * checked backward-compatibility with previous standard URL-encoded URLs
 * improved line-break handling in GPG message unstripping
-* tested url-safe Base64 encoding feature within chroot environment
+* tested URL-safe Base64 encoding feature within chroot environment
 
 # 0.6b0 (2016-09-02)
 

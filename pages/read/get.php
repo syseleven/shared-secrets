@@ -24,9 +24,9 @@
 ?>
 
   <h1>Read a Secret:</h1>
-  <p><pre id="secret"><?php print(htmlentities(SECRET_URI)); ?></pre></p>
+  <p><pre id="secret"><?php print(htmlentities(SECRET_SHARING_URL.SECRET_URI)); ?></pre></p>
 
-  <form role="form" action="/<?php print(htmlentities(urlencode(url_base64_encode(SECRET_URI)))); ?>" method="post">
+  <form role="form" action="/<?php print(htmlentities(urlencode(SECRET_URI))); ?>" method="post">
     <button type="submit" class="btn btn-default pull-right" id="read-secret-btn" name="read-secret-btn">Read the Secret!</button>
   </form>
 

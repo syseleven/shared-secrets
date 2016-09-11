@@ -10,16 +10,15 @@
     if (!empty($secret)) {
       # only proceed when the secret is not too long
       if (MAX_PARAM_SIZE >= strlen($secret)) {
-        $encrypted_secret = encrypt($secret, GPG_KEY_FINGERPRINT);
+        if (GNUPG_PECL) {
+          $encrypted_secret = encrypt_pecl($secret, GPG_KEY_FINGERPRINT, GPG_HOME_DIR);
+        } else {
+          $encrypted_secret = encrypt($secret, GPG_KEY_FINGERPRINT, GPG_HOME_DIR);
+        }
 
         if (null !== $encrypted_secret) {
-          # remove everything from encrypted secret that is not necessary
-          $stripped_secret = strip_message($encrypted_secret);
-
-          if (null !== $stripped_secret) {
-            # return the secret sharing URL
-            $result = htmlentities(SECRET_SHARING_URL.urlencode(url_base64_encode($stripped_secret)));
-          }
+          # return the secret sharing URL
+          $result = htmlentities(SECRET_SHARING_URL.urlencode(url_base64_encode(base64_encode($encrypted_secret))));
         }
       } else {
         $result = "<strong>ERROR: THE SECRET MUST BE SMALLER THAN ".MAX_PARAM_SIZE." CHARACTERS.</strong>";
