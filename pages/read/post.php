@@ -6,8 +6,16 @@
   # define page title
   define("PAGE_TITLE", "Read a Secret.");
 
-  # include header
-  require_once(ROOT_DIR."/template/header.php");
+  $secret = read_secret(SECRET_URI);
+
+  if (null !== PLAIN_PARAM) {
+    print($secret);
+  } else {
+    # include header
+    require_once(ROOT_DIR."/template/header.php");
+
+    # prevents cache hits with wrong CSS
+    $cache_value = md5_file(__FILE__);
 
 ?>
 
@@ -27,13 +35,9 @@
 ?>
 
   <h1>Read a Secret:</h1>
-  <p><pre id="secret"><?php print(read_secret(SECRET_URI)); ?></pre>
-     <button type="btn" class="btn btn-default pull-right" data-clipboard-target="#secret" id="copy-to-clipboard">Copy to Clipboard!</button></p>
+  <p><pre id="secret"><?php print($secret); ?></pre></p>
 
-  <link href="/resources/css/read.css" integrity="sha256-miIkI5gYeETYUyNUudOMl2RkZ9Akko+1KXYfxih5dD0=" rel="stylesheet" type="text/css" />
-
-  <script src="/vendors/clipboard/clipboard.min.js" integrity="sha256-YPxFEfHAzLj9n2T+2UXAKGNCRUINk0BexppujiVhRH0=" type="text/javascript"></script>
-  <script src="/resources/js/copy-to-clipboard.js" integrity="sha256-LRwH9pTwY5TAE7KIJSReEy1y29iPc/AbugOTd1LOjrc=" type="text/javascript"></script>
+  <link href="/resources/css/read.css?<?php print($cache_value); ?>" integrity="sha256-wgpxEGDMqG2EJxicZqc40OJMPwN8rBAZTYLdGyagQGw=" rel="stylesheet" type="text/css" />
 
 <?php
   if (ENABLE_PASSWORD_PROTECTION) {
@@ -42,16 +46,17 @@
   <input type="password" autocomplete="off" class="form-control" id="password" maxlength="64" size="32" />
   <input type="button" class="btn btn-default" id="decrypt" value="Unprotect!" />
 
-  <script src="/vendors/asmcrypto/asmcrypto.js" integrity="sha256-+3Ja+u+3rug2giERjvQSkhc1GZ1jG8ebXZ5TbQe2890=" type="text/javascript"></script>
-  <script src="/vendors/buffer/index.js" integrity="sha256-+fItxTnTLDK8HaHyqiP4cD+RxwDK66DqoTE91HqUfnM=" type="text/javascript"></script>
-  <script src="/resources/js/read.js" integrity="sha256-BQqHaEJFlJhgMLM7401/LIdtAQ1VNLmhqePSQPS1foY=" type="text/javascript"></script>
+  <script src="/vendors/asmcrypto/asmcrypto.js?<?php print($cache_value); ?>" integrity="sha256-+3Ja+u+3rug2giERjvQSkhc1GZ1jG8ebXZ5TbQe2890=" type="text/javascript"></script>
+  <script src="/vendors/buffer/index.js?<?php print($cache_value); ?>" integrity="sha256-IPmwFfeUWk24ndz0SJHTzsHYZPAQac6HfnxyZ+EbqFM=" type="text/javascript"></script>
+  <script src="/resources/js/read.js?<?php print($cache_value); ?>" integrity="sha256-BQqHaEJFlJhgMLM7401/LIdtAQ1VNLmhqePSQPS1foY=" type="text/javascript"></script>
 <?php
   }
 ?>
 
 <?php
 
-  # include footer
-  require_once(ROOT_DIR."/template/footer.php");
+    # include footer
+    require_once(ROOT_DIR."/template/footer.php");
+  }
 
 ?>

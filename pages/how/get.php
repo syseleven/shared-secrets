@@ -9,6 +9,16 @@
   # include header
   require_once(ROOT_DIR."/template/header.php");
 
+  # prevents cache hits with wrong CSS
+  $cache_value = md5_file(__FILE__);
+
+  # handle indentation within shell command
+  $indentation = "";
+  $space_count = 64-strlen(SECRET_SHARING_URL);
+  if (0 < $space_count) {
+    $indentation = str_repeat(" ", $space_count);
+  }
+
 ?>
 
   <h2>Short description of this service.</h2>
@@ -43,7 +53,7 @@ tr -d "\n"                                                                      
 tr -d "="                                                                         | # remove equation signs
 tr "+" "-"                                                                        | # replace "+" with "-"
 tr "/" "_"                                                                        | # replace "/" with "_"
-awk '{print "<?php print(htmlentities(SECRET_SHARING_URL)); ?>" $0}'                                        # prepend secret sharing URL</pre></p>
+awk '{print "<?php print(htmlentities(SECRET_SHARING_URL)); ?>" $0}'<?php print($indentation); ?> # prepend secret sharing URL</pre></p>
 
   <h3>Or...</h3>
   <p>...just use the <a href="/">secret sharing form</a> we provide for your convenience.</p>

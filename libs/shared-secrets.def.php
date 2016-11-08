@@ -22,8 +22,9 @@
   define("SHARE_PAGE_NAME",   "share");
 
   # define parameter values
-  define("MAX_PARAM_SIZE", 512);
-  define("PARAM_NAME",     "secret");
+  define("MAX_PARAM_SIZE",    512);
+  define("PLAIN_PARAM_NAME",  "plain");
+  define("SECRET_PARAM_NAME", "secret");
 
   # define stream buffer size
   define("STREAM_BUFFER", 1024);

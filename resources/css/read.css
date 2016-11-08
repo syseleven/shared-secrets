@@ -1,3 +1,7 @@
+#decrypt {
+  visibility: hidden;
+}
+
 #decrypt-error {
   display: none;
 }
@@ -8,6 +12,7 @@
   width:      25%;
 }
 
-#decrypt {
-  visibility: hidden;
+#secret {
+  white-space: pre-wrap;
+  word-wrap:   break-all;
 }

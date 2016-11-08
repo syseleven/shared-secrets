@@ -9,6 +9,9 @@
   # include header
   require_once(ROOT_DIR."/template/header.php");
 
+  # prevents cache hits with wrong CSS
+  $cache_value = md5_file(__FILE__);
+
 ?>
 
 <?php
@@ -30,7 +33,7 @@
     <button type="submit" class="btn btn-default pull-right" id="read-secret-btn" name="read-secret-btn">Read the Secret!</button>
   </form>
 
-  <link href="/resources/css/read.css" integrity="sha256-miIkI5gYeETYUyNUudOMl2RkZ9Akko+1KXYfxih5dD0=" rel="stylesheet" type="text/css" />
+  <link href="/resources/css/read.css?<?php print($cache_value); ?>" integrity="sha256-wgpxEGDMqG2EJxicZqc40OJMPwN8rBAZTYLdGyagQGw=" rel="stylesheet" type="text/css" />
 
 <?php
 

@@ -1,3 +1,34 @@
+# 0.9b0 (2016-11-08)
+
+* version bump for interface improvements publication on github
+
+# 0.8b5 (2016-10-21)
+
+* introduced dynamic indentation for shell command on how page
+* tested interface improvements within chroot environment
+
+# 0.8b4 (2016-10-20)
+
+* introduced dummy parameters to fix cached-subresource-checksum-mismatch problem when changing CSS/JS files
+
+# 0.8b3 (2016-10-20)
+
+* removed copy-to-clipboard functionality as it proves to be unreliable
+* improved style to simplify manual copying of generated shared secret link
+* updated readme accordingly
+
+# 0.8b2 (2016-10-19)
+
+* fixed secret-already-retrieved error message
+
+# 0.8b1 (2016-10-07)
+
+* introduced the parameter "plain" for the share action to just return the link without surrounding HTML
+* introduced the parameter "plain" for the read action to just return the secret without surrounding HTML
+* introduced some minor changes to make parameter constant naming more consistent
+* introduced .htaccess to simplify installation using Apache HTTPD
+* updated included libraries to newer releases
+
 # 0.8b0 (2016-09-11)
 
 * version bump for GnuPG PECL package support publication on github

@@ -65,7 +65,7 @@
                         $decrypted_secret = decrypt_pecl(base64_decode($secret), GPG_KEY_FINGERPRINT, GPG_HOME_DIR, GPG_PASSPHRASE_FILE);
                       } else {
                         $decrypted_secret = decrypt(base64_decode($secret), GPG_HOME_DIR, GPG_PASSPHRASE_FILE);
-                      }
+                      }  
                     }
 
                     if (null !== $decrypted_secret) {
@@ -95,9 +95,9 @@
                         }
                       }
                     }
+                  } else {
+                    $result = "<strong>ERROR: SECRET HAS ALREADY BEEN RETRIEVED.</strong>";
                   }
-                } else {
-                  $result = "<strong>ERROR: SECRET HAS ALREADY BEEN RETRIEVED.</strong>";
                 }
               }
             }

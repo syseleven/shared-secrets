@@ -14,9 +14,12 @@
                             BASE64_MARKER_B,
                             str_replace(URL_BASE64_MARKER_A, 
                                         BASE64_MARKER_A,
-                                        $url_base64_content)).
-                str_repeat(BASE64_MARKER_END,
-                           strlen($url_base64_content) % 4);
+                                        $url_base64_content));
+
+      # fill up with end markers as necessary
+      while (0 !== (strlen($result) % 4)) {
+        $result .= BASE64_MARKER_END;
+      }
     }
 
     return $result;

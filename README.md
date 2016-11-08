@@ -14,9 +14,20 @@ To protect your secret from getting known by the server or an attacker, you can 
 
 Simply enter your secret on the default page of the Shared-Secrets service. You can decide to password-protect the entered secret before sending it to the server by checking the "Password-protected:" box, entering your password and pressing the "Protect!" button. After that, press the "Share the Secret!" button. The secret will be GPG-encrypted and converted into a secret sharing link.
 
+Secret sharing links can also be created by using a simple POST request:
+```
+curl -X POST -d "secret=<secret>&plain" https://example.com/
+```
+
 ### Read a Secret
 
 To retrieve the secret, simply open the secret sharing link and press the "Read the Secret!" button. Should your secret be password-protected, check the "Password-protected:" box, enter your password and read your actual secret by pressing the "Unprotect!" button.
+
+Secrets can also be retrieved using a simple POST request:
+
+```
+curl -X POST -d "plain" <secret sharing link>
+```
 
 ## Installation
 
@@ -109,7 +120,7 @@ sudo apt-get install libgpgme11-dev
 # install the GnuPG PECL package
 sudo pecl install gnupg
 
-# register tje GnuPG PECL package as an available module
+# register the GnuPG PECL package as an available module
 sudo sh -c 'echo "extension=gnupg.so" > /etc/php/7.0/mods-available/gnupg.ini'
 
 # activate the GnuPG PECL package in PHP CLI and PHP-FPM
@@ -135,7 +146,6 @@ It is strongly recommended to use TLS to protect the connection between the serv
 * [asmCrypto](https://github.com/vibornoff/asmcrypto.js): for providing PBKDF2 and AES functions 
 * [Bootstrap](https://getbootstrap.com): for providing an easy-to-use framework to build nice-looking applications
 * [buffer](https://github.com/feross/buffer): for providing Base64 encoding and array conversion functions
-* [clipboard.js](https://clipboardjs.com): for simplifying the copy-to-clipboard use-case a lot
 * [GnuPG](https://www.gnupg.org): for providing a reliable tool for secure communication
 * [GnuPG PECL package](https://pecl.php.net/package/gnupg): for providing a clean interface to GnuPG
 * [html5shiv](https://github.com/aFarkas/html5shiv): for handling Internet Explorer compatibility stuff
@@ -147,6 +157,7 @@ It is strongly recommended to use TLS to protect the connection between the serv
 
 * make PECL method work in a chroot environment to get rid of the direct call method
 * switch to a more personalized design (current design is taken from [here](https://github.com/twbs/bootstrap/tree/master/docs/examples/starter-template))
+* implement an alternative encryption scheme based on AES instead of GPG (fewer dependencies)
 * implement an expiry date functionality
 
 ## License

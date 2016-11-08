@@ -1,9 +1,9 @@
-#encrypt-error {
-  display: none;
+#encrypt {
+  visibility: hidden;
 }
 
-#share-secret-btn {
-  margin-top: 0.5em;
+#encrypt-error {
+  display: none;
 }
 
 #password {
@@ -13,6 +13,11 @@
   width:      25%;
 }
 
-#encrypt {
-  visibility: hidden;
+#secret {
+  white-space: pre-wrap;
+  word-wrap:   break-all;
+}
+
+#share-secret-btn {
+  margin-top: 0.5em;
 }
