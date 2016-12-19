@@ -106,6 +106,8 @@ sudo -u www-data -H gpg --import ./public.asc
 
 ### PHP Setup
 
+**Beware:** Due to a serious bug in the GnuPG PECL package we ask to use the non-PECL setup.
+
 To use the [GnuPG PECL package](https://pecl.php.net/package/gnupg) it has to be installed and activated on the server. The following steps are based on Ubuntu 16.04 LTS and only serve as an example for the installation and activation of the GnuPG PECL package:
 ```
 # install PHP PEAR/PECL

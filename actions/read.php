@@ -54,17 +54,17 @@
                         $decrypted_secret = decrypt_legacy($secret, GPG_HOME_DIR, GPG_PASSPHRASE_FILE);
                       } else {
                         if (GNUPG_PECL) {
-                          $decrypted_secret = decrypt_pecl(base64_decode($secret), GPG_KEY_FINGERPRINT, GPG_HOME_DIR, GPG_PASSPHRASE_FILE);
+                          $decrypted_secret = decrypt_pecl(base64_decode($secret, true), GPG_KEY_FINGERPRINT, GPG_HOME_DIR, GPG_PASSPHRASE_FILE);
                         } else {
-                          $decrypted_secret = decrypt(base64_decode($secret), GPG_HOME_DIR, GPG_PASSPHRASE_FILE);
+                          $decrypted_secret = decrypt(base64_decode($secret, true), GPG_HOME_DIR, GPG_PASSPHRASE_FILE);
                         }
                       }
                     } else {
                       # decrypt secret
                       if (GNUPG_PECL) {
-                        $decrypted_secret = decrypt_pecl(base64_decode($secret), GPG_KEY_FINGERPRINT, GPG_HOME_DIR, GPG_PASSPHRASE_FILE);
+                        $decrypted_secret = decrypt_pecl(base64_decode($secret, true), GPG_KEY_FINGERPRINT, GPG_HOME_DIR, GPG_PASSPHRASE_FILE);
                       } else {
-                        $decrypted_secret = decrypt(base64_decode($secret), GPG_HOME_DIR, GPG_PASSPHRASE_FILE);
+                        $decrypted_secret = decrypt(base64_decode($secret, true), GPG_HOME_DIR, GPG_PASSPHRASE_FILE);
                       }  
                     }
 

@@ -1,3 +1,8 @@
+# 0.10b1 (2016-12-19)
+
+* enforced strict base64 decoding
+* added info to config.php.default and to README.md that the GnuPG PECL should currently not be used (thanks to Nikolas Lotz)
+
 # 0.10b0 (2016-12-19)
 
 * fixed a security bug that allowed to retrieve a secret several times by appending query parameters to the secret (thanks to Nikolas Lotz)
