@@ -1,3 +1,7 @@
+# 0.10b0 (2016-12-19)
+
+* fixed a security bug that allowed to retrieve a secret several times by appending query parameters to the secret (thanks to Nikolas Lotz)
+
 # 0.9b0 (2016-11-08)
 
 * version bump for interface improvements publication on github

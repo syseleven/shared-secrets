@@ -1,6 +1,6 @@
 <?php
 
-  # Shared-Secrets v0.9b0
+  # Shared-Secrets v0.10b0
   #
   # Copyright (c) 2016, SysEleven GmbH
   # All rights reserved.
@@ -64,12 +64,15 @@
 
   # prepare URI
   $uri = $_SERVER["REQUEST_URI"];
-  if (0 === stripos($uri, "/")) {
-    $uri = substr($uri, 1);
-  }
   # handle URL encoded URIs
   if (false !== strpos($uri, URL_ENCODE_MARKER)) {
     $uri = urldecode($uri);
+  }
+  # kill request parameters
+  $uri = parse_url($uri, PHP_URL_PATH);
+  # remove leading slash
+  if (0 === stripos($uri, "/")) {
+    $uri = substr($uri, 1);
   }
   define("SECRET_URI", $uri);
 
