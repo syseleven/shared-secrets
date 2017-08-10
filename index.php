@@ -1,6 +1,6 @@
 <?php
 
-  # Shared-Secrets v0.10b1
+  # Shared-Secrets v0.11b0
   #
   # Copyright (c) 2016, SysEleven GmbH
   # All rights reserved.
@@ -90,7 +90,7 @@
   define("SECRET_ACTION", $action);
 
   # check if the GnuPG PECL package is available
-  define("GNUPG_PECL", (extension_loaded("gnupg") && is_dir(GPG_HOME_DIR)));
+  define("GNUPG_PECL", (extension_loaded("gnupg") && is_dir(GPG_HOME_DIR) && !defined("DISABLE_GNUPG_PECL")));
 
   # only proceed when a GET or POST request is encountered
   if (in_array(REQUEST_METHOD, array("get", "post"))) {

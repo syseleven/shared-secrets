@@ -10,7 +10,7 @@
       <!-- footer -->
     </div>
 
-    <script src="/vendors/jquery/jquery.min.js?<?php print($cache_value); ?>" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" type="text/javascript"></script>
+    <script src="/vendors/jquery/jquery.min.js?<?php print($cache_value); ?>" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" type="text/javascript"></script>
     <script src="/vendors/bootstrap/js/bootstrap.min.js?<?php print($cache_value); ?>" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" type="text/javascript"></script>
   </body>
 </html>

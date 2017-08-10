@@ -22,7 +22,7 @@
 ?>
 
   <h2>Short description of this service.</h2>
-  <p>This secret sharing service is based on GPG encryption. When creating a new secret sharing link, the secret itself is encrypted via GPG. The result of the GPG encryption is armored and prepended with the URL of this website. When the secret sharing link is called, the armored GPG message is decrypted and the result of the decryption is displayed on the website. Additionally, the fingerprint of the armored GPG message is stored in a database to prevent it from being displayed more than once.<br />
+  <p>This secret sharing service is based on GPG encryption. When creating a new secret sharing link, the secret itself is encrypted via GPG. The result of the GPG encryption is URL-safe Base64 encoded and prepended with the URL of this website. When the secret sharing link is called, the URL-safe Base64 encoded GPG message is decrypted and the result of the decryption is displayed on the website. Additionally, the fingerprint of the URL-safe Base64 encoded GPG message is stored in a database to prevent it from being displayed more than once.<br />
      <br />
      You can build your own secret sharing link by following some basic steps.</p>
 

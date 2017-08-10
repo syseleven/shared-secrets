@@ -3,6 +3,9 @@
   # prevent direct access
   if (!defined("SYS11_SECRETS")) { die(""); }
 
+  # forcefully disable GnuPG PECL
+  define("DISABLE_GNUPG_PECL", true);
+
   # define encoding markers
   define("BASE64_MARKER_A",     "+");
   define("BASE64_MARKER_B",     "/");
@@ -28,18 +31,5 @@
 
   # define stream buffer size
   define("STREAM_BUFFER", 1024);
-
-  # only define the legacy values if they are activated
-  if (SUPPORT_LEGACY_LINKS) {
-    # define GPG message parts
-    define("GPG_MESSAGE_COMMENT",         "Comment:");
-    define("GPG_MESSAGE_COMMENT_DUMMY",   "Dummy");
-    define("GPG_MESSAGE_LINE_LENGTH",     64);
-    define("GPG_MESSAGE_LINE_SEPARATOR",  "\n");
-    define("GPG_MESSAGE_PARTS_MARKER",    "=");
-    define("GPG_MESSAGE_VALUE_SEPARATOR", " ");
-    define("GPG_MESSAGE_PREFIX",          "-----BEGIN PGP MESSAGE-----");
-    define("GPG_MESSAGE_SUFFIX",          "-----END PGP MESSAGE-----");
-  }
 
 ?>

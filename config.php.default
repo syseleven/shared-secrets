@@ -45,17 +45,12 @@
   # password-protection of secrets on top of the server-side
   # encryption, set this configuration value to true to enable
   # the optional password-protection
-  define("ENABLE_PASSWORD_PROTECTION", false);
+  define("ENABLE_PASSWORD_PROTECTION", true);
 
   # this is the configuration to either enable or disable the
   # logging of IP addresses for retrieved secrets, set this
   # configuration value to false to disable the logging of
   # IP addresses
-  define("LOG_IP_ADDRESS", true);
-
-  # this is the configuration to either enable or disable the
-  # support for legacy links, set this configuration value to
-  # true to enable the support for legacy links
-  define("SUPPORT_LEGACY_LINKS", false);
+  define("LOG_IP_ADDRESS", false);
 
 ?>

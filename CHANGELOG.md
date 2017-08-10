@@ -1,3 +1,17 @@
+# 0.11b0 (2017-08-10)
+
+* version bump for legacy-less publication on github
+* **Beware:** Due to security concerns the previously introduced GnuPG PECL interface has been forcecfully deactivated. This change may break installations that currently rely on the functionality of the GnuPG PECL interface.
+
+# 0.10b2 (2017-08-10)
+
+* activated ENABLE_PASSWORD_PROTECTION option by default as the feature has proven to be stable
+* deactivated LOG_IP_ADDRESS option by default to promote data privacy
+* removed SUPPORT_LEGACY_LINKS option because the codebase does not generate legacy links for almost a year now
+* removed code that handled legacy links and has become obsolete with the removal of the SUPPORT_LEGACY_LINKS option
+* forcefully deactivated the GnuPG PECL interface because https://github.com/php-gnupg/php-gnupg/issues/9 is not handled properly
+* changed README.md to reflect the forcful deactivation of the GnuPG PECL interface which may break installations
+
 # 0.10b1 (2016-12-19)
 
 * enforced strict base64 decoding
