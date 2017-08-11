@@ -69,6 +69,7 @@ server {
 Furthermore the following HTTP headers have to be set (Nginx example):
 ```
 add_header Content-Security-Policy   "default-src 'self'; frame-ancestors 'self'";
+add_header Referrer-Policy           "same-origin";
 add_header Strict-Transport-Security "max-age=15768000; includeSubDomains; preload";
 add_header X-Content-Security-Policy "default-src 'self'; frame-ancestors 'self'";
 add_header X-Content-Type-Options    "nosniff";
