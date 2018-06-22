@@ -14,6 +14,9 @@
   define("URL_BASE64_MARKER_B", "_");
   define("URL_ENCODE_MARKER",   "%");
 
+  # define GnuPG error message
+  define("GPG_MDC_ERROR", "gpg: WARNING: message was not integrity protected");
+
   # define MySQL queries
   define("MYSQL_READ",  "SELECT COUNT(*) FROM secrets WHERE fingerprint = ?");
   define("MYSQL_WRITE", "INSERT INTO secrets VALUES (?, ?, CURRENT_TIMESTAMP)");

@@ -1,3 +1,8 @@
+# 0.12b0 (2018-06-22)
+
+* decryption of non-MDC-protected messages is now prevented for older versions of GnuPG that set the return code to 0
+* force GnuPG to produce English output as we have to check it against a predefined string
+
 # 0.11b0 (2017-08-10)
 
 * version bump for legacy-less publication on github

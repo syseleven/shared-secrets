@@ -108,12 +108,16 @@
         $cmd_append .= " --batch --passphrase-file ".escapeshellarg($passphrase_file);
       }
 
-      $ret = execute_with_stdio("gpg --quiet --keyid-format LONG --no-tty ".$cmd_append." --output - --decrypt -",
+      $ret = execute_with_stdio("LANG=en gpg --quiet --keyid-format LONG --no-tty ".$cmd_append." --output - --decrypt -",
                                 $content,
                                 $stdout,
                                 $stderr);
       if (0 === $ret) {
-        $result = $stdout;
+        # check that the decrypted message has been integrity-protected,
+        # older versions of GnuPG set the return code to 0 when this warning occurs 
+        if (false === stripos($stderr, GPG_MDC_ERROR)) {
+          $result = $stdout;
+        }
       }
     }
 
@@ -170,7 +174,7 @@
         $cmd_append .= " --homedir ".escapeshellarg($homedir);
       }
 
-      $ret = execute_with_stdio("gpg --quiet --keyid-format LONG --no-tty --recipient ".escapeshellarg($recipient)." --trust-model always --yes ".$cmd_append." --output - --encrypt -",
+      $ret = execute_with_stdio("LANG=en gpg --quiet --keyid-format LONG --no-tty --recipient ".escapeshellarg($recipient)." --trust-model always --yes ".$cmd_append." --output - --encrypt -",
                                 $content,
                                 $stdout,
                                 $stderr);
