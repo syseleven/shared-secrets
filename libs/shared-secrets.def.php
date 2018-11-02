@@ -35,4 +35,7 @@
   # define stream buffer size
   define("STREAM_BUFFER", 1024);
 
+  # define Apache Bugfix length
+  define("APACHE_BUGFIX_LENGTH", 200);
+
 ?>

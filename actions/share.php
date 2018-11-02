@@ -18,7 +18,7 @@
 
         if (null !== $encrypted_secret) {
           # return the secret sharing URL
-          $result = htmlentities(SECRET_SHARING_URL.urlencode(url_base64_encode(base64_encode($encrypted_secret))));
+          $result = htmlentities(SECRET_SHARING_URL.apache_bugfix_encode(url_base64_encode(base64_encode($encrypted_secret))));
         }
       } else {
         $result = "<strong>ERROR: THE SECRET MUST BE SMALLER THAN ".MAX_PARAM_SIZE." CHARACTERS.</strong>";

@@ -5,6 +5,16 @@
 
   ########## URL-ENCODING FUNCTIONS ##########
 
+  # convert the URL to something that Apache supports
+  function apache_bugfix_encode($url) {
+    return implode("/", str_split($url, APACHE_BUGFIX_LENGTH));
+  }
+
+  # undo the conversion to something that Apache supports
+  function apache_bugfix_decode($url) {
+    return implode("", explode("/", $url));
+  }
+
   # convert URL-safe Base64 encoding to standard Base64 encoding
   function url_base64_decode($url_base64_content) {
     $result = null;

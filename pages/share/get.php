@@ -29,7 +29,7 @@
   }
 ?>
 
-  <form role="form" action="/<?php print(htmlentities(urlencode(SECRET_URI))); ?>" method="post">
+  <form role="form" action="/<?php print(htmlentities(SECRET_URI)); ?>" method="post">
     <label for="secret"><h1>Share a Secret:</h1></label>
     <input type="text" autocomplete="off" class="form-control" id="secret" name="secret" maxlength="512" size="512" />
     <button type="submit" class="btn btn-default pull-right" id="share-secret-btn" name="share-secret-btn">Share the Secret!</button>

@@ -1,3 +1,8 @@
+# 0.13b0 (2018-11-02)
+
+* introduced `apache_bugfix_encode()` and `apache_bugfix_decode()` to prevent "(36) File name too long" errors
+* **SECURITY**: prevent whitespace from allowing an attacker to retrieve a secret more than once
+
 # 0.12b0 (2018-06-22)
 
 * decryption of non-MDC-protected messages is now prevented for older versions of GnuPG that set the return code to 0
