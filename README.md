@@ -105,6 +105,15 @@ sudo -u www-data -H gpg --import ./private.asc
 sudo -u www-data -H gpg --import ./public.asc
 ```
 
+Newer GPG versions disable stdin for key passphrases.
+
+```
+#in ~/.gnupg/gpg.conf (home of the user that will execute GPG) add:
+
+use-agent
+pinentry-mode loopback
+```
+
 ### Service Setup
 
 Rename the "config.php.default" to "config.php" and set the necessary configuration items.
