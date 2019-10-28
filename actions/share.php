@@ -6,25 +6,30 @@
   function share_secret($secret) {
     $result = null;
 
-    # only proceed when the secret is not empty
-    if (!empty($secret)) {
-      # only proceed when the secret is not too long
-      if (MAX_PARAM_SIZE >= strlen($secret)) {
-        if (GNUPG_PECL) {
-          $encrypted_secret = encrypt_pecl($secret, GPG_KEY_FINGERPRINT, GPG_HOME_DIR);
-        } else {
-          $encrypted_secret = encrypt($secret, GPG_KEY_FINGERPRINT, GPG_HOME_DIR);
-        }
+    # only proceed when the read-only mode is not set
+    if ((!defined("READ_ONLY")) || (!READ_ONLY)) {
+      # only proceed when the secret is not empty
+      if (!empty($secret)) {
+        # only proceed when the secret is not too long
+        if (MAX_PARAM_SIZE >= strlen($secret)) {
+          if (GNUPG_PECL) {
+            $encrypted_secret = encrypt_pecl($secret, GPG_KEY_FINGERPRINT, GPG_HOME_DIR);
+          } else {
+            $encrypted_secret = encrypt($secret, GPG_KEY_FINGERPRINT, GPG_HOME_DIR);
+          }
 
-        if (null !== $encrypted_secret) {
-          # return the secret sharing URL
-          $result = htmlentities(SECRET_SHARING_URL.apache_bugfix_encode(url_base64_encode(base64_encode($encrypted_secret))));
+          if (null !== $encrypted_secret) {
+            # return the secret sharing URL
+            $result = htmlentities(SECRET_SHARING_URL.apache_bugfix_encode(url_base64_encode(base64_encode($encrypted_secret))));
+          }
+        } else {
+          $result = "<strong>ERROR: THE SECRET MUST BE SMALLER THAN ".MAX_PARAM_SIZE." CHARACTERS.</strong>";
         }
       } else {
-        $result = "<strong>ERROR: THE SECRET MUST BE SMALLER THAN ".MAX_PARAM_SIZE." CHARACTERS.</strong>";
+        $result = "<strong>ERROR: THE SECRET MUST NOT BE EMPTY.</strong>";
       }
     } else {
-      $result = "<strong>ERROR: THE SECRET MUST NOT BE EMPTY.</strong>";
+      $result = "<strong>ERROR: THE CREATION OF SECRET URLS IS DISABLED.</strong>";
     }
 
     # set default result if non is given

@@ -53,4 +53,9 @@
   # IP addresses
   define("LOG_IP_ADDRESS", false);
 
+  # this is the configuration to either enable or disable the
+  # read-only mode of the instance, set this to simplify the
+  # migration to the new GPG-less version
+  define("READ_ONLY", false);
+
 ?>

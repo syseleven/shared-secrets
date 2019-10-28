@@ -1,3 +1,7 @@
+# 0.14b0 (2019-10-28)
+
+* introduced a read-only mode to simplify the migration to the upcoming release
+
 # 0.13b0 (2018-11-02)
 
 * introduced `apache_bugfix_encode()` and `apache_bugfix_decode()` to prevent "(36) File name too long" errors
