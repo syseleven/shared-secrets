@@ -11,4 +11,3 @@
     header("Location: ".$target_url);
   }
 
-?>

@@ -3,41 +3,54 @@
   # prevent direct access
   if (!defined("SYS11_SECRETS")) { die(""); }
 
-  function share_secret($secret) {
+  function share_secret($secret, &$error = null) {
     $result = null;
+    $error  = false;
 
-    # only proceed when the read-only mode is not set
-    if ((!defined("READ_ONLY")) || (!READ_ONLY)) {
-      # only proceed when the secret is not empty
-      if (!empty($secret)) {
-        # only proceed when the secret is not too long
-        if (MAX_PARAM_SIZE >= strlen($secret)) {
-          if (GNUPG_PECL) {
-            $encrypted_secret = encrypt_pecl($secret, GPG_KEY_FINGERPRINT, GPG_HOME_DIR);
-          } else {
-            $encrypted_secret = encrypt($secret, GPG_KEY_FINGERPRINT, GPG_HOME_DIR);
-          }
+    # only proceed when the secret is not empty
+    if (!empty($secret)) {
+      # only proceed when the secret is not too long
+      if (MAX_PARAM_SIZE >= strlen($secret)) {
+        # for shared-secrets we only support encryption with one key
+        $keys   = array_keys(RSA_PRIVATE_KEYS);
+        $pubkey = open_pubkey(RSA_PRIVATE_KEYS[$keys[count($keys)-1]]);
+        if (null !== $pubkey) {
+          try {
+            $recipients = [$pubkey];
+            try {
+              $encrypted_secret = encrypt_v01($secret, $recipients, $encrypt_error);
+            } finally {
+              zeroize_array($recipients);
+            }
 
-          if (null !== $encrypted_secret) {
-            # return the secret sharing URL
-            $result = htmlentities(SECRET_SHARING_URL.apache_bugfix_encode(url_base64_encode(base64_encode($encrypted_secret))));
+            if (null !== $encrypted_secret) {
+              # return the secret sharing URL
+              $result = get_secret_url($encrypted_secret);
+            } else {
+              if (DEBUG_MODE) {
+                $error = "Encryption failed: $encrypt_error";
+              }
+            }
+          } finally {
+            openssl_pkey_free($pubkey);
           }
         } else {
-          $result = "<strong>ERROR: THE SECRET MUST BE SMALLER THAN ".MAX_PARAM_SIZE." CHARACTERS.</strong>";
+          if (DEBUG_MODE) {
+            $error = "Public key could not be read.";
+          }
         }
       } else {
-        $result = "<strong>ERROR: THE SECRET MUST NOT BE EMPTY.</strong>";
+        $error = "The secret must at most be ".MAX_PARAM_SIZE." characters long.";
       }
     } else {
-      $result = "<strong>ERROR: THE CREATION OF SECRET URLS IS DISABLED.</strong>";
+      $error = "The secret must not be empty.";
     }
 
-    # set default result if non is given
-    if (null === $result) {
-      $result = "<strong>ERROR: AN UNKNOWN ERROR OCCURED.</strong>";
+    # set default error if non is given
+    if ((null === $result) && (false === $error)) {
+      $error = "An unknown error occured.";
     }
 
     return $result;
   }
 
-?>

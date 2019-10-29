@@ -1,3 +1,15 @@
+# 0.20b0 (2019-10-18)
+
+* rewrote the application to use OpenSSL instead of GPG fixing indirect integrity vulnerabilities
+* rewrote the client-side encryption to be based on the [Web Cryptography API](https://www.w3.org/TR/WebCryptoAPI/)
+* added `encryption.md` to describe the details of the newly implemented encryption scheme
+* moved configuration file into the subfolder `config/`
+* renamed folder `libs/` to `lib/`
+* introduced the possibility to have key roll-overs (encrypt with new key but decrypt with new and old key)
+* updated Bootstrap to version 3.4.1
+* updated jQuery to version 3.4.1
+* **Beware:** Decrypting old GPG-based URLs is not possible with this version. Due to the new encryption scheme v01 the first 48 bytes of a URL will be the same for all generated URLs therefore it is possible to distinguish with high certainty between old and new URLs so that it possible for you to redirect old URLs to a read-only instance.
+
 # 0.14b0 (2019-10-28)
 
 * introduced a read-only mode to simplify the migration to the upcoming release

@@ -16,7 +16,7 @@
 
     <title><?php print(htmlentities(SERVICE_TITLE)); ?></title>
 
-    <link href="/vendors/bootstrap/css/bootstrap.min.css?<?php print($cache_value); ?>" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" rel="stylesheet" type="text/css" />
+    <link href="/vendors/bootstrap/css/bootstrap.min.css?<?php print($cache_value); ?>" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" rel="stylesheet" type="text/css" />
 
     <!--[if lt IE 9]>
       <script src="/vendors/html5shiv/html5shiv.min.js?<?php print($cache_value); ?>" integrity="sha256-3Jy/GbSLrg0o9y5Z5n1uw0qxZECH7C6OQpVBgNFYa0g=" type="text/javascript"></script>

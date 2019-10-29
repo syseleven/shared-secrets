@@ -1,0 +1,38 @@
+<?php
+
+  # prevent direct access
+  if (!defined("SYS11_SECRETS")) { die(""); }
+
+  # this is an array containing the supported RSA privated keys for encryption and decryption, the LAST private key
+  # within the array is used to encrypt new secrets while all private keys are used to decrypt secrets, this allows
+  # for smooth key rollovers
+  define("RSA_PRIVATE_KEYS", ["-----BEGIN RSA PRIVATE KEY-----\n".
+                              "...\n".
+                              "-----END RSA PRIVATE KEY-----"]);
+
+  # this is the title of the service, it is shown in header of all pages
+  define("SERVICE_TITLE", "Shared-Secrets");
+
+  # this is the full path to the secret sharing service, the encrypted secret will be appended to this string
+  define("SECRET_SHARING_URL", "https://localhost.local/");
+
+  # this is the URL the imprint link shall forward to
+  define("IMPRINT_URL", "https://localhost.local/");
+
+  # this is the MySQL configuration, do not forget to create the corresponding database and the following table:
+  # > CREATE TABLE secrets ( fingerprint VARCHAR(64) PRIMARY KEY, time TIMESTAMP );
+  define("MYSQL_HOST",   "localhost");
+  define("MYSQL_PORT",   3306);
+  define("MYSQL_USER",   "<SET THE MYSQL USER!!!>");
+  define("MYSQL_PASS",   "<SET THE MYSQL PASSWORD!!!>");
+  define("MYSQL_DB",     "<SET THE MYSQL DATABASE!!!>");
+
+  # this enables or disables the debug mode of the instance
+  define("DEBUG_MODE", true);
+
+  # this is the default timezone for the execution of the script
+  define("DEFAULT_TIMEZONE", "Europe/Berlin");
+
+  # this enables or disables the read-only mode of the instance
+  define("READ_ONLY", false);
+

@@ -3,104 +3,87 @@
   # prevent direct access
   if (!defined("SYS11_SECRETS")) { die(""); }
 
-  function read_secret($secret) {
+  function read_secret($secret, &$error = null) {
     $result = null;
+    $error  = false;
 
     # handle secret decoding
-    $secret = url_base64_decode(apache_bugfix_decode($secret));
+    $secret = parse_secret_url($secret);
 
     # only proceed when the secret is not empty
     if (!empty($secret)) {
-      # check that this is a base64 string with no whitespace
-      if (1 === preg_match("~^([0-9A-Za-z\/\+])+(\=){0,2}$~", $secret)) {
-        # get the checksum of the URI content
-        $checksum = hash("sha256", $secret);
+      $keys       = array_keys(RSA_PRIVATE_KEYS);
+      $recipients = [];
+      foreach ($keys as $key) {
+        $privkey = open_privkey(RSA_PRIVATE_KEYS[$key]);
+        if (null !== $privkey) {
+          $recipients[] = $privkey;
+        }
+      }
 
-        if (!empty($checksum)) {
-          # connect to mysql server
-          $mysql = mysqli_connect(MYSQL_HOST, MYSQL_USER, MYSQL_PASS, MYSQL_DB);
+      try {
+        $decrypted_secret = decrypt_v01($secret, $recipients, $decrypt_error, $fingerprint);
+      } finally {
+        $keys = array_keys($recipients);
+        foreach ($keys as $key) {
+          openssl_pkey_free($recipients[$key]);
+        }
 
-          if (null === mysqli_connect_error()) {
-            # prepare the read statement
-            $select = mysqli_prepare($mysql, MYSQL_READ);
+        zeroize_array($recipients);
+      }
 
-            if (false !== $select) {
-              # set string parameter of read statement to $checksum
-              if (mysqli_stmt_bind_param($select, "s", $checksum)) {
-                # execute statement
-                if (mysqli_stmt_execute($select)) {
-                  # bind result variables
-                  if (mysqli_stmt_bind_result($select, $fingerprint_found)) {
-                    # fetch result variables
-                    if (true === mysqli_stmt_fetch($select)) {
-                      # close select statement to be able to insert later on
-                      mysqli_stmt_close($select);
-                      $select = null;
+      if (null !== $decrypted_secret) {
+        if ($link = mysqli_connect(MYSQL_HOST, MYSQL_USER, MYSQL_PASS, MYSQL_DB, MYSQL_PORT)) {
+          try {
+            if ($statement = mysqli_prepare($link, MYSQL_WRITE)) {
+              $fingerprint = bin2hex($fingerprint);
 
-                      # only proceed if the fingerprint has not been found
-                      if (0 === $fingerprint_found) {
-                        # decrypt secret
-                        if (GNUPG_PECL) {
-                          $decrypted_secret = decrypt_pecl(base64_decode($secret, true), GPG_KEY_FINGERPRINT, GPG_HOME_DIR, GPG_PASSPHRASE_FILE);
-                        } else {
-                          $decrypted_secret = decrypt(base64_decode($secret, true), GPG_HOME_DIR, GPG_PASSPHRASE_FILE);
-                        }
-
-                        if (null !== $decrypted_secret) {
-                          # prepare the write statement
-                          $insert = mysqli_prepare($mysql, MYSQL_WRITE);
-
-                          if (false !== $insert) {
-                            # only set temporarily
-                            $client_ip = CLIENT_IP;
-
-                            # set string parameter of write statement to $checksum and client IP
-                            if (mysqli_stmt_bind_param($insert, "ss", $checksum, $client_ip)) {
-                              # execute statement
-                              if (mysqli_stmt_execute($insert)) {
-                                # return secret
-                                $result = htmlentities($decrypted_secret);
-
-                                # close insert statement before proceeding
-                                mysqli_stmt_close($insert);
-                                $insert = null;
-                              }
-                            }
-
-                            # close insert statement
-                            if (null !== $insert) {
-                              mysqli_stmt_close($insert);
-                            }
-                          }
-                        }
-                      } else {
-                        $result = "<strong>ERROR: SECRET HAS ALREADY BEEN RETRIEVED.</strong>";
-                      }
-                    }
+              if (mysqli_stmt_bind_param($statement, "s", $fingerprint)) {
+                if (mysqli_stmt_execute($statement)) {
+                  if (1 === mysqli_affected_rows($link)) {
+                    $result = $decrypted_secret;
+                  } else {
+                    $error = "Secret has already been retrieved.";
+                  }
+                } else {
+                  if (DEBUG_MODE) {
+                    $error = "Insert statement could not be executed";
                   }
                 }
+              } else {
+                if (DEBUG_MODE) {
+                  $error = "Insert statement parameters could not be bound.";
+                }
               }
-
-
-              # close select statement
-              if (null !== $select) {
-                mysqli_stmt_close($select);
+            } else {
+              if (DEBUG_MODE) {
+                $error = "Insert statement could not be prepared.";
               }
             }
-
-            # close mysql connection
-            mysqli_close($mysql);
+          } finally {
+            mysqli_close($link);
+          }
+        } else {
+          if (DEBUG_MODE) {
+            $error = "Database connection could not be established.";
           }
         }
+      } else {
+        if (DEBUG_MODE) {
+          $error = "Decryption failed: $decrypt_error";
+        }
+      }
+    } else {
+      if (DEBUG_MODE) {
+        $error = "The secret must not be empty.";
       }
     }
 
-    # set default result if non is given
-    if (null === $result) {
-      $result = "<strong>ERROR: AN UNKNOWN ERROR OCCURED.</strong>";
+    # set default error if non is given
+    if ((null === $result) && (false === $error)) {
+      $error = "An unknown error occured.";
     }
 
     return $result;
   }
 
-?>

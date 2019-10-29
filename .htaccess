@@ -2,6 +2,22 @@
   RewriteEngine On
   RewriteBase   /
 
+  # prevent access to certain locations
+  RewriteRule ^\.git(\/.*)?$    - [R=404,L]
+  RewriteRule ^\.gitattributes$ - [R=404,L]
+  RewriteRule ^\.gitignore$     - [R=404,L]
+  RewriteRule ^\.htaccess$      - [R=404,L]
+  RewriteRule ^actions(\/.*)?$  - [R=404,L]
+  RewriteRule ^CHANGELOG\.md$   - [R=404,L]
+  RewriteRule ^config(\/.*)?$   - [R=404,L]
+  RewriteRule ^ENCRYPTION\.md$  - [R=404,L]
+  RewriteRule ^lib(\/.*)?$      - [R=404,L]
+  RewriteRule ^LICENSE$         - [R=404,L]
+  RewriteRule ^pages(\/)?$      - [R=404,L]
+  RewriteRule ^README\.md$      - [R=404,L]
+  RewriteRule ^template(\/.*)?$ - [R=404,L]
+
+  # single entrypoint
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteRule . /index.php [L]
 </IfModule>

@@ -5,4 +5,3 @@
 
   # dummy script without any content
 
-?>

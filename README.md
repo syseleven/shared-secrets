@@ -12,7 +12,7 @@ To protect your secret from getting known by the server or an attacker, you can 
 
 ### Share a Secret
 
-Simply enter your secret on the default page of the Shared-Secrets service. You can decide to password-protect the entered secret before sending it to the server by checking the "Password-protected:" box, entering your password and pressing the "Protect!" button. After that, press the "Share the Secret!" button. The secret will be GPG-encrypted and converted into a secret sharing link.
+Simply enter your secret on the default page of the Shared-Secrets service. You can decide to password-protect the entered secret before sending it to the server by checking the "Password-protected:" box, entering your password and pressing the "Protect!" button. After that, press the "Share the Secret!" button. The secret will be encrypted and converted into a secret sharing link.
 
 Secret sharing links can also be created by using a simple POST request:
 ```
@@ -33,7 +33,7 @@ curl -X POST -d "plain" <secret sharing link>
 
 ### Requirements
 
-Shared-Secrets is based on MariaDB 10.0, Nginx 1.10 and PHP 7.0, but should also work with MySQL, Apache and earlier versions of PHP. GPG encryption is supported by directly calling the gpg binary. Previously, using the [GnuPG PECL package](https://pecl.php.net/package/gnupg) has been prefered mechanism due to its cleaner interface - however this interface is currently forcefully deactivated due to security concerns.
+Shared-Secrets is based on MariaDB 10.0, Nginx 1.10 and PHP 7.0, but should also work with MySQL, Apache and earlier versions of PHP. Encrypted is done via the OpenSSL integration of PHP.
 
 ### Nginx Setup
 
@@ -61,6 +61,21 @@ server {
   listen 443 ssl http2 default_server;
   listen [::]:443 ssl http2 default_server;
 
+  # prevent access to certain locations
+  location ~ ^\/\.git(\/.*)?$    { return 404; }
+  location ~ ^\/\.gitattributes$ { return 404; }
+  location ~ ^\/\.gitignore$     { return 404; }
+  location ~ ^\/\.htaccess$      { return 404; }
+  location ~ ^\/actions(\/.*)?$  { return 404; }
+  location ~ ^\/CHANGELOG\.md$   { return 404; }
+  location ~ ^\/config(\/.*)?$   { return 404; }
+  location ~ ^\/ENCRYPTION\.md$  { return 404; }
+  location ~ ^\/lib(\/.*)?$      { return 404; }
+  location ~ ^\/LICENSE$         { return 404; }
+  location ~ ^\/pages(\/.*)?$    { return 404; }
+  location ~ ^\/README\.md$      { return 404; }
+  location ~ ^\/template(\/.*)?$ { return 404; }
+
   # Your configuration comes here:
   # ...
 }
@@ -82,37 +97,18 @@ add_header X-XSS-Protection          "1; mode=block";
 
 Shared-Secrets uses a single-table database to store who did retrieve which secret at what point in time. No actual secret content is stored. (The logging of IP addresses is disabled through the configuration parameter LOG_IP_ADDRESS by default.):
 ```
-CREATE TABLE secrets ( fingerprint VARCHAR(64) PRIMARY KEY, ip VARCHAR(46), time TIMESTAMP );
+CREATE TABLE secrets ( fingerprint VARCHAR(64) PRIMARY KEY, time TIMESTAMP );
 ```
 
-### GPG Setup
+### Encryption Setup
 
-You have to have a somewhat recent GPG version installed on the server. Furthermore you have to generate and import the private and public key of the service. It is recommended to generate the GPG keypair locally and only upload the key material that is really necessary. You can use a so-called notebook keyring (which does not include the certifying/primary private key) to reduce the risk of a full compromise of the used GPG keypair:
-```
-# generate a GPG keypair, set a passphrase so that you can export the private encryption subkey later
-gpg --gen-key
-
-# read the fingerprint of the generated key, replace <email> with the e-mail address that has been used for the key,
-# the fingerprint will be shown with spaces for better readability - these have to be removed when configuring the software
-gpg --with-fingerprint --list-keys <email>
-
-# export the private encryption subkey and the public key
-gpg --export-secret-subkeys --armor <email> >./private.asc
-gpg --export --armor <email> >./public.asc
-
-# import the GPG keys on the server with the user that will execute GPG
-sudo -u www-data -H gpg --import ./private.asc
-sudo -u www-data -H gpg --import ./public.asc
-```
-
-Newer GPG versions disable stdin for key passphrases.
+You should generate a fresh RSA key pair with a minimum key size of 2048 bits:
 
 ```
-#in ~/.gnupg/gpg.conf (home of the user that will execute GPG) add:
-
-use-agent
-pinentry-mode loopback
+openssl genrsa -out ./rsa.key 2048
 ```
+
+**Beware:** You should place this file in a location so that it is not accessible through the webserver.
 
 ### Service Setup
 
@@ -124,11 +120,7 @@ It is strongly recommended to use TLS to protect the connection between the serv
 
 ## Attributions
 
-* [asmCrypto](https://github.com/vibornoff/asmcrypto.js): for providing PBKDF2 and AES functions 
 * [Bootstrap](https://getbootstrap.com): for providing an easy-to-use framework to build nice-looking applications
-* [buffer](https://github.com/feross/buffer): for providing Base64 encoding and array conversion functions
-* [GnuPG](https://www.gnupg.org): for providing a reliable tool for secure communication
-* [GnuPG PECL package](https://pecl.php.net/package/gnupg): for providing a clean interface to GnuPG (*currently not supported*)
 * [html5shiv](https://github.com/aFarkas/html5shiv): for handling Internet Explorer compatibility stuff
 * [jQuery](https://jquery.com): for just existing
 * [Katharina Franz](https://www.katharinafranz.com): for suggesting Bootstrap as an easy-to-use framework to build nice-looking applications
@@ -137,7 +129,6 @@ It is strongly recommended to use TLS to protect the connection between the serv
 ## ToDo
 
 * switch to a more personalized design (current design is taken from [here](https://github.com/twbs/bootstrap/tree/master/docs/examples/starter-template))
-* implement an alternative encryption scheme based on AES instead of GPG (fewer dependencies)
 * implement an expiry date functionality
 
 ## License
