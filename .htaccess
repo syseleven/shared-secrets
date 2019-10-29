@@ -13,7 +13,7 @@
   RewriteRule ^ENCRYPTION\.md$  - [R=404,L]
   RewriteRule ^lib(\/.*)?$      - [R=404,L]
   RewriteRule ^LICENSE$         - [R=404,L]
-  RewriteRule ^pages(\/)?$      - [R=404,L]
+  RewriteRule ^pages(\/.*)?$    - [R=404,L]
   RewriteRule ^README\.md$      - [R=404,L]
   RewriteRule ^template(\/.*)?$ - [R=404,L]
 
