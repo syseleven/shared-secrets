@@ -1,4 +1,4 @@
-# 0.20b0 (2019-10-18)
+# 0.20b0 (2019-10-29)
 
 * rewrote the application to use OpenSSL instead of GPG fixing indirect integrity vulnerabilities
 * rewrote the client-side encryption to be based on the [Web Cryptography API](https://www.w3.org/TR/WebCryptoAPI/)
