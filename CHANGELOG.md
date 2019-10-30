@@ -1,3 +1,7 @@
+# 0.20b1 (2019-10-30)
+
+* correct the minimum length of v00 messages from 50 (without the MAC) to 82 (with the MAC) in `lib/shared-secrets.exec.php`
+
 # 0.20b0 (2019-10-29)
 
 * rewrote the application to use OpenSSL instead of GPG fixing indirect integrity vulnerabilities

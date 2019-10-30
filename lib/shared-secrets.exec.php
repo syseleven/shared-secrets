@@ -96,7 +96,7 @@
         # check message format
         $data[OPENSSL_FULLMESSAGE] = $message;
 
-        if (50 <= strlen($data[OPENSSL_FULLMESSAGE])) {
+        if (82 <= strlen($data[OPENSSL_FULLMESSAGE])) {
           # parse message
           $data[OPENSSL_MACMESSAGE] = substr($data[OPENSSL_FULLMESSAGE],   0, -32);
           $data[OPENSSL_MAC]        = substr($data[OPENSSL_FULLMESSAGE], -32);
