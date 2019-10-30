@@ -15,6 +15,7 @@ To protect your secret from getting known by the server or an attacker, you can 
 Simply enter your secret on the default page of the Shared-Secrets service. You can decide to password-protect the entered secret before sending it to the server by checking the "Password-protected:" box, entering your password and pressing the "Protect!" button. After that, press the "Share the Secret!" button. The secret will be encrypted and converted into a secret sharing link.
 
 Secret sharing links can also be created by using a simple POST request:
+
 ```
 curl -X POST -d "plain&secret=<secret>" https://example.com/
 ```
@@ -33,33 +34,65 @@ curl -X POST -d "plain" <secret sharing link>
 
 ### Requirements
 
-Shared-Secrets is based on MariaDB 10.0, Nginx 1.10 and PHP 7.0, but should also work with MySQL, Apache and earlier versions of PHP. Encrypted is done via the OpenSSL integration of PHP.
+Shared-Secrets is based on MariaDB 10.0, Nginx 1.10 and PHP 7.0, but should also work with MySQL and Apache. Encryption is done via the OpenSSL integration of PHP.
 
 ### Nginx Setup
 
-Shared-Secrets uses a single entry point to control the dataflow. Therefore the following rewrite rule is required (Nginx example):
-```
-if (!-f $request_filename) {
-  rewrite ^.*$ /index.php last;
-}
-```
-
 Shared-Secrets is designed to yield an A+ rating at the [Mozilla Observatory](https://observatory.mozilla.org) website check. Releases are checked against the Mozilla Observatory to make sure that a good rating can be achieved.
 
-To achieve an A+ rating with your instance, you have to implement TLS and non-TLS calls have to be redirected to the TLS-protected website (Nginx example):
+To achieve an A+ rating with your instance, you have to implement TLS and non-TLS calls have to be redirected to the TLS-protected website. You also have to set some security headers. Furthermore, Shared-Secrets uses a single entry point to control the dataflow. See this NGINX configuration as an example:
+
 ```
 server {
-  listen 80 default_server;
+  listen      80 default_server;
   listen [::]:80 default_server;
 
-  server_name _;
+  # has to be changed to your domain
+  server_name example.com;
 
   return 301 https://$host$request_uri;
 }
 
 server {
-  listen 443 ssl http2 default_server;
+  listen      443 ssl http2 default_server;
   listen [::]:443 ssl http2 default_server;
+
+  # has to be changed to your domain
+  server_name example.com;
+
+  # has to be changed to your certificate files
+  ssl_certificate     /etc/letsencrypt/live/example.com/fullchain.pem;
+  ssl_certificate_key /etc/letsencrypt/live/example.com/privkey.pem;
+  
+  # generate your own dhparam to protect against WeakDH attack:
+  # > openssl dhparam -out dhparam.pem 2048
+  ssl_dhparam /etc/ssl/certs/dhparam.pem;
+
+  # default locations
+  root  /var/www/html;
+  index index.html index.htm index.php;
+
+  ssl_ciphers               "ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA:ECDHE-RSA-AES256-SHA:AES128-SHA";
+  ssl_ecdh_curve            secp384r1;
+  ssl_prefer_server_ciphers on;
+  ssl_protocols             TLSv1.2;
+  ssl_session_cache         shared:SSL:10m;
+  ssl_session_tickets       off;
+  ssl_stapling              on;
+  ssl_stapling_verify       on;
+
+  resolver         8.8.8.8 8.8.4.4 valid=300s;
+  resolver_timeout 5s;
+
+  # set security headers
+  add_header Content-Security-Policy   "base-uri 'self'; default-src 'self'; form-action 'self'; frame-ancestors 'self'; require-sri-for script style";
+  add_header Referrer-Policy           "same-origin";
+  add_header Strict-Transport-Security "max-age=15768000; includeSubDomains; preload";
+  add_header X-Content-Security-Policy "base-uri 'self'; default-src 'self'; form-action 'self'; frame-ancestors 'self'; require-sri-for script style";
+  add_header X-Content-Type-Options    "nosniff";
+  add_header X-Frame-Options           "SAMEORIGIN";
+  add_header X-Webkit-CSP              "base-uri 'self'; default-src 'self'; form-action 'self'; frame-ancestors 'self'; require-sri-for script style";
+  add_header X-XSS-Protection          "1; mode=block";
 
   # prevent access to certain locations
   location ~ ^\/\.git(\/.*)?$    { return 404; }
@@ -78,26 +111,42 @@ server {
 
   # Your configuration comes here:
   # ...
-}
-```
 
-Furthermore the following HTTP headers have to be set (Nginx example):
-```
-add_header Content-Security-Policy   "base-uri 'self'; default-src 'self'; form-action 'self'; frame-ancestors 'self'; require-sri-for script style";
-add_header Referrer-Policy           "same-origin";
-add_header Strict-Transport-Security "max-age=15768000; includeSubDomains; preload";
-add_header X-Content-Security-Policy "base-uri 'self'; default-src 'self'; form-action 'self'; frame-ancestors 'self'; require-sri-for script style";
-add_header X-Content-Type-Options    "nosniff";
-add_header X-Frame-Options           "SAMEORIGIN";
-add_header X-Webkit-CSP              "base-uri 'self'; default-src 'self'; form-action 'self'; frame-ancestors 'self'; require-sri-for script style";
-add_header X-XSS-Protection          "1; mode=block";
+  # single entrypoint
+  location / {
+    try_files $uri $uri/ /index.php;
+  }
+
+  # example PHP-FPM usage
+  location ~ \.php$ {
+    include      snippets/fastcgi-php.conf;
+    fastcgi_pass unix:/run/php/php7.0-fpm.sock;
+  }
+}
 ```
 
 ### MariaDB Setup
 
-Shared-Secrets uses a single-table database to store who did retrieve which secret at what point in time. No actual secret content is stored. (The logging of IP addresses is disabled through the configuration parameter LOG_IP_ADDRESS by default.):
+Shared-Secrets uses a single-table database to store which secret has been retrieved at what point in time. No actual secret content is stored:
+
 ```
-CREATE TABLE secrets ( fingerprint VARCHAR(64) PRIMARY KEY, time TIMESTAMP );
+CREATE DATABASE secrets CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+USE secrets;
+
+CREATE TABLE secrets (
+  fingerprint VARCHAR(64) PRIMARY KEY,
+  time       TIMESTAMP
+);
+
+GRANT ALL ON secrets.* TO 'secrets'@'%'         IDENTIFIED BY '5TR0NGP455W0RD!';
+GRANT ALL ON secrets.* TO 'secrets'@'localhost' IDENTIFIED BY '5TR0NGP455W0RD!';
+GRANT ALL ON secrets.* TO 'secrets'@'127.0.0.1' IDENTIFIED BY '5TR0NGP455W0RD!';
+GRANT ALL ON secrets.* TO 'secrets'@'::1'       IDENTIFIED BY '5TR0NGP455W0RD!';
+
+FLUSH PRIVILEGES;
+
+EXIT;
 ```
 
 ### Encryption Setup
@@ -108,11 +157,11 @@ You should generate a fresh RSA key pair with a minimum key size of 2048 bits:
 openssl genrsa -out ./rsa.key 2048
 ```
 
-**Beware:** You should place this file in a location so that it is not accessible through the webserver.
+**Beware:** You should place this file in a location so that it is not accessible through the webserver. The recommended protection is to directly insert the RSA private keys as strings into the `RSA_PRIVATE_KEYS` array within `config/config.php`. 
 
 ### Service Setup
 
-Rename the "config.php.default" to "config.php" and set the necessary configuration items.
+Copy the `config/config.php.default` file to `config/config.php` and set the necessary configuration items.
 
 ### TLS Recommendation
 
