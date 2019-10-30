@@ -81,9 +81,9 @@ Messages in the v01 format have the following fields:
 
 * **version** is 1 byte in size and **MUST** have the value `01h`
 * **rsakeycount** is 2 bytes in size and **MUST** denote the number of upcoming RSA key blocks
-* **rsakeyid** is 32 bytes in size and **MUST** contain the SHA-256 hash of the DER-encoded RSA public key that was used to encrypt the upcoming RSA key
-* **rsakeylength** is 2 bytes in size and **MUST** denote the length of the upcoming RSA key
-* **rsakey** has the length of the previous **rsakeylength** field and **MUST** contain the RSA-encrypted key that was used to derive the encryption and message autentication key for the RSA key denoted by the previous **rsakeyid** field
+* **rsakeyid** is 32 bytes in size and **MUST** contain the SHA-256 hash of the DER-encoded RSA public key that was used to encrypt the upcoming **rsakey**
+* **rsakeylength** is 2 bytes in size and **MUST** denote the length of the upcoming **rsakey**
+* **rsakey** has the length of the previous **rsakeylength** field and **MUST** contain the key that was used to derive the encryption key and the message authentication key RSA-encrypted for the RSA key denoted by the previous **rsakeyid** field
 * **nonce** is 16 bytes in size and **SHOULD** contain the UNIX timestamp as the first 8 bytes and zero bytes as the second 8 bytes
 * **message** is the AES-256-CTR encrypted message
 * **mac** is 32 bytes in size and **MUST** contain the HMAC-SHA-256 MAC of all previous fields in their given order
@@ -92,7 +92,7 @@ Messages in the v01 format have the following fields:
 
 Messages in the v01 format use the following keys:
 
-* **key** is cryptographically secure random number
+* **key** is a cryptographically secure random number
 * **enckey** is derived from **key** as the key and the string `enc` as the message using HMAC-SHA-256
 * **mackey** is derived from **key** as the key and the string `mac` as the message using HMAC-SHA-256
 * **rsakey** is derived by RSA-encrypting **key** with an RSA public key
@@ -106,7 +106,7 @@ openssl rsa -in ./rsa.priv -pubout -outform PEM > ./rsa.pub
 
 ### Key Usage
 
-Keys in the v00 format have the following purposes:
+Keys in the v01 format have the following purposes:
 
 * **enckey** in combination with **nonce** are used to encrypt the message using AES-256-CTR
 * **mackey** is used as the key to calculate the MAC of the message `[version:01][rsakeycount:02][rsakeyid:32][rsakeylength:02][rsakey:mm][...][rsakeyid:32][rsakeylength:02][rsakey:mm][nonce:16][message:nn]` using HMAC-SHA-256
