@@ -1,3 +1,7 @@
+# 0.20b2 (2019-10-31)
+
+* simplified URL-safe Base64 encoding and decoding
+
 # 0.20b1 (2019-10-30)
 
 * correct the minimum length of v00 messages from 50 (without the MAC) to 82 (with the MAC) in `lib/shared-secrets.exec.php`

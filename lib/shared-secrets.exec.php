@@ -29,9 +29,11 @@
   function nolead($string, $lead) {
     $result = $string;
 
-    # repeat until there's no match
-    while (0 === strpos($result, $lead)) {
-      $result = substr($result, strlen($lead));
+    if (is_string($string) && is_string($lead)) {
+      # repeat until there's no match
+      while (0 === strpos($result, $lead)) {
+        $result = substr($result, strlen($lead));
+      }
     }
 
     return $result;
@@ -46,8 +48,10 @@
   function trail($string, $trail) {
     $result = $string;
 
-    if ($trail !== substr($result, -strlen($trail))) {
-      $result = $result.$trail;
+    if (is_string($string) && is_string($trail)) {
+      if ($trail !== substr($result, -strlen($trail))) {
+        $result = $result.$trail;
+      }
     }
 
     return $result;
@@ -58,8 +62,8 @@
     $result = null;
 
     if (is_string($url_base64_content)) {
-      $result = str_replace(URL_BASE64_MARKER_B, BASE64_MARKER_B,
-                            str_replace(URL_BASE64_MARKER_A, BASE64_MARKER_A, $url_base64_content));
+      $result = str_replace([URL_BASE64_MARKER_A, URL_BASE64_MARKER_B], [BASE64_MARKER_A, BASE64_MARKER_B],
+                            $url_base64_content);
 
       # fill up with end markers as necessary
       while (0 !== (strlen($result) % 4)) {
@@ -75,9 +79,8 @@
     $result = null;
 
     if (is_string($base64_content)) {
-      $result = str_replace(BASE64_MARKER_B, URL_BASE64_MARKER_B,
-                            str_replace(BASE64_MARKER_A, URL_BASE64_MARKER_A,
-                                        rtrim($base64_content, BASE64_MARKER_END)));
+      $result = str_replace([BASE64_MARKER_A, BASE64_MARKER_B], [URL_BASE64_MARKER_A, URL_BASE64_MARKER_B],
+                            rtrim($base64_content, BASE64_MARKER_END));
     }
 
     return $result;
