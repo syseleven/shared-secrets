@@ -23,7 +23,7 @@
   define("SHARE_PAGE_NAME",   "share");
 
   # define parameter values
-  define("MAX_PARAM_SIZE",    512);
+  define("MAX_PARAM_SIZE",    1024); // maximum for 4096 bit RSA keys should be around 800 at most
   define("PLAIN_PARAM_NAME",  "plain");
   define("SECRET_PARAM_NAME", "secret");
 

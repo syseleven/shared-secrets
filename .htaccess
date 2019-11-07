@@ -15,6 +15,7 @@
   RewriteRule ^LICENSE$         - [R=404,L]
   RewriteRule ^pages(\/.*)?$    - [R=404,L]
   RewriteRule ^README\.md$      - [R=404,L]
+  RewriteRule ^router\.php$     - [R=404,L]
   RewriteRule ^template(\/.*)?$ - [R=404,L]
 
   # single entrypoint

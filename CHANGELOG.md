@@ -1,3 +1,12 @@
+# 0.21b0 (2019-11-07)
+
+* introduced `router.php` for local debugging
+* changed default value of `DEBUG_MODE` from `true` to `false`
+* prevent the local encryption with empty secrets and empty passwords
+* prevent the encryption of secrets that are too long to be shared
+* introduced a JavaScript-based resubmission prevention for supporting browsers
+* introduced support for multi-line secrets and added a byte counter
+
 # 0.20b2 (2019-10-31)
 
 * simplified URL-safe Base64 encoding and decoding

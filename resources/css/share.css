@@ -1,3 +1,9 @@
+#counter {
+  position: absolute;
+  bottom:   5px;
+  right:    10px
+}
+
 #encrypt {
   visibility: hidden;
 }
@@ -16,6 +22,10 @@
 #secret {
   white-space: pre-wrap;
   word-wrap:   break-all;
+}
+
+#secret-div {
+  position: relative;
 }
 
 #share-secret-btn {

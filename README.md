@@ -107,6 +107,7 @@ server {
   location ~ ^\/LICENSE$         { return 404; }
   location ~ ^\/pages(\/.*)?$    { return 404; }
   location ~ ^\/README\.md$      { return 404; }
+  location ~ ^\/router\.php$     { return 404; }
   location ~ ^\/template(\/.*)?$ { return 404; }
 
   # Your configuration comes here:
