@@ -39,7 +39,7 @@
   <link href="/resources/css/share.css?<?= $cache_value ?>" integrity="sha256-EYu1Dc10IDi0yUOyV55YWmCKWfVlBj1rTMk/AsbViKE=" rel="stylesheet" type="text/css" />
 
   <script src="/resources/js/lib.js?<?= $cache_value ?>" integrity="sha256-d6lWbau1r7bB+u7utpkOX6tLTXnbOPqD33NmIXHY19A=" type="text/javascript"></script>
-  <script src="/resources/js/share.js?<?= $cache_value ?>" integrity="sha256-jVvsQvz1rwhbs7Ddpihie31jsn/9byFRLI88NnGXzGM=" type="text/javascript"></script>
+  <script src="/resources/js/share.js?<?= $cache_value ?>" integrity="sha256-sNJqhCLJH7s32SPq0o7P9LJAtxTUhvAOT1CBzfZLbac=" type="text/javascript"></script>
 
 <?php
 

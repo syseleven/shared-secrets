@@ -25,7 +25,6 @@
 
   // action happening on local encryption
   async function encrypt() {
-
     var result = null;
 
     // check the length of the input

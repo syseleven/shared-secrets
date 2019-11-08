@@ -1,3 +1,7 @@
+# 0.21b1 (2019-11-08)
+
+* added length check to local decryption as has been done for local encryption
+
 # 0.21b0 (2019-11-07)
 
 * introduced `router.php` for local debugging

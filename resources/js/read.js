@@ -15,8 +15,14 @@
 
   // action happening on local decryption
   async function decrypt() {
-    var result = await decrypt_v00(document.getElementById("secret").innerHTML,
-                                   document.getElementById("password").value);
+    var result = null;
+
+    // check the length of the input
+    if ((0 < document.getElementById("secret").innerHTML.length) &&
+        (0 < document.getElementById("password").value.length)) {
+      result = await decrypt_v00(document.getElementById("secret").innerHTML,
+                                 document.getElementById("password").value);
+    }
 
     if (null != result) {
       document.getElementById("secret").innerHTML = html_entities(result);
