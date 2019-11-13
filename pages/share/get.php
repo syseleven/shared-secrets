@@ -23,7 +23,7 @@
     <strong>Error!</strong> Local encryption failed.
   </div>
 
-  <form role="form" action="/<?= html(SECRET_URI) ?>" method="post">
+  <form role="form" action="/<?= html(SECRET_URI) ?><?= (PLAIN_PARAM) ? "?plain" : "" ?>" method="post">
     <h1>Share a Secret:</h1>
     <div id="secret-div">
       <textarea autocomplete="off" class="form-control" id="secret" name="secret" rows="5" required="required"></textarea>
