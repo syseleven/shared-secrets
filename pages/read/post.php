@@ -8,7 +8,7 @@
 
   $secret = read_secret(SECRET_URI, $error);
 
-  if (null !== PLAIN_PARAM) {
+  if (PLAIN_PARAM) {
     # set correct content type
     header("Content-Type: text/plain");
 

@@ -8,7 +8,7 @@
 
   $secret = share_secret(SECRET_PARAM, $error);
 
-  if (null !== PLAIN_PARAM) {
+  if (PLAIN_PARAM) {
     # set correct content type
     header("Content-Type: text/plain");
 
