@@ -1,3 +1,8 @@
+# 0.22b0 (2019-11-13)
+
+* improved URL parsing
+* added support for `plain` GET parameter
+
 # 0.21b1 (2019-11-08)
 
 * added length check to local decryption as has been done for local encryption

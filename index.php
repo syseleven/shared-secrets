@@ -1,6 +1,6 @@
 <?php
 
-  # Shared-Secrets v0.21b1
+  # Shared-Secrets v0.22b0
   #
   # Copyright (c) 2016-2019, SysEleven GmbH
   # All rights reserved.
@@ -58,6 +58,9 @@
   # prepare request method
   define("REQUEST_METHOD", strtolower($_SERVER["REQUEST_METHOD"]));
 
+  # prepare plain param
+  define("PLAIN_PARAM", (isset($_POST[PLAIN_PARAM_NAME]) || isset($_GET[PLAIN_PARAM_NAME])));
+
   # prepare secret param
   $param = null;
   if (isset($_POST[SECRET_PARAM_NAME])) {
@@ -67,15 +70,8 @@
   }
   define("SECRET_PARAM", $param);
 
-  # prepare plain param
-  $param = null;
-  if (isset($_POST[PLAIN_PARAM_NAME])) {
-    $param = true;
-  }
-  define("PLAIN_PARAM", $param);
-
   # prepare URI
-  $uri = $_SERVER["REQUEST_URI"];
+  $uri = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
   # handle URL encoded URIs
   if (false !== strpos($uri, URL_ENCODE_MARKER)) {
     $uri = urldecode($uri);

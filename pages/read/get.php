@@ -21,9 +21,9 @@
   </noscript>
 
   <h1>Read a Secret:</h1>
-  <p><pre id="secret"><?= html(trail(SECRET_SHARING_URL, "/").SECRET_URI) ?></pre></p>
+  <p><pre id="secret"><?= html(trail(SECRET_SHARING_URL, "/").SECRET_URI) ?><?= (PLAIN_PARAM) ? "?plain" : "" ?></pre></p>
 
-  <form role="form" action="/<?= html(SECRET_URI) ?>" method="post">
+  <form role="form" action="/<?= html(SECRET_URI) ?><?= (PLAIN_PARAM) ? "?plain" : "" ?>" method="post">
     <button type="submit" class="btn btn-default pull-right" id="read-secret-btn" name="read-secret-btn">Read the Secret!</button>
   </form>
 
