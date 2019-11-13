@@ -2,6 +2,7 @@
 
 * improved URL parsing
 * added support for `plain` GET parameter
+* updated README to reflect the required configuration change
 
 # 0.21b1 (2019-11-08)
 
