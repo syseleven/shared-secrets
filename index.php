@@ -76,8 +76,6 @@
   if (false !== strpos($uri, URL_ENCODE_MARKER)) {
     $uri = urldecode($uri);
   }
-  # kill request parameters
-  $uri = parse_url($uri, PHP_URL_PATH);
   # remove leading slash
   if (0 === stripos($uri, "/")) {
     $uri = substr($uri, 1);
