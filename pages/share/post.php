@@ -8,11 +8,18 @@
 
   $secret = share_secret(SECRET_PARAM, $error);
 
+  # set the correct response code on error
+  if ((null === $secret) || (false !== $error)) {
+    http_response_code(403);
+  }
+
   if (PLAIN_PARAM) {
     # set correct content type
     header("Content-Type: text/plain");
 
-    print($secret);
+    if ((null !== $secret) && (false === $error)) {
+      print($secret);
+    }
   } else {
     if ((null !== $secret) && (false === $error)) {
       $secret = html($secret);

@@ -1,3 +1,11 @@
+# 0.23b0 (2019-11-14)
+
+* fixed read-only mode and introduced share-only mode
+* introduced human-readable page for downloading the public key under `/pub`
+* changed the download of the plain public key to `/pub?plain`
+* on errors the application now returns `403 Forbidden` response codes instead of `200 OK` response codes
+* updated README to reflect the new features
+
 # 0.22b0 (2019-11-13)
 
 * improved URL parsing

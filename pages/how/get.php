@@ -19,7 +19,7 @@
 
   <h3>Get the correct public key.</h3>
   <p>First of all you have to retrieve the correct public key to encrypt your secret:<br/>
-     <pre>wget -O "./secrets.pub" "<?= html(trail(SECRET_SHARING_URL, "/")) ?>pub"</pre></p>
+     <pre>wget -O "./secrets.pub" "<?= html(trail(SECRET_SHARING_URL, "/")) ?>pub?plain"</pre></p>
 
   <h3>Encrypt the secret you want to share.</h3>
   <p>To create a secret sharing link you have to do certain steps that are decribed here:

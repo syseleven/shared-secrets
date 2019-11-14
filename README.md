@@ -12,22 +12,40 @@ To protect your secret from getting known by the server or an attacker, you can 
 
 ### Share a Secret
 
-Simply enter your secret on the default page of the Shared-Secrets service. You can decide to password-protect the entered secret before sending it to the server by checking the "Password-protected:" box, entering your password and pressing the "Protect!" button. After that, press the "Share the Secret!" button. The secret will be encrypted and converted into a secret sharing link.
+Simply enter your secret on the default page of the Shared-Secrets service. You can decide to password-protect the entered secret before sending it to the server by checking the "Password-protected:" box, entering your password and pressing the "Protect!" button. After that, press the "Share the Secret!" button. The secret will be encrypted and converted into a secret sharing link. In cases where you need the plain secret sharing link to be returned by the web  page you can append the GET parameter `?plain` to the URL of the default page.
 
 Secret sharing links can also be created by using a simple POST request:
 
 ```
 curl -X POST -d "plain&secret=<secret>" https://example.com/
+
+# OR #
+
+curl -X POST -d "secret=<secret>" https://example.com/?plain
 ```
 
 ### Read a Secret
 
-To retrieve the secret, simply open the secret sharing link and press the "Read the Secret!" button. Should your secret be password-protected, check the "Password-protected:" box, enter your password and read your actual secret by pressing the "Unprotect!" button.
+To retrieve the secret, simply open the secret sharing link and press the "Read the Secret!" button. Should your secret be password-protected, check the "Password-protected:" box, enter your password and read your actual secret by pressing the "Unprotect!" button. In cases where you need the plain secret to be returned by the web page you can append the GET parameter `?plain` to the secret sharing link **but be aware** that returning the plain secret does not support the Browser-based decryption.
 
 Secrets can also be retrieved using a simple POST request:
 
 ```
-curl -X POST -d "plain" <secret sharing link>
+curl -X POST -d "plain" <secret-sharing-link>
+
+# OR #
+
+curl -X POST <secret-sharing-link>?plain
+```
+
+### Download the Public Key
+
+To download the public key of a Shared-Secrets instance in order to manually generate secret sharing links, simply visit the `/pub` page. In cases where you need the plain public key to be returned by the web page you can append the GET parameter `?plain` to the URL.
+
+The public key can also be downloaded using a simple GET request:
+
+```
+curl -X GET https://example.com/pub?plain
 ```
 
 ## Installation
@@ -163,6 +181,10 @@ openssl genrsa -out ./rsa.key 2048
 ### Service Setup
 
 Copy the `config/config.php.default` file to `config/config.php` and set the necessary configuration items.
+
+### Read-Only and Share-Only Instances
+
+The configuration allows you to set your instances into read-only and/or share-only mode. This can be useful if want to use a private **share-only** instance or custom software to create secret sharing sharing links but provide a public **read-only** instance to retrieve the generated secret sharing links.
 
 ### TLS Recommendation
 

@@ -1,6 +1,6 @@
 <?php
 
-  # Shared-Secrets v0.22b0
+  # Shared-Secrets v0.23b0
   #
   # Copyright (c) 2016-2019, SysEleven GmbH
   # All rights reserved.
@@ -55,6 +55,11 @@
     define("READ_ONLY", false);
   }
 
+  # prepare share-only mode
+  if (!defined("SHARE_ONLY")) {
+    define("SHARE_ONLY", false);
+  }
+
   # prepare request method
   define("REQUEST_METHOD", strtolower($_SERVER["REQUEST_METHOD"]));
 
@@ -72,26 +77,19 @@
 
   # prepare URI
   $uri = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
-  # handle URL encoded URIs
   if (false !== strpos($uri, URL_ENCODE_MARKER)) {
     $uri = urldecode($uri);
   }
-  # remove leading slash
-  if (0 === stripos($uri, "/")) {
-    $uri = substr($uri, 1);
-  }
-  define("SECRET_URI", $uri);
+  define("SECRET_URI", nolead($uri, "/"));
 
   # prepare action name, show read page by default
   $action = READ_PAGE_NAME;
-  # show share page if no URI is given
   if (empty(SECRET_URI)) {
+    # show share page if no URI is given
     $action = SHARE_PAGE_NAME;
-  } else {
+  } elseif (in_array(SECRET_URI, array(HOW_PAGE_NAME, IMPRINT_PAGE_NAME, PUB_PAGE_NAME))) {
     # show pages based on page URI
-    if (in_array(SECRET_URI, array(HOW_PAGE_NAME, IMPRINT_PAGE_NAME, PUB_PAGE_NAME))) {
-      $action = SECRET_URI;
-    }
+    $action = SECRET_URI;
   }
   define("SECRET_ACTION", $action);
 

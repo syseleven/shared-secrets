@@ -33,6 +33,13 @@
   # this is the default timezone for the execution of the script
   define("DEFAULT_TIMEZONE", "Europe/Berlin");
 
-  # this enables or disables the read-only mode of the instance
+  # this enables or disables the read-only mode of the instance,
+  # by using the read-only mode you need another instance to create secret sharing links,
+  # this separation can be useful if you only want to be internally able to create links
   define("READ_ONLY", false);
+
+  # this enables or disables the share-only mode of the instance,
+  # by using the share-only mode you need another instance to read secret sharing links,
+  # this separation can be useful if you only want to be internally able to create links
+  define("SHARE_ONLY", false);
 

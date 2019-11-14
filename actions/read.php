@@ -7,76 +7,81 @@
     $result = null;
     $error  = false;
 
-    # handle secret decoding
-    $secret = parse_secret_url($secret);
+    # only proceed when the share-only mode is not enabled
+    if (!SHARE_ONLY) {
+      # handle secret decoding
+      $secret = parse_secret_url($secret);
 
-    # only proceed when the secret is not empty
-    if (!empty($secret)) {
-      $keys       = array_keys(RSA_PRIVATE_KEYS);
-      $recipients = [];
-      foreach ($keys as $key) {
-        $privkey = open_privkey(RSA_PRIVATE_KEYS[$key]);
-        if (null !== $privkey) {
-          $recipients[] = $privkey;
-        }
-      }
-
-      try {
-        $decrypted_secret = decrypt_v01($secret, $recipients, $decrypt_error, $fingerprint);
-      } finally {
-        $keys = array_keys($recipients);
+      # only proceed when the secret is not empty
+      if (!empty($secret)) {
+        $keys       = array_keys(RSA_PRIVATE_KEYS);
+        $recipients = [];
         foreach ($keys as $key) {
-          openssl_pkey_free($recipients[$key]);
+          $privkey = open_privkey(RSA_PRIVATE_KEYS[$key]);
+          if (null !== $privkey) {
+            $recipients[] = $privkey;
+          }
         }
 
-        zeroize_array($recipients);
-      }
+        try {
+          $decrypted_secret = decrypt_v01($secret, $recipients, $decrypt_error, $fingerprint);
+        } finally {
+          $keys = array_keys($recipients);
+          foreach ($keys as $key) {
+            openssl_pkey_free($recipients[$key]);
+          }
 
-      if (null !== $decrypted_secret) {
-        if ($link = mysqli_connect(MYSQL_HOST, MYSQL_USER, MYSQL_PASS, MYSQL_DB, MYSQL_PORT)) {
-          try {
-            if ($statement = mysqli_prepare($link, MYSQL_WRITE)) {
-              $fingerprint = bin2hex($fingerprint);
+          zeroize_array($recipients);
+        }
 
-              if (mysqli_stmt_bind_param($statement, "s", $fingerprint)) {
-                if (mysqli_stmt_execute($statement)) {
-                  if (1 === mysqli_affected_rows($link)) {
-                    $result = $decrypted_secret;
+        if (null !== $decrypted_secret) {
+          if ($link = mysqli_connect(MYSQL_HOST, MYSQL_USER, MYSQL_PASS, MYSQL_DB, MYSQL_PORT)) {
+            try {
+              if ($statement = mysqli_prepare($link, MYSQL_WRITE)) {
+                $fingerprint = bin2hex($fingerprint);
+
+                if (mysqli_stmt_bind_param($statement, "s", $fingerprint)) {
+                  if (mysqli_stmt_execute($statement)) {
+                    if (1 === mysqli_affected_rows($link)) {
+                      $result = $decrypted_secret;
+                    } else {
+                      $error = "Secret has already been retrieved.";
+                    }
                   } else {
-                    $error = "Secret has already been retrieved.";
+                    if (DEBUG_MODE) {
+                      $error = "Insert statement could not be executed";
+                    }
                   }
                 } else {
                   if (DEBUG_MODE) {
-                    $error = "Insert statement could not be executed";
+                    $error = "Insert statement parameters could not be bound.";
                   }
                 }
               } else {
                 if (DEBUG_MODE) {
-                  $error = "Insert statement parameters could not be bound.";
+                  $error = "Insert statement could not be prepared.";
                 }
               }
-            } else {
-              if (DEBUG_MODE) {
-                $error = "Insert statement could not be prepared.";
-              }
+            } finally {
+              mysqli_close($link);
             }
-          } finally {
-            mysqli_close($link);
+          } else {
+            if (DEBUG_MODE) {
+              $error = "Database connection could not be established.";
+            }
           }
         } else {
           if (DEBUG_MODE) {
-            $error = "Database connection could not be established.";
+            $error = "Decryption failed: $decrypt_error";
           }
         }
       } else {
         if (DEBUG_MODE) {
-          $error = "Decryption failed: $decrypt_error";
+          $error = "The secret must not be empty.";
         }
       }
     } else {
-      if (DEBUG_MODE) {
-        $error = "The secret must not be empty.";
-      }
+      $error = "The retrieval of secret sharing links is disabled.";
     }
 
     # set default error if non is given
