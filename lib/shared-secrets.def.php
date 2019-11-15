@@ -41,8 +41,10 @@
   define("OPENSSL_MACMESSAGE",    "macmessage");
   define("OPENSSL_MESSAGE",       "message");
   define("OPENSSL_NONCE",         "nonce");
-  define("OPENSSL_PEM_HEAD",      "-----BEGIN PUBLIC KEY-----");
-  define("OPENSSL_PEM_TAIL",      "-----END PUBLIC KEY-----");
+  define("OPENSSL_PEM_HEAD_PRIV", "-----BEGIN RSA PRIVATE KEY-----");
+  define("OPENSSL_PEM_TAIL_PRIV", "-----END RSA PRIVATE KEY-----");
+  define("OPENSSL_PEM_HEAD_PUB",  "-----BEGIN PUBLIC KEY-----");
+  define("OPENSSL_PEM_TAIL_PUB",  "-----END PUBLIC KEY-----");
   define("OPENSSL_RSAKEYCOUNT",   "rsakeycount");
   define("OPENSSL_RSAKEYIDS",     "rsakeyids");
   define("OPENSSL_RSAKEYLENGTHS", "rsakeylengths");

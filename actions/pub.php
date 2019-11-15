@@ -11,7 +11,14 @@
     if (!READ_ONLY) {
       # for shared-secrets we only support encryption with one key
       $keys   = array_keys(RSA_PRIVATE_KEYS);
-      $pubkey = open_pubkey(RSA_PRIVATE_KEYS[$keys[count($keys)-1]]);
+      $pubkey = null;
+      if (is_pubkey(RSA_PRIVATE_KEYS[$keys[count($keys)-1]])) {
+        # open the public key
+        $pubkey = openssl_pkey_get_public(RSA_PRIVATE_KEYS[$keys[count($keys)-1]]);
+      } elseif (is_privkey(RSA_PRIVATE_KEYS[$keys[count($keys)-1]])) {
+        # extract the public key from the private key
+        $pubkey = open_pubkey(RSA_PRIVATE_KEYS[$keys[count($keys)-1]]);
+      }
       if (null !== $pubkey) {
         try {
           $result = get_keypem($pubkey);

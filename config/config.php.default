@@ -3,10 +3,13 @@
   # prevent direct access
   if (!defined("SYS11_SECRETS")) { die(""); }
 
-  # this is an array containing the supported RSA privated keys for encryption and decryption, the LAST private key
-  # within the array is used to encrypt new secrets while all private keys are used to decrypt secrets, this allows
-  # for smooth key rollovers
+  # this is an array containing the supported RSA privated keys for encryption and decryption, the LAST RSA private key
+  # within the array is used to encrypt new secrets while all RSA private keys are used to decrypt secrets, this allows
+  # for smooth key rollovers; for share-only instances it is sufficient to set the RSA public key of the corresponding
+  # read-only instance here
   define("RSA_PRIVATE_KEYS", ["-----BEGIN RSA PRIVATE KEY-----\n".
+                              "...\n".
+                              "...\n".
                               "...\n".
                               "-----END RSA PRIVATE KEY-----"]);
 

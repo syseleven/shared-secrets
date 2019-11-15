@@ -1,3 +1,10 @@
+# 0.24b0 (2019-11-15)
+
+* introduced helper functions `is_privkey()` and `is_pubkey()`
+* as a **share-only** doesn't need the private key, `RSA_PRIVATE_KEYS` can now also old RSA public keys
+* creating secret sharing links and downloading the public key now also works when RSA public keys are set as `RSA_PRIVATE_KEYS`
+* updated README to reflect the new feature
+
 # 0.23b0 (2019-11-14)
 
 * fixed read-only mode and introduced share-only mode

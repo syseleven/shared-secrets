@@ -457,14 +457,42 @@
     return $result;
   }
 
+  function is_privkey($string) {
+    $result = false;
+
+    if (is_string($string)) {
+      // cleanup
+      $string = trim($string);
+
+      $result = ((0 === strcasecmp(OPENSSL_PEM_HEAD_PRIV, substr($string, 0, strlen(OPENSSL_PEM_HEAD_PRIV)))) &&
+                 (0 === strcasecmp(OPENSSL_PEM_TAIL_PRIV, substr($string, -strlen(OPENSSL_PEM_TAIL_PRIV)))));
+    }
+
+    return $result;
+  }
+
+  function is_pubkey($string) {
+    $result = false;
+
+    if (is_string($string)) {
+      // cleanup
+      $string = trim($string);
+
+      $result = ((0 === strcasecmp(OPENSSL_PEM_HEAD_PUB, substr($string, 0, strlen(OPENSSL_PEM_HEAD_PUB)))) &&
+                 (0 === strcasecmp(OPENSSL_PEM_TAIL_PUB, substr($string, -strlen(OPENSSL_PEM_TAIL_PUB)))));
+    }
+
+    return $result;
+  }
+
   function get_keyid($key) {
     $result = null;
 
     $keypem = get_keypem($key);
     if (null !== $keypem) {
-      if ((OPENSSL_PEM_HEAD === substr($keypem, 0, strlen(OPENSSL_PEM_HEAD))) &&
-          (OPENSSL_PEM_TAIL === substr($keypem, -strlen(OPENSSL_PEM_TAIL)))) {
-        $keyid = str_replace(["\n", "\r"], "", substr($keypem, strlen(OPENSSL_PEM_HEAD), -strlen(OPENSSL_PEM_TAIL)));
+      if (is_pubkey($keypem)) {
+        $keyid = str_replace(["\n", "\r"], "",
+                             substr($keypem, strlen(OPENSSL_PEM_HEAD_PUB), -strlen(OPENSSL_PEM_TAIL_PUB)));
         $keyid = base64_decode($keyid, true);
         if (false !== $keyid) {
           $result = hash("sha256", $keyid, true);

@@ -184,7 +184,10 @@ Copy the `config/config.php.default` file to `config/config.php` and set the nec
 
 ### Read-Only and Share-Only Instances
 
-The configuration allows you to set your instances into read-only and/or share-only mode. This can be useful if want to use a private **share-only** instance or custom software to create secret sharing sharing links but provide a public **read-only** instance to retrieve the generated secret sharing links.
+The configuration allows you to set your instances into read-only and/or share-only mode. This can be useful if want to use a private **share-only** instance or custom software to create secret sharing sharing links but provide a public **read-only** instance to retrieve the generated secret sharing links. There are two more things to consider:
+
+* A **share-only** instance does not need access to the RSA private key as it will not decrypt secret sharing links. Therefore, it is possible to configure the RSA public key of the corresponding **read-only** instance into the `RSA_PRIVATE_KEYS` array of a **share-only** instance.
+* The basis for the creation of secret sharing link is the `SECRET_SHARING_URL` configuration value. In order for a **share-only** instance to generate correct secret sharing links you have to set the URL of the corresponding **read-only** instance as the `SECRET_SHARING_URL` configuration value of the **share-only** instance.
 
 ### TLS Recommendation
 
