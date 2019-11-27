@@ -21,8 +21,8 @@ Messages in the v00 format have the following format:
 Messages in the v00 format have the following fields:
 
 * **version** is 1 byte in size and **MUST** have the value `00h`
-* **salt** is 32 bytes in size and **SHOULD** contain a cryptographically secure random number
-* **nonce** is 16 bytes in size and **SHOULD** contain the UNIX timestamp as the first 8 bytes and zero bytes as the second 8 bytes
+* **salt** is 32 bytes in size and **SHOULD** contain a cryptographically strong random number
+* **nonce** is 16 bytes in size and **SHOULD** contain the UNIX timestamp as the first 8 bytes and `00h` bytes as the second 8 bytes
 * **message** is the AES-256-CTR encrypted message
 * **mac** is 32 bytes in size and **MUST** contain the HMAC-SHA-256 MAC of all previous fields in their given order
 
@@ -30,7 +30,7 @@ Messages in the v00 format have the following fields:
 
 Messages in the v00 format use the following keys:
 
-* **salt** is a cryptographically secure random number
+* **salt** is a cryptographically strong random number
 * **key** is derived from the given password and **salt** using a 10.000 rounds PBKDF2-SHA-256
 * **enckey** is derived from **key** as the key and the string `enc` as the message using HMAC-SHA-256
 * **mackey** is derived from **key** as the key and the string `mac` as the message using HMAC-SHA-256
@@ -65,7 +65,7 @@ echo "$FULLMESSAGE"
 
 ## Encryption Scheme v01
 
-Encryption scheme v01 is a key-based Encrypt-then-MAC (EtM) scheme which uses AES-256-CTR as the encryption algorithm and HMAC-SHA-256 as the MAC algorithm. The key to derive the encryption key and the message authentication key is randomly generated.
+Encryption scheme v01 is a RSA-key-based Encrypt-then-MAC (EtM) scheme which uses AES-256-CTR as the encryption algorithm and HMAC-SHA-256 as the MAC algorithm. The key to derive the encryption key and the message authentication key is randomly generated.
 
 ### Message Format
 
@@ -84,7 +84,7 @@ Messages in the v01 format have the following fields:
 * **rsakeyid** is 32 bytes in size and **MUST** contain the SHA-256 hash of the DER-encoded RSA public key that was used to encrypt the upcoming **rsakey**
 * **rsakeylength** is 2 bytes in size and **MUST** denote the length of the upcoming **rsakey**
 * **rsakey** has the length of the previous **rsakeylength** field and **MUST** contain the key that was used to derive the encryption key and the message authentication key RSA-encrypted for the RSA key denoted by the previous **rsakeyid** field
-* **nonce** is 16 bytes in size and **SHOULD** contain the UNIX timestamp as the first 8 bytes and zero bytes as the second 8 bytes
+* **nonce** is 16 bytes in size and **SHOULD** contain the UNIX timestamp as the first 8 bytes and `00h` bytes as the second 8 bytes
 * **message** is the AES-256-CTR encrypted message
 * **mac** is 32 bytes in size and **MUST** contain the HMAC-SHA-256 MAC of all previous fields in their given order
 
@@ -92,7 +92,7 @@ Messages in the v01 format have the following fields:
 
 Messages in the v01 format use the following keys:
 
-* **key** is a cryptographically secure random number
+* **key** is a cryptographically strong random number
 * **enckey** is derived from **key** as the key and the string `enc` as the message using HMAC-SHA-256
 * **mackey** is derived from **key** as the key and the string `mac` as the message using HMAC-SHA-256
 * **rsakey** is derived by RSA-encrypting **key** with an RSA public key

@@ -4,7 +4,7 @@ Shared-Secrets is an application that helps you to simply share one-time secrets
 
 Using the Shared-Secrets service allows you to transfer the actual secret in an encrypted form. Retrieving the secret is as simple as following a link. In contrast to other secret sharing services, Shared-Secrets does not store the secret on the server, but puts the encrypted secret into the link that you share with the desired recipient. That means that the compromise of a Shared-Secrets server does not automatically compromise all of the shared secrets.
 
-Secrets can only be retrieved once. Further retrievals are rejected by matching the encrypted secret against the fingerprints of the secrets that have been retrieved before. By disallowing repeating retrievals of a secret, it is at least possible to detect when the confidentiality of a secret sharing link has been compromised.
+Secrets can only be retrieved once. Further retrievals are rejected by matching the encrypted secret against the fingerprints of the secrets that have been retrieved before. By disallowing repeated retrievals of a secret, it is at least possible to detect when the confidentiality of a secret sharing link has been compromised.
 
 To protect your secret from getting known by the server or an attacker, you can additionally protect the secret with a password before sharing it. The secret will be encrypted and decrypted locally without an interaction with the server. You can provide the chosen password to the recipient through a second communication channel to prevent an attacker that is able to control one communication channel from compromising the confidentiallity of your secret.
 
@@ -26,7 +26,7 @@ curl -X POST -d "secret=<secret>" https://example.com/?plain
 
 ### Read a Secret
 
-To retrieve the secret, simply open the secret sharing link and press the "Read the Secret!" button. Should your secret be password-protected, check the "Password-protected:" box, enter your password and read your actual secret by pressing the "Unprotect!" button. In cases where you need the plain secret to be returned by the web page you can append the GET parameter `?plain` to the secret sharing link **but be aware** that returning the plain secret does not support the Browser-based decryption.
+To retrieve the secret, simply open the secret sharing link and press the "Read the Secret!" button. Should your secret be password-protected, check the "Password-protected:" box, enter your password and read your actual secret by pressing the "Unprotect!" button. In cases where you need the plain secret to be returned by the web page you can append the GET parameter `?plain` to the secret sharing link **but be aware** that returning the plain secret does not support the browser-based decryption.
 
 Secrets can also be retrieved using a simple POST request:
 
@@ -176,7 +176,7 @@ You should generate a fresh RSA key pair with a minimum key size of 2048 bits:
 openssl genrsa -out ./rsa.key 2048
 ```
 
-**Beware:** You should place this file in a location so that it is not accessible through the webserver. The recommended protection is to directly insert the RSA private keys as strings into the `RSA_PRIVATE_KEYS` array within `config/config.php`. 
+**Beware:** You should place this file in a location so that it is not accessible through the webserver. The recommended protection is to directly insert the RSA private keys as strings into the `RSA_PRIVATE_KEYS` array within the configuration file.
 
 ### Service Setup
 
@@ -184,7 +184,7 @@ Copy the `config/config.php.default` file to `config/config.php` and set the nec
 
 ### Read-Only and Share-Only Instances
 
-The configuration allows you to set your instances into read-only and/or share-only mode. This can be useful if want to use a private **share-only** instance or custom software to create secret sharing sharing links but provide a public **read-only** instance to retrieve the generated secret sharing links. There are two more things to consider:
+The configuration allows you to set your instances into read-only and/or share-only mode. This can be useful if you want to use a private **share-only** instance or custom software to create secret sharing sharing links but provide a public **read-only** instance to retrieve the generated secret sharing links. There are two more things to consider:
 
 * A **share-only** instance does not need access to the RSA private key as it will not decrypt secret sharing links. Therefore, it is possible to configure the RSA public key of the corresponding **read-only** instance into the `RSA_PRIVATE_KEYS` array of a **share-only** instance.
 * The basis for the creation of secret sharing link is the `SECRET_SHARING_URL` configuration value. In order for a **share-only** instance to generate correct secret sharing links you have to set the URL of the corresponding **read-only** instance as the `SECRET_SHARING_URL` configuration value of the **share-only** instance.
