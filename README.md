@@ -155,7 +155,7 @@ USE secrets;
 
 CREATE TABLE secrets (
   fingerprint VARCHAR(64) PRIMARY KEY,
-  time       TIMESTAMP
+  time        TIMESTAMP
 );
 
 GRANT ALL ON secrets.* TO 'secrets'@'%'         IDENTIFIED BY '5TR0NGP455W0RD!';
