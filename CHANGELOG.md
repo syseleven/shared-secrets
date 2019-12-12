@@ -1,3 +1,7 @@
+# 0.25b1 (2019-12-12)
+
+* fixed selection of keyid for key rollovers
+
 # 0.25b0 (2019-12-12)
 
 * introduced proper key rollover support by adding the corresponding keyid to the database primary key

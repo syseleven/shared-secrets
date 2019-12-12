@@ -226,6 +226,11 @@
                       }
                     }
                   }
+
+                  # break after the first decrypted key
+                  if (false !== $data[OPENSSL_KEY]) {
+                    break;
+                  }
                 }
               }
 
