@@ -1,6 +1,6 @@
 # Shared-Secrets
 
-Shared-Secrets is an application that helps you to simply share one-time secrets over the web. Typically when you do not have the possibility to open an encrypted communication channel (e.g. GPG-encrypted mail) to transfer a sensitive information you have to resort to unencrypted means of communication - e.g. SMS, unencrypted e-mail, telephone, etc.
+Shared-Secrets is an application that helps you to simply share one-time secrets over the web. Typically when you do not have the possibility to open an encrypted communication channel (e.g. GPG-encrypted mail) to transfer sensitive information you have to resort to unencrypted means of communication - e.g. SMS, unencrypted e-mail, telephone, etc.
 
 Using the Shared-Secrets service allows you to transfer the actual secret in an encrypted form. Retrieving the secret is as simple as following a link. In contrast to other secret sharing services, Shared-Secrets does not store the secret on the server, but puts the encrypted secret into the link that you share with the desired recipient. That means that the compromise of a Shared-Secrets server does not automatically compromise all of the shared secrets.
 
@@ -78,6 +78,10 @@ server {
   # has to be changed to your domain
   server_name example.com;
 
+  # do not write logs
+  access_log off;
+  error_log  /dev/null emerg;
+
   # has to be changed to your certificate files
   ssl_certificate     /etc/letsencrypt/live/example.com/fullchain.pem;
   ssl_certificate_key /etc/letsencrypt/live/example.com/privkey.pem;
@@ -154,8 +158,10 @@ CREATE DATABASE secrets CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE secrets;
 
 CREATE TABLE secrets (
-  fingerprint VARCHAR(64) PRIMARY KEY,
-  time        TIMESTAMP
+  keyid       VARCHAR(64),
+  fingerprint VARCHAR(64),
+  time        TIMESTAMP,
+  PRIMARY KEY (keyid, fingerprint)
 );
 
 GRANT ALL ON secrets.* TO 'secrets'@'%'         IDENTIFIED BY '5TR0NGP455W0RD!';
@@ -189,9 +195,62 @@ The configuration allows you to set your instances into read-only and/or share-o
 * A **share-only** instance does not need access to the RSA private key as it will not decrypt secret sharing links. Therefore, it is possible to configure the RSA public key of the corresponding **read-only** instance into the `RSA_PRIVATE_KEYS` array of a **share-only** instance.
 * The basis for the creation of secret sharing link is the `SECRET_SHARING_URL` configuration value. In order for a **share-only** instance to generate correct secret sharing links you have to set the URL of the corresponding **read-only** instance as the `SECRET_SHARING_URL` configuration value of the **share-only** instance.
 
+### Key Rollovers
+
+Shared-Secrets supports key rollovers in the configuration and in the database. To execute a key rollover you can add more than one RSA private key in the `RSA_PRIVATE_KEYS` configuration value, which happens to be an array. The last element in the array is the key that is used to create new secret sharing links while all configured keys are used when trying to retrieve secrets. If you do not want to allow the retrieval of secrets created for older keys then you have to remove these specific keys from the `RSA_PRIVATE_KEYS` configuration value.
+
+Therefore, the `RSA_PRIVATE_KEYS` configuration value can look like this:
+
+```
+define("RSA_PRIVATE_KEYS", ["-----BEGIN RSA PRIVATE KEY-----\n".
+                            "...\n".
+                            "...\n".
+                            "...\n".
+                            "-----END RSA PRIVATE KEY-----",
+                            "-----BEGIN RSA PRIVATE KEY-----\n".
+                            "...\n".
+                            "...\n".
+                            "...\n".
+                            "-----END RSA PRIVATE KEY-----"]);
+```
+
 ### TLS Recommendation
 
 It is strongly recommended to use TLS to protect the connection between the server and the clients.
+
+## Limitations
+
+Using Shared-Secrets is **not** a 100% solution to achieve a perfectly secure communication channel, but it can be an improvement in situations where no better communication channel is available. You should always consider to switch to more secure channels like authenticated e-mail encryption (using GnuPG or S/MIME) or end-to-end encrypted instant messengers (like Signal or Threema).
+
+### Storage Compromise
+
+An attacker gaining access to storage containing secret sharing links could read the stored secret sharing links and try to retrieve the secrets. If properly implemented and used then Shared-Secrets can protect against such an attacker in two different ways:
+
+1. When the secret has already been retrieved then the attacker will not be able to retrieve the secret again using the same secret sharing link as Shared-Secrets prevents secrets from being retrieved more than once.
+2. When the secret has not already been retrieved and the attacker retrieved the secret instead, then you will be able to notice the attack by not being able to retrieve the secret yourself. Furthermore, the database will contain the information when the secret has been retrieved, providing the possibility to find out when the compromise took place.
+
+### Passive Man-in-the-Middle Attack
+
+A passive man-in-the-middle attacker could read the transmitted secret sharing links and try to retrieve the secrets. If properly implemented and used then Shared-Secrets can protect against such an attacker in two different ways:
+
+1. From the secret sharing link itself the attacker will not learn about the contents of the actual secret.
+2. When the secret is retrieved by the attacker, then you will be able to notice the attack by not being able to retrieve the secret yourself. Furthermore, the database will contain the information when the secret has been retrieved, providing the possibility to find out when the compromise took place.
+
+### Active Man-in-the-Middle Attack
+
+An active man-in-the-middle attacker could change the transmitted secret sharing links in a way that they point to a malicious server that acts as a proxy between you and the actual Shared-Secrets server. By calling the modified secret sharing links you would provide the URLs to the malicious server which would then transparently direct the requests to the actual Shared-Secrets server and return the retrieved secrets while also storing them for the attacker. In such a scenario you would not easily notice that the secrets have been compromised. If properly implemented and used then Shared-Secrets can protect against such an attacker in the following way:
+
+Shared-Secrets provides a browser-based encryption and decryption that is executed locally. Using this additional layer of encryption would prevent the malicious server from reading the decrypted secret. However, an active man-in-the-middle attacker would also be able to compromise the browser-based decryption. In order to mitigate the compromise of the local decryption in cases where you cannot find out if the Shared-Secret server is legitimate, the following strategy might be helpful:
+
+1. Open a fresh **private** browsing window (also known as _"incognito mode"_).
+3. Retrieve the secret.
+4. Go offline with your computer. Do **not** forget to disable wireless connections or to unplug wired connections.
+5. Locally decrypt the retrieved secret.
+6. Take note of the locally decrypted secret.
+7. Close the private browsing window.
+8. Now you can go online with your computer again.
+
+However, the better solution to this problem would be to decrypt the retrieved secret outside of the browser. Unfortunately, this would require the usage of additional tooling.
 
 ## Attributions
 

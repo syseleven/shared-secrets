@@ -88,10 +88,10 @@
 
   ########## OPENSSL FUNCTIONS ##########
 
-  function decrypt_v00($message, $password, &$error = null, &$checksum = null) {
-    $result   = null;
-    $checksum = null;
-    $error    = false;
+  function decrypt_v00($message, $password, &$error = null, &$fingerprint = null) {
+    $result      = null;
+    $error       = false;
+    $fingerprint = null;
 
     if (is_string($message) && is_string($password)) {
       $data = [];
@@ -131,8 +131,8 @@
 
                     if (false !== $data[OPENSSL_MESSAGE]) {
                       # set result value
-                      $result   = $data[OPENSSL_MESSAGE];
-                      $checksum = $data[OPENSSL_CHECKMAC];
+                      $result      = $data[OPENSSL_MESSAGE];
+                      $fingerprint = $data[OPENSSL_CHECKMAC];
                     } else {
                       $error = "message decryption failed";
                     }
@@ -164,10 +164,11 @@
     return $result;
   }
 
-  function decrypt_v01($message, $recipients, &$error = null, &$checksum = null) {
-    $result   = null;
-    $checksum = null;
-    $error    = false;
+  function decrypt_v01($message, $recipients, &$error = null, &$keyid = null, &$fingerprint = null) {
+    $result      = null;
+    $error       = false;
+    $fingerprint = null;
+    $keyid       = null;
  
     if (is_string($message) && is_array($recipients)) {
       $data = [];
@@ -209,7 +210,8 @@
               $data[OPENSSL_KEY] = false;
 
               # iterate through the recipients and see whether we find a fitting key id
-              $keys = array_keys($recipients);
+              $keys     = array_keys($recipients);
+              $rsakeyid = null;
               foreach ($keys as $key) {
                 $rsakeyid = get_keyid($recipients[$key]);
                 if (null !== $rsakeyid) {
@@ -245,8 +247,9 @@
  
                       if (false !== $data[OPENSSL_MESSAGE]) {
                         # set result value
-                        $result   = $data[OPENSSL_MESSAGE];
-                        $checksum = $data[OPENSSL_CHECKMAC];
+                        $result      = $data[OPENSSL_MESSAGE];
+                        $fingerprint = $data[OPENSSL_CHECKMAC];
+                        $keyid       = $rsakeyid;
                       } else {
                         $error = "message decryption failed";
                       }

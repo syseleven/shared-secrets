@@ -13,7 +13,7 @@
 
   # define MySQL queries
   define("MYSQL_READ",  "SELECT COUNT(*) FROM secrets WHERE fingerprint = ?");
-  define("MYSQL_WRITE", "INSERT IGNORE INTO secrets VALUES (?, CURRENT_TIMESTAMP)");
+  define("MYSQL_WRITE", "INSERT IGNORE INTO secrets VALUES (?, ?, CURRENT_TIMESTAMP)");
 
   # define page names
   define("HOW_PAGE_NAME",     "how");

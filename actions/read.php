@@ -28,7 +28,7 @@
 
         if (0 < count($recipients)) {
           try {
-            $decrypted_secret = decrypt_v01($secret, $recipients, $decrypt_error, $fingerprint);
+            $decrypted_secret = decrypt_v01($secret, $recipients, $decrypt_error, $keyid, $fingerprint);
           } finally {
             $keys = array_keys($recipients);
             foreach ($keys as $key) {
@@ -43,8 +43,9 @@
               try {
                 if ($statement = mysqli_prepare($link, MYSQL_WRITE)) {
                   $fingerprint = bin2hex($fingerprint);
+                  $keyid       = bin2hex($keyid);
 
-                  if (mysqli_stmt_bind_param($statement, "s", $fingerprint)) {
+                  if (mysqli_stmt_bind_param($statement, "ss", $keyid, $fingerprint)) {
                     if (mysqli_stmt_execute($statement)) {
                       if (1 === mysqli_affected_rows($link)) {
                         $result = $decrypted_secret;

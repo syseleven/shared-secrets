@@ -1,3 +1,12 @@
+# 0.25b0 (2019-12-12)
+
+* introduced proper key rollover support by adding the corresponding keyid to the database primary key
+* now you do not have to purge the database when switching to a new key as fingerprints will not collide for different keys
+* renamed `$checksum` to `$fingerprint` to match with the database fields
+* updated README to provide a best-practice logging configuration
+* updated README to reflect the key rollover support
+* updated README to address security limitations of this solution
+
 # 0.24b0 (2019-11-15)
 
 * introduced helper functions `is_privkey()` and `is_pubkey()`
