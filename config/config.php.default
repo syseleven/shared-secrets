@@ -23,7 +23,7 @@
   define("IMPRINT_URL", "https://localhost.local/");
 
   # this is the MySQL configuration, do not forget to create the corresponding database and the following table:
-  # > CREATE TABLE secrets ( fingerprint VARCHAR(64) PRIMARY KEY, time TIMESTAMP );
+  # > CREATE TABLE secrets ( keyid VARCHAR(64), fingerprint VARCHAR(64), time TIMESTAMP, PRIMARY KEY (keyid, fingerprint) );
   define("MYSQL_HOST",   "localhost");
   define("MYSQL_PORT",   3306);
   define("MYSQL_USER",   "<SET THE MYSQL USER!!!>");
