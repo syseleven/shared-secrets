@@ -224,19 +224,20 @@ Using Shared-Secrets is **not** a 100% solution to achieve a perfectly secure co
 
 ### Storage Compromise
 
-An attacker gaining access to storage containing secret sharing links could read the stored secret sharing links and try to retrieve the secrets. If properly implemented and used then Shared-Secrets can protect against such an attacker in two different ways:
+An attacker gaining access to storage containing secret sharing links could read the stored secret sharing links and try to retrieve the secrets. If properly implemented and used then Shared-Secrets can protect against such an attacker in the following ways:
 
-1. When the secret has already been retrieved then the attacker will not be able to retrieve the secret again using the same secret sharing link as Shared-Secrets prevents secrets from being retrieved more than once.
-2. When the secret has not already been retrieved and the attacker retrieved the secret instead, then you will be able to notice the attack by not being able to retrieve the secret yourself. Furthermore, the database will contain the information when the secret has been retrieved, providing the possibility to find out when the compromise took place.
+1. From the secret sharing link itself the attacker will not learn about the contents of the actual secret.
+2. When the secret has already been retrieved then the attacker will not be able to retrieve the secret again using the same secret sharing link as Shared-Secrets prevents secrets from being retrieved more than once.
+3. When the secret has not already been retrieved and the attacker retrieved the secret instead, then you will be able to notice the attack by not being able to retrieve the secret yourself. Furthermore, the database will contain the information when the secret has been retrieved, providing the possibility to find out when the compromise took place.
 
 ### Passive Man-in-the-Middle Attack
 
-A passive man-in-the-middle attacker could read the transmitted secret sharing links and try to retrieve the secrets. If properly implemented and used then Shared-Secrets can protect against such an attacker in two different ways:
+A passive man-in-the-middle attacker could read the transmitted secret sharing links and try to retrieve the secrets. If properly implemented and used then Shared-Secrets can protect against such an attacker in the following ways:
 
 1. From the secret sharing link itself the attacker will not learn about the contents of the actual secret.
 2. When the secret is retrieved by the attacker, then you will be able to notice the attack by not being able to retrieve the secret yourself. Furthermore, the database will contain the information when the secret has been retrieved, providing the possibility to find out when the compromise took place.
 
-### Active Man-in-the-Middle Attack
+### Active Man-in-the-Middle Attack (Scenario A)
 
 An active man-in-the-middle attacker could change the transmitted secret sharing links in a way that they point to a malicious server that acts as a proxy between you and the actual Shared-Secrets server. By calling the modified secret sharing links you would provide the URLs to the malicious server which would then transparently direct the requests to the actual Shared-Secrets server and return the retrieved secrets while also storing them for the attacker. In such a scenario you would not easily notice that the secrets have been compromised. If properly implemented and used then Shared-Secrets can protect against such an attacker in the following way:
 
@@ -251,6 +252,13 @@ Shared-Secrets provides a browser-based encryption and decryption that is execut
 8. Now you can go online with your computer again.
 
 However, the better solution to this problem would be to decrypt the retrieved secret outside of the browser. Unfortunately, this would require the usage of additional tooling.
+
+### Active Man-in-the-Middle Attack (Scenario B)
+
+An active man-in-the-middle attacker could change the transmitted secret sharing links in a way that they retrieve the secrets and then create new secret sharing links containing the retrieved secrets using the same Shared-Secrets server. In such a scenario you would not easily notice that the secrets have been compromised. If properly implemented and used then Shared-Secrets can protect against such an attacker in the following ways:
+
+1. Shared-Secrets provides a browser-based encryption and decryption that is executed locally. Using this additional layer of encryption would prevent the attacker from reading the decrypted secret.
+2. Shared-Secrets provides the possibility to create separate **share-only** and **read-only** instances. By having a **share-only** instance that is **not** publicly available and a **read-only** instance that is publicly available the attacker would be able to retrieve the secret but would not be able to create a new secret sharing link.
 
 ## Attributions
 
