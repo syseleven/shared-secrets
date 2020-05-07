@@ -27,7 +27,7 @@
     <h1>Share a Secret:</h1>
     <div id="secret-div">
       <textarea autocomplete="off" class="form-control" id="secret" name="secret" rows="5" required="required"></textarea>
-      <div id="counter">1024</div>
+      <div id="counter"><?= MAX_PARAM_SIZE ?></div>
     </div>
     <button type="submit" class="btn btn-default pull-right" id="share-secret-btn" name="share-secret-btn">Share the Secret!</button>
   </form>
