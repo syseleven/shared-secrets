@@ -71,7 +71,7 @@
   // update the character counter
   // we have to count the bytes and line breaks have to be counted as two characters
   function update_counter() {
-    var maxLimit  = 1024;
+    var maxLimit  = MAX_PARAM_SIZE;
     var softLimit = Math.ceil(maxLimit-((maxLimit/4)*3-81)); // based on Base64-encoded v00 message length
 
     var length     = new TextEncoder("utf-8").encode(document.getElementById("secret").value).length;

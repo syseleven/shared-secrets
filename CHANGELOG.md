@@ -1,3 +1,8 @@
+# 0.26b0 (2020-07-05)
+
+* introduced `JUMBO_SECRETS` to allow secrets of up to 32kb
+* **Beware:** Generated jumbo secrets that are longer than 2kb are probably incompatible with older Internet Explorer versions.
+
 # 0.25b1 (2019-12-12)
 
 * fixed selection of keyid for key rollovers

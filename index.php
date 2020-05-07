@@ -1,8 +1,8 @@
 <?php
 
-  # Shared-Secrets v0.25b1
+  # Shared-Secrets v0.26b0
   #
-  # Copyright (c) 2016-2019, SysEleven GmbH
+  # Copyright (c) 2016-2020, SysEleven GmbH
   # All rights reserved.
   #
   # This page allows you to share a secret through a secret sharing link.
@@ -24,14 +24,14 @@
   # so that is does not change between script files
   define("ROOT_DIR", __DIR__);
 
+  # include required configuration
+  require_once(ROOT_DIR."/config/config.php");
+
   # include required defines
   require_once(ROOT_DIR."/lib/shared-secrets.def.php");
 
   # include required execution functions
   require_once(ROOT_DIR."/lib/shared-secrets.exec.php");
-
-  # include required configuration
-  require_once(ROOT_DIR."/config/config.php");
 
   # prepare debug mode
   if (!defined("DEBUG_MODE")) {

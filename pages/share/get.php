@@ -39,7 +39,18 @@
   <link href="/resources/css/share.css?<?= $cache_value ?>" integrity="sha256-EYu1Dc10IDi0yUOyV55YWmCKWfVlBj1rTMk/AsbViKE=" rel="stylesheet" type="text/css" />
 
   <script src="/resources/js/lib.js?<?= $cache_value ?>" integrity="sha256-d6lWbau1r7bB+u7utpkOX6tLTXnbOPqD33NmIXHY19A=" type="text/javascript"></script>
-  <script src="/resources/js/share.js?<?= $cache_value ?>" integrity="sha256-sNJqhCLJH7s32SPq0o7P9LJAtxTUhvAOT1CBzfZLbac=" type="text/javascript"></script>
+<?php
+  if (defined("JUMBO_SECRETS") && JUMBO_SECRETS) {
+?>
+  <script src="/resources/js/jumbo_limit.js?<?= $cache_value ?>" integrity="sha256-zVzRtMslKRFV6m0/FD6U9oBI4AYSCNlSfP2kKDVhlF4=" type="text/javascript"></script>
+<?php
+  } else {
+?>
+  <script src="/resources/js/limit.js?<?= $cache_value ?>" integrity="sha256-HwcYaoqBBJhR7Y7eG2CepXkamos6C6SaViLGifuuo4E=" type="text/javascript"></script>
+<?php
+  }
+?>
+  <script src="/resources/js/share.js?<?= $cache_value ?>" integrity="sha256-Az8eO3tKRtZRK9wLBD+T741jTm7HPwfc0I78/S0qGdw=" type="text/javascript"></script>
 
 <?php
 

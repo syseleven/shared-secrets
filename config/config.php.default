@@ -46,3 +46,8 @@
   # this separation can be useful if you only want to be internally able to create links
   define("SHARE_ONLY", false);
 
+  # this enables or disables the jumbo-secret support,
+  # jumbo-secrets can be up to 32768 bytes (32kb) in size,
+  # jumbo-secrets that exceed 2048 bytes (2k) in size will most likely be incompatible with older Internet Explorer versions
+  define("JUMBO_SECRETS", false);
+
