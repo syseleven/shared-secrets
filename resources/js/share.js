@@ -35,7 +35,7 @@
     }
 
     // check the length of the output
-    if ((null != result) && (1024 >= result.length)) {
+    if ((null != result) && (MAX_PARAM_SIZE >= result.length)) {
       document.getElementById("secret").value = result;
 
       document.getElementById("share-secret-btn").disabled = false;

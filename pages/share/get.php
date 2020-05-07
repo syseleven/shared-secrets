@@ -50,7 +50,7 @@
 <?php
   }
 ?>
-  <script src="/resources/js/share.js?<?= $cache_value ?>" integrity="sha256-Az8eO3tKRtZRK9wLBD+T741jTm7HPwfc0I78/S0qGdw=" type="text/javascript"></script>
+  <script src="/resources/js/share.js?<?= $cache_value ?>" integrity="sha256-JgwhPbFEIzq89yXPJxa5NkZsH8F5MtkCsQ/5sHwU+gg=" type="text/javascript"></script>
 
 <?php
 
