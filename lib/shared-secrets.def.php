@@ -28,7 +28,7 @@
 
   # define maximum secret size
   if (defined("JUMBO_SECRETS") && JUMBO_SECRETS) {
-    define("MAX_PARAM_SIZE", 32768);
+    define("MAX_PARAM_SIZE", 16384);
   } else {
     define("MAX_PARAM_SIZE", 1024);
   }

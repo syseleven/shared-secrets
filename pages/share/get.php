@@ -42,7 +42,7 @@
 <?php
   if (defined("JUMBO_SECRETS") && JUMBO_SECRETS) {
 ?>
-  <script src="/resources/js/jumbo_limit.js?<?= $cache_value ?>" integrity="sha256-zVzRtMslKRFV6m0/FD6U9oBI4AYSCNlSfP2kKDVhlF4=" type="text/javascript"></script>
+  <script src="/resources/js/jumbo_limit.js?<?= $cache_value ?>" integrity="sha256-7OnyT9osWKeiIPJ7xJ8IF1UYF3c/rpy2+ku0sQ0oue4=" type="text/javascript"></script>
 <?php
   } else {
 ?>
