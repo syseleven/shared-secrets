@@ -41,7 +41,7 @@
             <li<?php if (empty(SECRET_URI)) { ?> class="active"<?php } ?>><a href="/">Share a secret.</a></li>
             <li<?php if (0 === strcmp(SECRET_URI, HOW_PAGE_NAME)) { ?> class="active"<?php } ?>><a href="/how">How does this service work?</a></li>
             <li<?php if (0 === strcmp(SECRET_URI, PUB_PAGE_NAME)) { ?> class="active"<?php } ?>><a href="/pub">Download the public key.</a></li>
-            <li<?php if (0 === strcmp(SECRET_URI, IMPRINT_PAGE_NAME)) { ?> class="active"<?php } ?>><a href="/imprint"><?= (defined("IMPRINT_TEXT") && (null !== IMPRINT_TEXT)) ? IMPRINT_TEXT : "Who provides this service?" ?></a></li>
+            <li<?php if (0 === strcmp(SECRET_URI, IMPRINT_PAGE_NAME)) { ?> class="active"<?php } ?>><a href="/imprint"><?= (defined("IMPRINT_TEXT") && (null !== IMPRINT_TEXT)) ? html(IMPRINT_TEXT) : "Who provides this service?" ?></a></li>
           </ul>
         </div>
       </div>

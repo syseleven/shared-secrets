@@ -1,6 +1,7 @@
 # 0.27b0 (2020-07-16)
 
 * introduced `IMPRINT_TEXT` to change the default text of the imprint link
+* HTML-escape `IMPRINT_TEXT` to prevent the admin from breaking the HTML output
 * updated jQuery to version 3.5.1
 
 # 0.26b0 (2020-05-07)
