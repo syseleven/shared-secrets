@@ -1,4 +1,9 @@
-# 0.26b0 (2020-07-05)
+# 0.27b0 (2020-07-16)
+
+* introduced `IMPRINT_TEXT` to change the default text of the imprint link
+* updated jQuery to version 3.5.1
+
+# 0.26b0 (2020-05-07)
 
 * introduced `JUMBO_SECRETS` to allow secrets of up to 16kb
 * **Beware:** Jumbo secret sharing links that that exceed 2048 bytes (2k) in size will most likely be incompatible with older Internet Explorer versions.

@@ -19,6 +19,9 @@
   # this is the full path to the secret sharing service, the encrypted secret will be appended to this string
   define("SECRET_SHARING_URL", "https://localhost.local/");
 
+  # this is the text of the imprint link
+  define("IMPRINT_TEXT", null);
+
   # this is the URL the imprint link shall forward to
   define("IMPRINT_URL", "https://localhost.local/");
 
