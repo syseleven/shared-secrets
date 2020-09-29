@@ -25,7 +25,7 @@
 # 0.24b0 (2019-11-15)
 
 * introduced helper functions `is_privkey()` and `is_pubkey()`
-* as a **share-only** doesn't need the private key, `RSA_PRIVATE_KEYS` can now also old RSA public keys
+* as a **share-only** instance doesn't need the private key, `RSA_PRIVATE_KEYS` can now also hold RSA public keys
 * creating secret sharing links and downloading the public key now also works when RSA public keys are set as `RSA_PRIVATE_KEYS`
 * updated README to reflect the new feature
 
@@ -74,7 +74,7 @@
 * introduced the possibility to have key roll-overs (encrypt with new key but decrypt with new and old key)
 * updated Bootstrap to version 3.4.1
 * updated jQuery to version 3.4.1
-* **Beware:** Decrypting old GPG-based URLs is not possible with this version. Due to the new encryption scheme v01 the first 48 bytes of a URL will be the same for all generated URLs therefore it is possible to distinguish with high certainty between old and new URLs so that it possible for you to redirect old URLs to a read-only instance.
+* **Beware:** Decrypting old GPG-based URLs is not possible with this version. Due to the new encryption scheme v01 the first 48 bytes of a URL will be the same for all generated URLs therefore it is possible to distinguish with high certainty between old and new URLs so that it is possible for you to redirect old URLs to a read-only instance.
 
 # 0.14b0 (2019-10-28)
 
@@ -97,17 +97,17 @@
 
 # 0.10b2 (2017-08-10)
 
-* activated ENABLE_PASSWORD_PROTECTION option by default as the feature has proven to be stable
-* deactivated LOG_IP_ADDRESS option by default to promote data privacy
-* removed SUPPORT_LEGACY_LINKS option because the codebase does not generate legacy links for almost a year now
-* removed code that handled legacy links and has become obsolete with the removal of the SUPPORT_LEGACY_LINKS option
+* activated `ENABLE_PASSWORD_PROTECTION` option by default as the feature has proven to be stable
+* deactivated `LOG_IP_ADDRESS` option by default to promote data privacy
+* removed `SUPPORT_LEGACY_LINKS` option because the codebase does not generate legacy links for almost a year now
+* removed code that handled legacy links and has become obsolete with the removal of the `SUPPORT_LEGACY_LINKS` option
 * forcefully deactivated the GnuPG PECL interface because https://github.com/php-gnupg/php-gnupg/issues/9 is not handled properly
-* changed README.md to reflect the forcful deactivation of the GnuPG PECL interface which may break installations
+* updated README to reflect the forcful deactivation of the GnuPG PECL interface which may break installations
 
 # 0.10b1 (2016-12-19)
 
 * enforced strict base64 decoding
-* added info to config.php.default and to README.md that the GnuPG PECL should currently not be used (thanks to Nikolas Lotz)
+* added info to `config.php.default` and to the README that the GnuPG PECL should currently not be used (thanks to Nikolas Lotz)
 
 # 0.10b0 (2016-12-19)
 
@@ -138,16 +138,16 @@
 
 # 0.8b1 (2016-10-07)
 
-* introduced the parameter "plain" for the share action to just return the link without surrounding HTML
-* introduced the parameter "plain" for the read action to just return the secret without surrounding HTML
+* introduced the parameter `plain` for the share action to just return the link without surrounding HTML
+* introduced the parameter `plain` for the read action to just return the secret without surrounding HTML
 * introduced some minor changes to make parameter constant naming more consistent
-* introduced .htaccess to simplify installation using Apache HTTPD
+* introduced `.htaccess` to simplify installation using Apache HTTPD
 * updated included libraries to newer releases
 
 # 0.8b0 (2016-09-11)
 
 * version bump for GnuPG PECL package support publication on github
-* **Beware:** With version 0.8b0 the structure of the secret sharing links has slightly changed. You have to set the *SUPPORT_LEGACY_LINKS* configuration value to *true* if you want to support secret sharing links that have been generated for older versions of Shared-Secrets. Failure to do so will break these legacy links.
+* **Beware:** With version 0.8b0 the structure of the secret sharing links has slightly changed. You have to set the `SUPPORT_LEGACY_LINKS` configuration value to `true` if you want to support secret sharing links that have been generated for older versions of Shared-Secrets. Failure to do so will break these legacy links.
 
 # 0.7b2 (2016-09-10)
 
@@ -155,7 +155,7 @@
 * enhanced non-PECL link generation so that PECL and non-PECL links look the same
 * cleaned up PECL and non-PECL encryption/decryption code
 * simplified and fixed code for PECL or non-PECL call selection
-* introduced new configuration variable SUPPORT_LEGACY_LINKS
+* introduced new configuration variable `SUPPORT_LEGACY_LINKS`
 * introduced code that provides backward-compatibility for legacy links
 * tested PECL implementation in chroot environment and failed
 * updated readme to reflect observations made in chroot environment
@@ -164,7 +164,7 @@
 
 * implemented support for the newly released GnuPG PECL version 1.4.0
 * introduced homedir support for non-PECL encryption and decryption
-* introduced new configuration variable GPG_HOME_DIR
+* introduced new configuration variable `GPG_HOME_DIR`
 * implemented handling of equation signs for the URL-safe Base64 encoding and decoding
 * tested backward-compatibility so that non-PECL URL don't break
 * updated howto website which automatically adjusts when PECL is active
@@ -211,7 +211,7 @@
 
 * moved inline JavaScript code to separate .js files
 * introduced subresource integrity for link and style elements
-* added asmCrypto.js.map for better debugging support
+* added `asmCrypto.js.map` for better debugging support
 * switched from server-defined PBKDF2 salt to JavaScript-generated salt
 * tested implementation of new features within chroot environment
 
