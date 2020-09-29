@@ -7,7 +7,7 @@
 # 0.26b0 (2020-05-07)
 
 * introduced `JUMBO_SECRETS` to allow secrets of up to 16kb
-* **Beware:** Jumbo secret sharing links that that exceed 2048 bytes (2k) in size will most likely be incompatible with older Internet Explorer versions.
+* **Beware:** Jumbo secret sharing links that exceed 2048 bytes (2k) in size will most likely be incompatible with older Internet Explorer versions.
 
 # 0.25b1 (2019-12-12)
 
