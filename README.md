@@ -195,9 +195,48 @@ The configuration allows you to set your instances into read-only and/or share-o
 * A **share-only** instance does not need access to the RSA private key as it will not decrypt secret sharing links. Therefore, it is possible to configure the RSA public key of the corresponding **read-only** instance into the `RSA_PRIVATE_KEYS` array of a **share-only** instance.
 * The basis for the creation of secret sharing link is the `SECRET_SHARING_URL` configuration value. In order for a **share-only** instance to generate correct secret sharing links you have to set the URL of the corresponding **read-only** instance as the `SECRET_SHARING_URL` configuration value of the **share-only** instance.
 
-### Key Rollovers
+### TLS Recommendation
 
-Shared-Secrets supports key rollovers in the configuration and in the database. To execute a key rollover you can add more than one RSA private key in the `RSA_PRIVATE_KEYS` configuration value, which happens to be an array. The last element in the array is the key that is used to create new secret sharing links while all configured keys are used when trying to retrieve secrets. If you do not want to allow the retrieval of secrets created for older keys then you have to remove these specific keys from the `RSA_PRIVATE_KEYS` configuration value.
+It is strongly recommended to use TLS to protect the connection between the server and the clients.
+
+## Maintenance
+
+### Database Backup
+
+It is essential for Shared-Secrets to know which secrets have already been retrieved in order to implement the read-once functionality. Therefore, you should regularly backup your database to prevent messages from being read more than once. A command to create a backup of all databases may look like this:
+
+```
+sudo mysqldump --all-databases --result-file="./backup_$(date +'%Y%m%d').sql"
+```
+
+**Hint:** To recover from a loss of your database it is important to change the used key pair. Make sure to **not** use the key rollover feature to prevent old secrets from being retrieved more than once.
+
+### Database Optimization
+
+While Shared-Secrets is designed to store a minimal amount of data (keyid, fingerprint of the retrieved message, timestamp) it might become necessary to clean-up the database when a lot of secrets have been retrieved. One approach is as follows:
+
+* Use the key rollover feature to add a new key that is used for all newly shared secrets. (_Users will still be able to retrieve old secrets._)
+* Provide a grace period where secrets for the old **and** new key can be retrieved.
+* Remove the old key from the list of valid keys. (_Users will **not** be able to retrieve old secrets anymore._)
+* Delete the database entries of messages that belong to the old key.
+
+The following commands can be used to delete the database entries of messages that belong to the old key:
+
+```
+USE secrets;
+
+DELETE FROM secrets WHERE keyid = "<keyid of the old key>";
+
+OPTIMIZE TABLE secrets;
+
+EXIT;
+```
+
+### Key Rollover
+
+Shared-Secrets supports key rollovers in the configuration and in the database. Key rollovers can be useful when you want to switch from an old key to a new key without service interruptions. They allow you to introduce a new key for sharing secrets while still allowing users to retrieve secrets of old keys.
+
+To execute a key rollover you can add more than one RSA private key in the `RSA_PRIVATE_KEYS` configuration value, which happens to be an array. The last element in the array is the new key that is used to create new secret sharing links while all configured keys are used when trying to retrieve secrets. If you do not want to allow the retrieval of secrets created for old keys then you have to remove these specific keys from the `RSA_PRIVATE_KEYS` configuration value.
 
 Therefore, the `RSA_PRIVATE_KEYS` configuration value can look like this:
 
@@ -213,10 +252,6 @@ define("RSA_PRIVATE_KEYS", ["-----BEGIN RSA PRIVATE KEY-----\n".
                             "...\n".
                             "-----END RSA PRIVATE KEY-----"]);
 ```
-
-### TLS Recommendation
-
-It is strongly recommended to use TLS to protect the connection between the server and the clients.
 
 ## Limitations
 
