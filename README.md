@@ -253,6 +253,8 @@ define("RSA_PRIVATE_KEYS", ["-----BEGIN RSA PRIVATE KEY-----\n".
                             "-----END RSA PRIVATE KEY-----"]);
 ```
 
+**Hint:** Key rollovers can be helpful when your database grows too big and needs [to be optimized](#database-optimization).
+
 ## Limitations
 
 Using Shared-Secrets is **not** a 100% solution to achieve a perfectly secure communication channel, but it can be an improvement in situations where no better communication channel is available. You should always consider to switch to more secure channels like authenticated e-mail encryption (using GnuPG or S/MIME) or end-to-end encrypted instant messengers (like Signal or Threema).
