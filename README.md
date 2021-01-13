@@ -209,13 +209,13 @@ It is essential for Shared-Secrets to know which secrets have already been retri
 sudo mysqldump --all-databases --result-file="./backup_$(date +'%Y%m%d').sql"
 ```
 
-**Hint:** To recover from a loss of your database it is important to change the used key pair. Make sure to **not** use the key rollover feature to prevent old secrets from being retrieved more than once.
+**Hint:** To recover from a loss of your database it is important to change the used key pair. Make sure to **not** use the [key rollover](#key-rollover) feature to prevent old secrets from being retrieved more than once.
 
 ### Database Optimization
 
 While Shared-Secrets is designed to store a minimal amount of data (keyid, fingerprint of the retrieved message, timestamp) it might become necessary to clean-up the database when a lot of secrets have been retrieved. One approach is as follows:
 
-* Use the key rollover feature to add a new key that is used for all newly shared secrets. (_Users will still be able to retrieve old secrets._)
+* Use the [key rollover](#key-rollover) feature to add a new key that is used for all newly shared secrets. (_Users will still be able to retrieve old secrets._)
 * Provide a grace period where secrets for the old **and** new key can be retrieved.
 * Remove the old key from the list of valid keys. (_Users will **not** be able to retrieve old secrets anymore._)
 * Delete the database entries of messages that belong to the old key.
