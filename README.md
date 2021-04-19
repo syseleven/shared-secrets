@@ -108,6 +108,7 @@ server {
 
   # set security headers
   add_header Content-Security-Policy   "base-uri 'self'; default-src 'self'; form-action 'self'; frame-ancestors 'self'; require-sri-for script style";
+  add_header Permissions-Policy        "interest-cohort=()";
   add_header Referrer-Policy           "same-origin";
   add_header Strict-Transport-Security "max-age=15768000; includeSubDomains; preload";
   add_header X-Content-Security-Policy "base-uri 'self'; default-src 'self'; form-action 'self'; frame-ancestors 'self'; require-sri-for script style";
