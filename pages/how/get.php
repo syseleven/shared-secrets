@@ -69,7 +69,7 @@ echo "$OUTPUT"</pre></p>
   <p>When using the password-protection feature, the secret is encrypted locally in your browser using AES-256-CTR. The encryption key is derived from the entered password and a dynamically generated salt using the PBKDF2-SHA-256 algorithm. The password-protection feature is implemented using client-side JavaScript. Please beware that a compromised server may serve you JavaScript code that defeats the purpose of the local encryption. If you do not trust the server that provides the secret sharing service, then encrypt your secret with a locally installed application before sharing it.</p>
 
   <h3>Shell example.</h3>
-  <p>You can use the following shell command to encrypt a message and by compatible with the browser-based encryption. You will need the additional tool <a href="http://manpages.ubuntu.com/manpages/en/man1/nettle-pbkdf2.1.html">nettle-pbkdf2</a> for this:<br />
+  <p>You can use the following shell command to encrypt a message and be compatible with the browser-based encryption. You will need the additional tool <a href="http://manpages.ubuntu.com/manpages/en/man1/nettle-pbkdf2.1.html">nettle-pbkdf2</a> for this:<br />
     <pre>MESSAGE="message to encrypt" &&
 PASSWORD="password" &&
 VERSION="00" &&

@@ -1,3 +1,10 @@
+# 0.28b0 (2021-06-07)
+
+* updated jQuery to version 3.6.0
+* fixed typo on howto page
+* updated README to introduced maintenance information
+* updated README to opt out of Google FLoC by default
+
 # 0.27b0 (2020-07-16)
 
 * introduced `IMPRINT_TEXT` to change the default text of the imprint link
