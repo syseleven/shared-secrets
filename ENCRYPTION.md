@@ -119,7 +119,6 @@ The following Bash command encrypts a message with a given password using the ab
 # version 01 hybrid encryption
 MESSAGE="message to encrypt" &&
 RSAKEYFILE="./rsa.pub" &&
-URLPREFIX="https://secrets.syseleven.de/" &&
 RSAKEYCOUNT="0001" &&
 VERSION="01" &&
 NONCE=$(printf "%016x0000000000000000" "$(date +%s)") &&
