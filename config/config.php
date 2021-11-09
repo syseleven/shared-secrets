@@ -30,7 +30,7 @@
   define("MYSQL_DB",     "");
 
   # this enables or disables the debug mode of the instance
-  define("DEBUG_MODE", true);
+  define("DEBUG_MODE", false);
 
   # this is the default timezone for the execution of the script
   define("DEFAULT_TIMEZONE", "Europe/Berlin");
