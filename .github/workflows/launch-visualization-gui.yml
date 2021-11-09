@@ -1,0 +1,39 @@
+name: 02 - Launch Visualization GUI
+
+on:
+  workflow_dispatch:
+    
+jobs:
+
+  launch-gui:
+    name: "Launch GUI - click here"
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    container:
+      image: ghcr.io/jonico/matrixdemosvnc:latest
+      options: --user root
+    
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+    
+      - name: Adjust startup script
+        env:
+          GITHUB_USER: ${{github.actor}}
+          DATABASE_URL: ${{secrets.DATABASE_URL}}
+          MY_DB_URL: ${{secrets.MY_DB_URL}}          
+        run: envsubst < start-gui.sh > start-gui-hosted.sh && chmod a+x start-gui-hosted.sh
+
+      - name: Adjust flux menu
+        run: envsubst < fluxbox/menu.template > /home/vscode/.fluxbox/menu
+
+      - name: Launch VNC
+        run: /usr/local/share/desktop-init.sh
+
+      - name: Launch ngrok - please click on the link generated and connect with password vscode
+        env:
+          NGROK_AUTH_TOKEN: ${{secrets.NGROK_AUTH_TOKEN}}
+        run: |
+          ngrok authtoken $NGROK_AUTH_TOKEN
+          echo "::notice ::Please visit the URL displayed in the line below to access the browser based VNC and login with password 'vscode'"
+          ngrok http 6080 --log stdout | perl -ne '$| = 1; $counter=0; while (<>) { $url = $1 if /(https.*)$/; if ($url) {for (;;) {print "Please click on " . $url . " and connect with password vscode\n"; sleep 5}}}'

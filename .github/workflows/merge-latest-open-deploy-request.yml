@@ -1,0 +1,28 @@
+name: 05 - Merge latest Deploy Request
+
+on:
+  workflow_dispatch:
+    inputs:
+      ORG_NAME:
+        description: 'PlanetScale org where database lives'
+        required: false
+        default: planetscale-demo
+
+jobs:
+
+  merge-latest-open-deploy-request:
+    name: "Merge - click here"
+    runs-on: ubuntu-latest
+        
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - name: Merge request - please click on displayed link to authenticate
+        timeout-minutes: 3
+        env:
+          PLANETSCALE_SERVICE_TOKEN_NAME: ${{secrets.PLANETSCALE_SERVICE_TOKEN_NAME}}
+          PLANETSCALE_SERVICE_TOKEN: ${{secrets.PLANETSCALE_SERVICE_TOKEN}}
+          ORG_NAME: ${{github.event.inputs.ORG_NAME}}
+          GITHUB_USER: ${{github.actor}}
+        run: ./merge-latest-open-deploy-request.sh
