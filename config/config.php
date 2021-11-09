@@ -13,13 +13,13 @@
   define("SERVICE_TITLE", "PlanetScale Shared-Secrets");
 
   # this is the full path to the secret sharing service, the encrypted secret will be appended to this string
-  define("SECRET_SHARING_URL", getenv('HEROKU_URL')]);
+  define("SECRET_SHARING_URL", getenv('HEROKU_URL'));
 
   # this is the text of the imprint link
   define("IMPRINT_TEXT", null);
 
   # this is the URL the imprint link shall forward to
-  define("IMPRINT_URL", getenv('HEROKU_URL')]);
+  define("IMPRINT_URL", getenv('HEROKU_URL'));
 
   # this is the MySQL configuration, do not forget to create the corresponding database and the following table:
   # > CREATE TABLE secrets ( keyid VARCHAR(64), fingerprint VARCHAR(64), time TIMESTAMP, PRIMARY KEY (keyid, fingerprint) );
