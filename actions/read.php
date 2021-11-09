@@ -42,7 +42,7 @@
             $link = mysqli_init();
             $link->options(MYSQLI_OPT_SSL_VERIFY_SERVER_CERT, true);
             $link->ssl_set(NULL, NULL, "certs.pem", NULL, NULL);
-            if ($mysqli->real_connect(MYSQL_HOST, MYSQL_USER, MYSQL_PASS, MYSQL_DB, MYSQL_PORT)) {
+            if ($link->real_connect(MYSQL_HOST, MYSQL_USER, MYSQL_PASS, MYSQL_DB, MYSQL_PORT)) {
               try {
                 if ($statement = mysqli_prepare($link, MYSQL_WRITE)) {
                   $fingerprint = bin2hex($fingerprint);
