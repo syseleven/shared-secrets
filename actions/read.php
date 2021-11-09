@@ -42,7 +42,7 @@
             $mysqli = mysqli_init();
             $mysqli->options(MYSQLI_OPT_SSL_VERIFY_SERVER_CERT, true);
             $mysqli->ssl_set(NULL, NULL, "/etc/ssl/certs/ca-bundle.crt", NULL, NULL);
-            if ($link = $mysqli.real_connect(MYSQL_HOST, MYSQL_USER, MYSQL_PASS, MYSQL_DB, MYSQL_PORT)) {
+            if ($link = $mysqli->real_connect(MYSQL_HOST, MYSQL_USER, MYSQL_PASS, MYSQL_DB, MYSQL_PORT)) {
               try {
                 if ($statement = mysqli_prepare($link, MYSQL_WRITE)) {
                   $fingerprint = bin2hex($fingerprint);
