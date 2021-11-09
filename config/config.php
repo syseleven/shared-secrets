@@ -1,0 +1,51 @@
+<?php
+
+  # prevent direct access
+  if (!defined("SYS11_SECRETS")) { die(""); }
+
+  # this is an array containing the supported RSA privated keys for encryption and decryption, the LAST RSA private key
+  # within the array is used to encrypt new secrets while all RSA private keys are used to decrypt secrets, this allows
+  # for smooth key rollovers; for share-only instances it is sufficient to set the RSA public key of the corresponding
+  # read-only instance here
+  define("RSA_PRIVATE_KEYS", [getenv('RSA_PRIVATE_KEY')]);
+
+  # this is the title of the service, it is shown in header of all pages
+  define("SERVICE_TITLE", "PlanetScale Shared-Secrets");
+
+  # this is the full path to the secret sharing service, the encrypted secret will be appended to this string
+  define("SECRET_SHARING_URL", getenv('HEROKU_URL')]);
+
+  # this is the text of the imprint link
+  define("IMPRINT_TEXT", null);
+
+  # this is the URL the imprint link shall forward to
+  define("IMPRINT_URL", getenv('HEROKU_URL')]);
+
+  # this is the MySQL configuration, do not forget to create the corresponding database and the following table:
+  # > CREATE TABLE secrets ( keyid VARCHAR(64), fingerprint VARCHAR(64), time TIMESTAMP, PRIMARY KEY (keyid, fingerprint) );
+  define("MYSQL_HOST",   getenv('MYSQL_HOST'));
+  define("MYSQL_PORT",   3306);
+  define("MYSQL_USER",   getenv('MYSQL_USER'));
+  define("MYSQL_PASS",   getenv('MYSQL_PASS'));
+  define("MYSQL_DB",     "");
+
+  # this enables or disables the debug mode of the instance
+  define("DEBUG_MODE", false);
+
+  # this is the default timezone for the execution of the script
+  define("DEFAULT_TIMEZONE", "Europe/Berlin");
+
+  # this enables or disables the read-only mode of the instance,
+  # by using the read-only mode you need another instance to create secret sharing links,
+  # this separation can be useful if you only want to be internally able to create links
+  define("READ_ONLY", false);
+
+  # this enables or disables the share-only mode of the instance,
+  # by using the share-only mode you need another instance to read secret sharing links,
+  # this separation can be useful if you only want to be internally able to create links
+  define("SHARE_ONLY", false);
+
+  # this enables or disables the jumbo secret support,
+  # jumbo secrets can be up to 16384 bytes (16kb) in size,
+  # jumbo secret sharing links that exceed 2048 bytes (2k) in size will most likely be incompatible with older Internet Explorer versions
+  define("JUMBO_SECRETS", false);
