@@ -10,16 +10,16 @@
   define("RSA_PRIVATE_KEYS", [getenv('RSA_PRIVATE_KEY')]);
 
   # this is the title of the service, it is shown in header of all pages
-  define("SERVICE_TITLE", "PlanetScale Shared-Secrets");
+  define("SERVICE_TITLE", "Shared-Secrets Demo App");
 
   # this is the full path to the secret sharing service, the encrypted secret will be appended to this string
   define("SECRET_SHARING_URL", getenv('HEROKU_URL'));
 
   # this is the text of the imprint link
-  define("IMPRINT_TEXT", null);
+  define("IMPRINT_TEXT", "Source behind this service");
 
   # this is the URL the imprint link shall forward to
-  define("IMPRINT_URL", getenv('HEROKU_URL'));
+  define("IMPRINT_URL", "https://github.com/jonico/shared-secrets");
 
   # this is the MySQL configuration, do not forget to create the corresponding database and the following table:
   # > CREATE TABLE secrets ( keyid VARCHAR(64), fingerprint VARCHAR(64), time TIMESTAMP, PRIMARY KEY (keyid, fingerprint) );
