@@ -10,7 +10,8 @@
         }
     ],
     "require": {
-        "robmorgan/phinx": "^0.12"
+        "robmorgan/phinx": "^0.12",
+        "vlucas/phpdotenv": "^5.4"
     },
     "config": {
         "vendor-dir": "vendors/composer"

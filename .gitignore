@@ -11,3 +11,7 @@ config/*
 
 # ignore PHP Composer vendors
 vendors/composer
+
+# ignore environmental var definition files
+.env*
+!.env.example
