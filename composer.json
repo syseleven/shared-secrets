@@ -9,8 +9,13 @@
             "email": "hello@yahe.sh"
         }
     ],
-    "require": {},
+    "require": {
+        "robmorgan/phinx": "^0.12"
+    },
     "config": {
         "vendor-dir": "vendors/composer"
+    },
+    "scripts": {
+        "post-install-cmd": "./vendors/composer/bin/phinx migrate"
     }
 }
