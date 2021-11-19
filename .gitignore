@@ -8,3 +8,6 @@ config/*
 .DS_Store?
 .Spotlight-V100
 .Trashes
+
+# ignore PHP Composer vendors
+vendors/composer

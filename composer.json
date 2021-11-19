@@ -1,0 +1,16 @@
+{
+    "name": "syseleven/shared-secrets",
+    "type": "project",
+    "homepage": "https://github.com/syseleven/shared-secrets",
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "Yahe",
+            "email": "hello@yahe.sh"
+        }
+    ],
+    "require": {},
+    "config": {
+        "vendor-dir": "vendors/composer"
+    }
+}
