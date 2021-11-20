@@ -9,6 +9,16 @@
   $dotenv = Dotenv\Dotenv::createImmutable( ROOT_DIR );
   $dotenv->load();
 
+  function checkBoolEnv( $value ) {
+    if ( is_bool( $value ) ) {
+      return $value;
+    }
+    elseif ( in_array( strtolower( $value ), [ '1', 'yes', 'y', 'true' ] ) ) {
+      return true;
+    }
+    return false;
+  }
+
   # this is an array containing the supported RSA privated keys for encryption and decryption, the LAST RSA private key
   # within the array is used to encrypt new secrets while all RSA private keys are used to decrypt secrets, this allows
   # for smooth key rollovers; for share-only instances it is sufficient to set the RSA public key of the corresponding
@@ -20,7 +30,7 @@
 ...
 -----END RSA PRIVATE KEY-----";
   $pattern = '/-{5}BEGIN.*?-{5}.+?-{5}END.*?-{5}/si';
-  preg_match_all($pattern, env( "RSA_PRIVATE_KEYS", $nokey ), $keys, PREG_SET_ORDER, 0);
+  preg_match_all($pattern, env( "RSA_PRIVATE_KEYS", $nokey ), $keys);
   define("RSA_PRIVATE_KEYS", $keys[0] );
 
   # this is the title of the service, it is shown in header of all pages
@@ -44,7 +54,7 @@
   define("MYSQL_DB",     env("MYSQL_DB",   "<SET THE MYSQL DATABASE!!!>"));
 
   # this enables or disables the debug mode of the instance
-  define("DEBUG_MODE", env("DEBUG_MODE", false));
+  define("DEBUG_MODE", checkBoolEnv(env("DEBUG_MODE", false)));
 
   # this is the default timezone for the execution of the script
   define("DEFAULT_TIMEZONE", env("DEFAULT_TIMEZONE", "Europe/Berlin"));
@@ -52,15 +62,14 @@
   # this enables or disables the read-only mode of the instance,
   # by using the read-only mode you need another instance to create secret sharing links,
   # this separation can be useful if you only want to be internally able to create links
-  define("READ_ONLY", env("READ_ONLY", false));
+  define("READ_ONLY", checkBoolEnv(env("READ_ONLY", false)));
 
   # this enables or disables the share-only mode of the instance,
   # by using the share-only mode you need another instance to read secret sharing links,
   # this separation can be useful if you only want to be internally able to create links
-  define("SHARE_ONLY", env("SHARE_ONLY", false));
+  define("SHARE_ONLY", checkBoolEnv(env("SHARE_ONLY", false)));
 
   # this enables or disables the jumbo secret support,
   # jumbo secrets can be up to 16384 bytes (16kb) in size,
   # jumbo secret sharing links that exceed 2048 bytes (2k) in size will most likely be incompatible with older Internet Explorer versions
-  define("JUMBO_SECRETS", env("JUMBO_SECRETS", false));
-
+  define("JUMBO_SECRETS", checkBoolEnv(env("JUMBO_SECRETS", false)));
