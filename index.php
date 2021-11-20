@@ -25,7 +25,12 @@
   define("ROOT_DIR", __DIR__);
 
   # include required configuration
-  require_once(ROOT_DIR."/config/config.php");
+  if ( file_exists( ROOT_DIR."/config/config.php" ) ) {
+    require_once(ROOT_DIR."/config/config.php");
+  }
+  else {
+    require_once(ROOT_DIR."/config/config.env.php");
+  }
 
   # include required defines
   require_once(ROOT_DIR."/lib/shared-secrets.def.php");
