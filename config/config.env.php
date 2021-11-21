@@ -6,6 +6,11 @@
   # load composer generated autoload
   require_once( ROOT_DIR . '/vendors/composer/autoload.php' );
   # initiate dotenv
+  if ( ! file_exists( ROOT_DIR . '/.env' ) ) {
+    $file = fopen( ROOT_DIR . '/.env', "w" );
+    fwrite( $file, "" );
+    fclose( $file );
+  }
   $dotenv = Dotenv\Dotenv::createImmutable( ROOT_DIR );
   $dotenv->load();
 
