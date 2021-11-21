@@ -42,7 +42,18 @@
   define("SERVICE_TITLE", env("SERVICE_TITLE", "Shared-Secrets"));
 
   # this is the full path to the secret sharing service, the encrypted secret will be appended to this string
-  define("SECRET_SHARING_URL", env("SECRET_SHARING_URL", "https://localhost.local/"));
+  $realUrl = (
+    (
+      isset($_SERVER['HTTPS']) &&
+      $_SERVER['HTTPS'] != "off"
+    ) ||
+    (
+      isset($_SERVER['HTTP_X_FORWARDED_PROTO']) &&
+      strcasecmp($_SERVER['HTTP_X_FORWARDED_PROTO'], 'https') === 0
+    )
+  ) ? "https" : "http";
+  $realUrl .= "://".$_SERVER['HTTP_HOST'];
+  define("SECRET_SHARING_URL", env("SECRET_SHARING_URL", $realUrl));
 
   # this is the text of the imprint link
   define("IMPRINT_TEXT", env("IMPRINT_TEXT", null));
