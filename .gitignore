@@ -1,4 +1,5 @@
 # do not publish live config file
+.env
 config/*
 !config/config.php.default
 

@@ -118,6 +118,8 @@ server {
   add_header X-XSS-Protection          "1; mode=block";
 
   # prevent access to certain locations
+  location ~ ^\/\.env$           { return 404; }
+  location ~ ^\/\.env\.default$  { return 404; }
   location ~ ^\/\.git(\/.*)?$    { return 404; }
   location ~ ^\/\.gitattributes$ { return 404; }
   location ~ ^\/\.gitignore$     { return 404; }
@@ -187,7 +189,17 @@ openssl genrsa -out ./rsa.key 2048
 
 ### Service Setup
 
-Copy the `config/config.php.default` file to `config/config.php` and set the necessary configuration items.
+#### Configuration via config.php
+
+Copy the `config/config.php.default` file to `config/config.php` and set the necessary configuration values. When a `config/config.php` file exists then it is used as the **only** configuration source for the entire Shared-Secrets instance.
+
+#### Configuration via .env
+
+Copy the `.env.default` file to `.env` and set the necessary configuration values. When a `config/config.php` file exists then the configuration values in the `.env` file will **not** be used. Configuration values in the `.env` file can be overwritten by setting environment variables.
+
+#### Configuration via environment variables
+
+Configuration values can also be set by defining corresponding environment variables. When a `config/config.php` file exists then the configuration values set via environment variables will **not** be used. Configuration values in the `.env` file can be overwritten by setting environment variables.
 
 ### Read-Only and Share-Only Instances
 

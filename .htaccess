@@ -3,6 +3,8 @@
   RewriteBase   /
 
   # prevent access to certain locations
+  RewriteRule ^\.env$           - [R=404,L]
+  RewriteRule ^\.env\.default$  - [R=404,L]
   RewriteRule ^\.git(\/.*)?$    - [R=404,L]
   RewriteRule ^\.gitattributes$ - [R=404,L]
   RewriteRule ^\.gitignore$     - [R=404,L]

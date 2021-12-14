@@ -1,6 +1,6 @@
 <?php
 
-  # Shared-Secrets v0.28b0
+  # Shared-Secrets v0.29b0
   #
   # Copyright (c) 2016-2021, SysEleven GmbH
   # All rights reserved.
@@ -25,7 +25,13 @@
   define("ROOT_DIR", __DIR__);
 
   # include required configuration
-  require_once(ROOT_DIR."/config/config.php");
+  if (is_file(ROOT_DIR."/config/config.php")) {
+    # if there is a config file then we use that
+    require_once(ROOT_DIR."/config/config.php");
+  } else {
+    # otherwise we define the config through environment variables
+    require_once(ROOT_DIR."/lib/shared-secrets.env.php");
+  }
 
   # include required defines
   require_once(ROOT_DIR."/lib/shared-secrets.def.php");
