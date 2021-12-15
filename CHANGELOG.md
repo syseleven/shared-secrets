@@ -1,3 +1,9 @@
+# 0.29b0 (2021-12-14)
+
+* introduce support for configuration via environment variables
+* introduce support for configuration via .env file
+* updated README to document environment variables
+
 # 0.28b0 (2021-06-07)
 
 * updated jQuery to version 3.6.0

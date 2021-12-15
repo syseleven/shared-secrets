@@ -1,5 +1,6 @@
 # do not publish live config file
-#config/*
+.env
+config/*
 !config/config.php.default
 
 # do not publish macOS blergh
