@@ -1,4 +1,4 @@
-# Shared-Secrets
+# Shared-Secrets - Staging Branch
 
 Shared-Secrets is an application that helps you to simply share one-time secrets over the web. Typically when you do not have the possibility to open an encrypted communication channel (e.g. GPG-encrypted mail) to transfer sensitive information you have to resort to unencrypted means of communication - e.g. SMS, unencrypted e-mail, telephone, etc.
 
