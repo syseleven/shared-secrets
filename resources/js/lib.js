@@ -59,7 +59,7 @@
       var encMessage = macMessage.slice(49);
 
       if (0 == version[0]) {
-        var key = await pbkdf2(password, salt, false);
+        var key = await pbkdf2(password, salt);
 
         if (null != key) {
           var encKey = await hmac(new TextEncoder("utf-8").encode("enc"), key);
@@ -187,7 +187,7 @@
   }
 
   // calculate the PBKDF2 of a password over a salt with the Web Cryptography API
-  async function pbkdf2(password, salt, old) {
+  async function pbkdf2(password, salt, old = false) {
     return await crypto.subtle.importKey("raw", password, {"name": "PBKDF2"}, false, ["deriveKey"]
     ).then(
       function(key) {
