@@ -53,7 +53,7 @@
 
   <link href="/resources/css/read.css?<?= $cache_value ?>" integrity="sha256-wgpxEGDMqG2EJxicZqc40OJMPwN8rBAZTYLdGyagQGw=" rel="stylesheet" type="text/css" />
 
-  <script src="/resources/js/lib.js?<?= $cache_value ?>" integrity="sha256-bMUI9XFBYuRbrd9POgp2PmmA/AkGJebCMoEDXmJY4ns=" type="text/javascript"></script>
+  <script src="/resources/js/lib.js?<?= $cache_value ?>" integrity="sha256-TSNgGTWMqT8DICfF7UgTtxjnc/G935Ml4oxIQnHAxSM=" type="text/javascript"></script>
   <script src="/resources/js/read.js?<?= $cache_value ?>" integrity="sha256-0dlCa+2uL8Tgjq7VlZtajGikqq5BptgpEkQTc0xl1vU=" type="text/javascript"></script>
   <script src="/resources/js/norepost.js?<?= $cache_value ?>" integrity="sha256-SdShL5XtGY7DRT4OatFFRS1b3QdADS22I8eEP1GA/As=" type="text/javascript"></script>
 
