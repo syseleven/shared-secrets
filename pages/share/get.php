@@ -38,7 +38,7 @@
 
   <link href="/resources/css/share.css?<?= $cache_value ?>" integrity="sha256-EYu1Dc10IDi0yUOyV55YWmCKWfVlBj1rTMk/AsbViKE=" rel="stylesheet" type="text/css" />
 
-  <script src="/resources/js/lib.js?<?= $cache_value ?>" integrity="sha256-d6lWbau1r7bB+u7utpkOX6tLTXnbOPqD33NmIXHY19A=" type="text/javascript"></script>
+  <script src="/resources/js/lib.js?<?= $cache_value ?>" integrity="sha256-bMUI9XFBYuRbrd9POgp2PmmA/AkGJebCMoEDXmJY4ns=" type="text/javascript"></script>
 <?php
   if (defined("JUMBO_SECRETS") && JUMBO_SECRETS) {
 ?>

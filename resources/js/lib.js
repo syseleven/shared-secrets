@@ -59,7 +59,7 @@
       var encMessage = macMessage.slice(49);
 
       if (0 == version[0]) {
-        var key = await pbkdf2(password, salt);
+        var key = await pbkdf2(password, salt, false);
 
         if (null != key) {
           var encKey = await hmac(new TextEncoder("utf-8").encode("enc"), key);
@@ -71,6 +71,26 @@
             if (null != checkMac) {
               // convert to correct type
               checkMac = new Uint8Array(checkMac);
+
+              // !!! REMOVE:
+              // !!! support older encrypted messages for now
+              if (!compare(checkMac, mac)) {
+                key = await pbkdf2(password, salt, true);
+
+                if (null != key) {
+                  encKey = await hmac(new TextEncoder("utf-8").encode("enc"), key);
+                  macKey = await hmac(new TextEncoder("utf-8").encode("mac"), key);
+
+                  if ((null != encKey) && (null != macKey)) {
+                    var checkMac = await hmac(macMessage, macKey);
+
+                    if (null != checkMac) {
+                      // convert to correct type
+                      checkMac = new Uint8Array(checkMac);
+                    }
+                  }
+                }
+              }
 
               if (compare(checkMac, mac)) {
                 var content = await aesctr_decrypt(encMessage, encKey, nonce);
@@ -167,12 +187,19 @@
   }
 
   // calculate the PBKDF2 of a password over a salt with the Web Cryptography API
-  async function pbkdf2(password, salt) {
+  async function pbkdf2(password, salt, old) {
     return await crypto.subtle.importKey("raw", password, {"name": "PBKDF2"}, false, ["deriveKey"]
     ).then(
       function(key) {
-        return crypto.subtle.deriveKey({"name": "PBKDF2", "salt": salt, "iterations": 10000, "hash": "SHA-256"}, key,
-                                       {"name": "AES-CTR", "length": 256}, true, ["encrypt", "decrypt"]);
+        // !!! REMOVE:
+        // !!! support older encrypted messages for now
+        if (old) {
+          return crypto.subtle.deriveKey({"name": "PBKDF2", "salt": salt, "iterations": 10000, "hash": "SHA-256"}, key,
+                                         {"name": "AES-CTR", "length": 256}, true, ["encrypt", "decrypt"]);
+        } else {
+          return crypto.subtle.deriveKey({"name": "PBKDF2", "salt": salt, "iterations": 512000, "hash": "SHA-256"}, key,
+                                         {"name": "AES-CTR", "length": 256}, true, ["encrypt", "decrypt"]);
+        }
       }
     ).then(
       function(key) {

@@ -1,7 +1,11 @@
+# 0.30b0 (2021-12-29)
+
+* increased PBKDF2 iteration count for v00 encryption from 10000 to 512000
+
 # 0.29b0 (2021-12-14)
 
-* introduce support for configuration via environment variables
-* introduce support for configuration via .env file
+* introduced support for configuration via environment variables
+* introduced support for configuration via .env file
 * updated README to document environment variables
 
 # 0.28b0 (2021-06-07)
