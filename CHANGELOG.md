@@ -1,3 +1,7 @@
+# 0.30b1 (2022-02-01)
+
+* specify columns on insert to be more robust regarding schema changes (thanks to @jonico)
+
 # 0.30b0 (2021-12-29)
 
 * increased PBKDF2 iteration count for v00 encryption from 10000 to 512000

@@ -1,8 +1,8 @@
 <?php
 
-  # Shared-Secrets v0.30b0
+  # Shared-Secrets v0.30b1
   #
-  # Copyright (c) 2016-2021, SysEleven GmbH
+  # Copyright (c) 2016-2022, SysEleven GmbH
   # All rights reserved.
   #
   # This page allows you to share a secret through a secret sharing link.
