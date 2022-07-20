@@ -1,3 +1,7 @@
+# 0.30b2 (2022-07-20)
+
+* prevent deprecation notice in PHP 8.0 and above
+
 # 0.30b1 (2022-02-01)
 
 * specify columns on insert to be more robust regarding schema changes (thanks to @jonico)

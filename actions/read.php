@@ -30,9 +30,12 @@
           try {
             $decrypted_secret = decrypt_v01($secret, $recipients, $decrypt_error, $keyid, $fingerprint);
           } finally {
-            $keys = array_keys($recipients);
-            foreach ($keys as $key) {
-              openssl_pkey_free($recipients[$key]);
+            # prevent deprecation notice in PHP 8.0 and above
+            if (0 > version_compare(PHP_VERSION, "8.0.0")) {
+              $keys = array_keys($recipients);
+              foreach ($keys as $key) {
+                openssl_pkey_free($recipients[$key]);
+              }
             }
 
             zeroize_array($recipients);

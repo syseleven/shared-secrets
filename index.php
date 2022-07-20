@@ -1,6 +1,6 @@
 <?php
 
-  # Shared-Secrets v0.30b1
+  # Shared-Secrets v0.30b2
   #
   # Copyright (c) 2016-2022, SysEleven GmbH
   # All rights reserved.

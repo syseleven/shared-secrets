@@ -555,7 +555,10 @@
           }
         }
       } finally {
-        openssl_pkey_free($privkey);
+        # prevent deprecation notice in PHP 8.0 and above
+        if (0 > version_compare(PHP_VERSION, "8.0.0")) {
+          openssl_pkey_free($privkey);
+        }
       }
     }
 
