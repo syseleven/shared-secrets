@@ -1,5 +1,7 @@
 # Shared-Secrets
 
+**ARCHIVED: This original repository has been archived and is unmaintained. Please find the maintained fork of the original maintainer at [yahesh/shared-secrets](https://github.com/yahesh/shared-secrets).**
+
 Shared-Secrets is an application that helps you to simply share one-time secrets over the web. Typically when you do not have the possibility to open an encrypted communication channel (e.g. GPG-encrypted mail) to transfer sensitive information you have to resort to unencrypted means of communication - e.g. SMS, unencrypted e-mail, telephone, etc.
 
 Using the Shared-Secrets service allows you to transfer the actual secret in an encrypted form. Retrieving the secret is as simple as following a link. In contrast to other secret sharing services, Shared-Secrets does not store the secret on the server, but puts the encrypted secret into the link that you share with the desired recipient. That means that the compromise of a Shared-Secrets server does not automatically compromise all of the shared secrets.
